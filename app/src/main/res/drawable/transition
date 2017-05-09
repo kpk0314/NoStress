@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list
+    android:id="@+id/selected"
+    android:oneshot="false"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- The drawables used here can be solid colors, gradients, shapes, images, etc. -->
+    <item android:drawable="@drawable/main_header_bg" android:duration="5000" />
+    <item android:drawable="@drawable/main_header_bg2" android:duration="5000" />
+    <item android:drawable="@drawable/main_header_bg3" android:duration="5000" />
+    <item android:drawable="@drawable/main_header_bg4" android:duration="5000" />
+    <item android:drawable="@drawable/main_header_bg5" android:duration="5000" />
+</animation-list>
