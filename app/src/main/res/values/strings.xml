@@ -4,8 +4,8 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
-    <string name="tab1">CALLS</string>
-    <string name="tab2">CHATS</string>
-    <string name="tab3">CONTACTS</string>
+    <string name="tab1">CHART</string>
+    <string name="tab2">MAIN</string>
+    <string name="tab3">SETTING</string>
 
 </resources>

@@ -7,12 +7,13 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
-import com.sourcey.materiallogindemo.Fragment.CallsFragment;
-import com.sourcey.materiallogindemo.Fragment.ChatFragment;
-import com.sourcey.materiallogindemo.Fragment.ContactsFragment;
+import com.sourcey.materiallogindemo.Fragment.ChartFragment;
+import com.sourcey.materiallogindemo.Fragment.MainFragment;
+import com.sourcey.materiallogindemo.Fragment.SettingFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,11 +23,12 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager;
 
 
+
     //Fragments
 
-    ChatFragment chatFragment;
-    CallsFragment callsFragment;
-    ContactsFragment contactsFragment;
+    MainFragment mainFragment;
+    ChartFragment chartFragment;
+    SettingFragment settingFragment;
     MenuItem prevMenuItem;
 
     @Override
@@ -107,12 +109,15 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        callsFragment=new CallsFragment();
-        chatFragment=new ChatFragment();
-        contactsFragment=new ContactsFragment();
-        adapter.addFragment(callsFragment);
-        adapter.addFragment(chatFragment);
-        adapter.addFragment(contactsFragment);
+        chartFragment =new ChartFragment();
+        mainFragment =new MainFragment();
+        settingFragment =new SettingFragment();
+        adapter.addFragment(chartFragment);
+        adapter.addFragment(mainFragment);
+        adapter.addFragment(settingFragment);
         viewPager.setAdapter(adapter);
     }
+
+
+
 }
