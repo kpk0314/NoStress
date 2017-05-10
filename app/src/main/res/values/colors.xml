@@ -14,4 +14,15 @@
   <color name="base">#AAAAAA</color>
   <color name="iron">#CCCCCC</color>
   <color name="white">#FFFFFF</color>
+
+  <color name="colorPrimary">#354355</color>
+  <color name="colorPrimaryDark">#26303D</color>
+  <color name="colorAccent">#F3CD70</color>
+  <color name="colorBackground">#FFFFFF</color>
+  <color name="colorTextPrimary">#FFFFFF</color>
+
+  <color name="tab_disable">#979797</color>
+  <color name="tab_enable">#FFFFFF</color>
+  <color name="tab_checked">#F3CD70</color>
+  <color name="tab_unchecked">#FFFFFF</color>
 </resources>
