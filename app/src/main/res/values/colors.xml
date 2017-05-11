@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <color name="primary">#FFFFFF</color>
-  <color name="primary_dark">#FFFFFF</color>
+  <color name="primary_dark">#000000</color>
   <color name="primary_darker">#888888</color>
   <color name="accent">#FFFFFF</color>
 
@@ -25,4 +25,8 @@
   <color name="tab_enable">#FFFFFF</color>
   <color name="tab_checked">#F3CD70</color>
   <color name="tab_unchecked">#FFFFFF</color>
+
+  <color name="blue">#648795</color>
+  <color name="oh">#00000000</color>
+
 </resources>

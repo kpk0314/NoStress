@@ -1,6 +1,7 @@
 package com.sourcey.materiallogindemo;
 
 import android.content.Intent;
+
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -8,8 +9,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
+
+
 
 import com.sourcey.materiallogindemo.Fragment.ChartFragment;
 import com.sourcey.materiallogindemo.Fragment.MainFragment;
@@ -22,8 +23,6 @@ public class MainActivity extends AppCompatActivity {
     //This is our viewPager
     private ViewPager viewPager;
 
-
-
     //Fragments
 
     MainFragment mainFragment;
@@ -31,10 +30,12 @@ public class MainActivity extends AppCompatActivity {
     SettingFragment settingFragment;
     MenuItem prevMenuItem;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         //Initializing viewPager
         viewPager = (ViewPager) findViewById(R.id.viewpager);

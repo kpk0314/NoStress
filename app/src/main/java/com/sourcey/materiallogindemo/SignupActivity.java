@@ -111,15 +111,15 @@ public class SignupActivity extends AppCompatActivity {
         String password = _passwordText.getText().toString();
         String reEnterPassword = _reEnterPasswordText.getText().toString();
 
-        if (name.isEmpty() || name.length() < 3) {
-            _nameText.setError("at least 3 characters");
+        if (name.isEmpty() || name.length() < 2) {
+            _nameText.setError("정확한 이름을 입력하세요");
             valid = false;
         } else {
             _nameText.setError(null);
         }
 
         if (address.isEmpty()) {
-            _addressText.setError("Enter Valid Address");
+            _addressText.setError("주소를 입력하세요");
             valid = false;
         } else {
             _addressText.setError(null);
@@ -133,8 +133,8 @@ public class SignupActivity extends AppCompatActivity {
             _emailText.setError(null);
         }
 
-        if (mobile.isEmpty() || mobile.length()!=10) {
-            _mobileText.setError("Enter Valid Mobile Number");
+        if (mobile.isEmpty() || mobile.length()!=11) {
+            _mobileText.setError("Enter Valid Mobile Number(-는 제외)");
             valid = false;
         } else {
             _mobileText.setError(null);
