@@ -5,12 +5,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
-
-
+import android.database.sqlite.SQLiteDatabase;
+import android.database.Cursor;
 
 import com.sourcey.materiallogindemo.Fragment.ChartFragment;
 import com.sourcey.materiallogindemo.Fragment.MainFragment;
@@ -30,18 +31,33 @@ public class MainActivity extends AppCompatActivity {
     SettingFragment settingFragment;
     MenuItem prevMenuItem;
 
+    public String stress = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // SQLight DB  생성
+        MyOpenHelper helper = new MyOpenHelper(this);
+
+        //실제 스마트폰 단말기 내의 data/data/database경로에 파일이 만들어지게된다.
+        SQLiteDatabase db = helper.getWritableDatabase();
+        db.execSQL("insert into member(name, money, etc) values ('chicken', 89, 'a');");
+
+        //데이터데이스의 데이터를 그대로 메모리상에 올려놓은 객체자 Cursor이다.
+        Cursor rs = db.rawQuery("select * from member;", null);
+
+        while (rs.moveToNext()) {
+            stress = String.valueOf(rs.getInt(1));
+        }
 
         //Initializing viewPager
         viewPager = (ViewPager) findViewById(R.id.viewpager);
 
         //Initializing the bottomNavigationView
-        bottomNavigationView = (BottomNavigationView)findViewById(R.id.bottom_navigation);
+        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -72,12 +88,10 @@ public class MainActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 if (prevMenuItem != null) {
                     prevMenuItem.setChecked(false);
-                }
-                else
-                {
+                } else {
                     bottomNavigationView.getMenu().getItem(0).setChecked(false);
                 }
-                Log.d("page", "onPageSelected: "+position);
+                Log.d("page", "onPageSelected: " + position);
                 bottomNavigationView.getMenu().getItem(position).setChecked(true);
                 prevMenuItem = bottomNavigationView.getMenu().getItem(position);
 
@@ -89,18 +103,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-       /*  //Disable ViewPager Swipe
-
-       viewPager.setOnTouchListener(new View.OnTouchListener()
-        {
-            @Override
-            public boolean onTouch(View v, MotionEvent event)
-            {
-                return true;
-            }
-        });
-
-        */
 
         setupViewPager(viewPager);
 
@@ -110,15 +112,14 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        chartFragment =new ChartFragment();
-        mainFragment =new MainFragment();
-        settingFragment =new SettingFragment();
+        chartFragment = new ChartFragment();
+        mainFragment = new MainFragment();
+        settingFragment = new SettingFragment();
         adapter.addFragment(chartFragment);
         adapter.addFragment(mainFragment);
         adapter.addFragment(settingFragment);
         viewPager.setAdapter(adapter);
     }
-
 
 
 }
