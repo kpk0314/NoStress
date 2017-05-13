@@ -3,6 +3,7 @@ package com.sourcey.materiallogindemo;
 import android.content.Intent;
 
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -17,9 +18,12 @@ import com.sourcey.materiallogindemo.Fragment.ChartFragment;
 import com.sourcey.materiallogindemo.Fragment.MainFragment;
 import com.sourcey.materiallogindemo.Fragment.SettingFragment;
 
+
 public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
+
+
 
     //This is our viewPager
     private ViewPager viewPager;
@@ -33,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
 
     public String stress = null;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +47,8 @@ public class MainActivity extends AppCompatActivity {
 
         //실제 스마트폰 단말기 내의 data/data/database경로에 파일이 만들어지게된다.
         SQLiteDatabase db = helper.getWritableDatabase();
-        db.execSQL("insert into member(name, money, etc) values ('chicken', 89, 'a');");
+
+        db.execSQL("insert into member(t, h, r, x) values ('2017/05/13 13:24:33', 80, 0, '0/0/0');");
 
         //데이터데이스의 데이터를 그대로 메모리상에 올려놓은 객체자 Cursor이다.
         Cursor rs = db.rawQuery("select * from member;", null);
@@ -52,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
         while (rs.moveToNext()) {
             stress = String.valueOf(rs.getInt(1));
         }
+        rs.close();
+        db.close();
 
         //Initializing viewPager
         viewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -105,10 +111,13 @@ public class MainActivity extends AppCompatActivity {
 
 
         setupViewPager(viewPager);
+        viewPager.setCurrentItem(1);
 
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
+
+
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
@@ -120,6 +129,9 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFragment(settingFragment);
         viewPager.setAdapter(adapter);
     }
+
+
+
 
 
 }
