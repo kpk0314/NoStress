@@ -34,7 +34,7 @@
                 android:id="@+id/input_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Email"
+                android:hint="이메일"
                 android:inputType="textEmailAddress"
                 />
         </android.support.design.widget.TextInputLayout>
@@ -50,7 +50,7 @@
                 android:id="@+id/input_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Password"
+                android:hint="비밀번호"
                 android:inputType="textPassword"
                 />
         </android.support.design.widget.TextInputLayout>
@@ -62,7 +62,7 @@
             android:layout_marginBottom="24dp"
             android:layout_marginTop="24dp"
             android:padding="12dp"
-            android:text="Login"
+            android:text="로그인"
             android:textColor="@color/black"/>
 
         <TextView
@@ -70,11 +70,10 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
+            android:allowUndo="false"
             android:gravity="center"
-            android:text="No account yet? Create one"
-
-            android:textSize="16dip"
-            />
+            android:text="회원가입"
+            android:textSize="15sp" />
 
     </LinearLayout>
 
