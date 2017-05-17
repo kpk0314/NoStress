@@ -23,4 +23,7 @@
         <activity android:name="com.sourcey.materiallogindemo.PrivacyActivity" android:theme="@style/AppTheme.Dark" />
     </application>
 
+    <!--  Internet Permissions -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
 </manifest>
