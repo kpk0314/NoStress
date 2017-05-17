@@ -16,6 +16,11 @@ import com.sourcey.materiallogindemo.Fragment.ChartFragment;
 import com.sourcey.materiallogindemo.Fragment.MainFragment;
 import com.sourcey.materiallogindemo.Fragment.SettingFragment;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -46,7 +51,13 @@ public class MainActivity extends AppCompatActivity {
         //실제 스마트폰 단말기 내의 data/data/database경로에 파일이 만들어지게된다.
         SQLiteDatabase db = helper.getWritableDatabase();
 
-        db.execSQL("insert into member(t, h, r, x) values ('2017/05/13 13:24:33', 80, 0, '0/0/0');");
+        double randomValue = Math.random();
+        int intValue = (int)(randomValue * 100) + 1;
+
+        DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        String date = df.format(Calendar.getInstance().getTime());
+
+        db.execSQL("insert into member(t, h, r, x) values ('" + date + "', " + intValue + ", 0, '0/0/0');");
 
         //데이터데이스의 데이터를 그대로 메모리상에 올려놓은 객체자 Cursor이다.
         Cursor rs = db.rawQuery("select * from member;", null);

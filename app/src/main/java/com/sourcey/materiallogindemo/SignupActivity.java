@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import butterknife.ButterKnife;
 import butterknife.Bind;
 
@@ -37,13 +38,18 @@ public class SignupActivity extends AppCompatActivity {
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
 
-    @Bind(R.id.input_email) EditText _emailText;
-    @Bind(R.id.input_password) EditText _passwordText;
-    @Bind(R.id.input_reEnterPassword) EditText _reEnterPasswordText;
-    @Bind(R.id.input_name) EditText _nameText;
+    @Bind(R.id.input_email)
+    EditText _emailText;
+    @Bind(R.id.input_password)
+    EditText _passwordText;
+    @Bind(R.id.input_reEnterPassword)
+    EditText _reEnterPasswordText;
+    @Bind(R.id.input_name)
+    EditText _nameText;
 
-    @Bind(R.id.btn_signup) Button _signupButton;
-    
+    @Bind(R.id.btn_signup)
+    Button _signupButton;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,14 +90,10 @@ public class SignupActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
-
             progressDialog = new ProgressDialog(SignupActivity.this, R.style.Progress_Dialog);
             progressDialog.setIndeterminate(true);
             progressDialog.setMessage("Creating Account...");
             progressDialog.show();
-
-
         }
 
         protected String doInBackground(String... args) {
@@ -129,6 +131,7 @@ public class SignupActivity extends AppCompatActivity {
             }
             return null;
         }
+
         protected void onPostExecute(String file_url) {
             // dismiss the dialog once done
             progressDialog.dismiss();
