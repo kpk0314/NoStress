@@ -54,8 +54,8 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Finish the registration screen and return to the Login activity
-                new CreateNewProduct().execute();
-                //signup();
+                signup();
+
             }
         });
     }
@@ -69,15 +69,29 @@ public class SignupActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
+    public void signup() {
+        Log.d(TAG, "Signup");
+
+        if (!validate()) {
+            onSignupFailed();
+            return;
+        }
+        new CreateNewProduct().execute();
+    }
+
     class CreateNewProduct extends AsyncTask<String, String, String> {
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+
+
             progressDialog = new ProgressDialog(SignupActivity.this, R.style.Progress_Dialog);
             progressDialog.setIndeterminate(true);
             progressDialog.setMessage("Creating Account...");
             progressDialog.show();
+
+
         }
 
         protected String doInBackground(String... args) {
