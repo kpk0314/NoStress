@@ -26,8 +26,6 @@ public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
 
-
-
     //This is our viewPager
     private ViewPager viewPager;
 
