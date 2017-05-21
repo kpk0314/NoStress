@@ -6,7 +6,7 @@
     android:layout_height="fill_parent"
     android:fillViewport="false"
     android:fitsSystemWindows="true"
-    android:background="@drawable/gradient">
+    android:background="#EEEEEE">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -32,11 +32,13 @@
 
             <EditText
                 android:id="@+id/input_email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="250dp"
+                android:layout_height="45dp"
+                android:background="@drawable/boxinput"
                 android:hint="이메일"
                 android:inputType="textEmailAddress"
-                />
+                android:layout_gravity="center"
+                android:paddingLeft="10dp" />
         </android.support.design.widget.TextInputLayout>
 
         <!--  Password Label -->
