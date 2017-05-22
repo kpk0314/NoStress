@@ -116,12 +116,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         setupViewPager(viewPager);
         viewPager.setCurrentItem(1);
 
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
     }
 
 

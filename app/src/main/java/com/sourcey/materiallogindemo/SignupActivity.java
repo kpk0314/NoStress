@@ -92,7 +92,7 @@ public class SignupActivity extends AppCompatActivity {
             super.onPreExecute();
             progressDialog = new ProgressDialog(SignupActivity.this, R.style.Progress_Dialog);
             progressDialog.setIndeterminate(true);
-            progressDialog.setMessage("Creating Account...");
+            progressDialog.setMessage("계정 생성 중...");
             progressDialog.show();
         }
 

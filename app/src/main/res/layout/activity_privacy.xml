@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:fitsSystemWindows="true"
-    android:background="@drawable/gradient">
+    android:background="#EEEEEE"
+    android:fillViewport="false"
+    android:fitsSystemWindows="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,83 +12,98 @@
         android:orientation="vertical"
         android:paddingLeft="24dp"
         android:paddingRight="24dp"
-        android:paddingTop="56dp">
+        android:paddingTop="45dp"
+        android:weightSum="1">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="72dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="1dp"
             android:src="@drawable/logo" />
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp">
+            android:layout_gravity="center"
+            android:layout_marginBottom="60dp"
+            android:gravity="center"
+            android:text="계정이 만들어졌습니다. 정확한 스트레스\n측정을 위해 아래 정보를 입력해주세요."
+            android:textColor="@color/black"
+            android:textSize="15dp" />
 
             <EditText
                 android:id="@+id/input_birth"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/boxinput"
                 android:hint="생년월일"
-                android:inputType="date" />
+                android:inputType="date"
+                android:paddingLeft="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="#999999"
+                android:textSize="15dp"
+                android:focusable="false"
+                android:textStyle="normal" />
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp">
+            <EditText
+                android:id="@+id/input_gender"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/boxinput"
+                android:hint="성별"
+                android:inputType="text"
+                android:paddingLeft="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="#999999"
+                android:textSize="15dp"
+                android:textStyle="normal" />
 
-                <EditText
-                    android:id="@+id/input_gender"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="성별"
-                    android:inputType="text" />
-            </android.support.design.widget.TextInputLayout>
+            <EditText
+                android:id="@+id/input_height"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/boxinput"
+                android:hint="키"
+                android:inputType="numberSigned"
+                android:paddingLeft="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="#999999"
+                android:textSize="15dp"
+                android:textStyle="normal" />
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp">
+            <EditText
+                android:id="@+id/input_weight"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/boxinput"
+                android:hint="몸무게"
+                android:inputType="numberSigned"
+                android:paddingLeft="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="#999999"
+                android:textSize="15dp"
+                android:textStyle="normal" />
 
-                <EditText
-                    android:id="@+id/input_height"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="키"
-                    android:inputType="numberSigned" />
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp">
-
-                <EditText
-                    android:id="@+id/input_weight"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="몸무게"
-                    android:inputType="numberSigned" />
-            </android.support.design.widget.TextInputLayout>
-
-        </android.support.design.widget.TextInputLayout>
-
-
-        <!-- Signup Button -->
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/btn_signup"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="24dp"
-            android:padding="12dp"
+            android:layout_width="290dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/loginbutton"
             android:text="입력완료"
-            android:textColor="@color/black"/>
+            android:textColor="@color/white"
+            android:textSize="15dp" />
+
 
     </LinearLayout>
 </ScrollView>

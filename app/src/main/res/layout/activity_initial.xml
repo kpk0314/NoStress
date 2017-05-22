@@ -1,42 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-android:id="@+id/activity_initial"
-android:layout_width="match_parent"
-android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_initial"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EEEEEE">
 
     <LinearLayout
         android:id="@+id/ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_alignParentBottom="true"
-        >
+        android:orientation="horizontal"
+        android:background="#EEEEEE">
+
         <Button
             android:id="@+id/btn_signup2"
             android:layout_width="0dip"
-            android:layout_height="match_parent"
+            android:layout_height="50dp"
             android:layout_weight="1"
+            android:background="@drawable/initialbutton"
             android:text="가입하기" />
+
+        <View
+            android:layout_width="1px"
+            android:layout_height="25dp"
+            android:layout_marginTop="12.5dp"
+            android:background="@android:color/black" />
 
         <Button
             android:id="@+id/btn_login2"
             android:layout_width="0dip"
-            android:layout_height="match_parent"
+            android:layout_height="50dp"
             android:layout_weight="1"
+            android:background="@drawable/initialbutton"
             android:text="로그인" />
     </LinearLayout>
 
 
-<android.support.v4.view.ViewPager
-    android:id="@+id/viewpager"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    android:layout_alignParentTop="true"
-    android:layout_alignParentLeft="true"
-    android:layout_alignParentStart="true"
-    android:layout_above="@+id/ll" />
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/ll"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 
 </RelativeLayout>

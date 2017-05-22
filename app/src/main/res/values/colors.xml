@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <color name="primary">#FFFFFF</color>
+  <color name="primary">#000000</color>
   <color name="primary_dark">#000000</color>
   <color name="primary_darker">#888888</color>
   <color name="accent">#FFFFFF</color>
@@ -19,7 +19,7 @@
   <color name="colorPrimaryDark">#26303D</color>
   <color name="colorAccent">#F3CD70</color>
   <color name="colorBackground">#FFFFFF</color>
-  <color name="colorTextPrimary">#FFFFFF</color>
+  <color name="colorTextPrimary">#000000</color>
 
   <color name="tab_disable">#979797</color>
   <color name="tab_enable">#FFFFFF</color>

@@ -25,16 +25,19 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name="com.sourcey.materiallogindemo.LoginActivity"
+            android:windowSoftInputMode="stateAlwaysHidden"
             android:theme="@style/AppTheme.Dark" />
+
         <activity
             android:name="com.sourcey.materiallogindemo.SignupActivity"
+            android:windowSoftInputMode="stateAlwaysHidden"
             android:theme="@style/AppTheme.Dark" />
         <activity
             android:name="com.sourcey.materiallogindemo.PrivacyActivity"
+            android:windowSoftInputMode="stateAlwaysHidden"
             android:theme="@style/AppTheme.Dark" />
     </application>
 
