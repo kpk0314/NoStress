@@ -75,7 +75,7 @@ public class InitialActivity extends AppCompatActivity {
         btn_first.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), PrivacyActivity.class);
+                Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
                 startActivity(intent);
                 finish();
             }

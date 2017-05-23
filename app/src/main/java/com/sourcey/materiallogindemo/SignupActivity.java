@@ -69,7 +69,7 @@ public class SignupActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         overridePendingTransition(0, 0);
-        Intent intent = new Intent(this, LoginActivity.class);
+        Intent intent = new Intent(this, InitialActivity.class);
         startActivity(intent);
         finish();
         super.onBackPressed();
@@ -103,32 +103,34 @@ public class SignupActivity extends AppCompatActivity {
             String reEnterPassword = _reEnterPasswordText.getText().toString();
             String name = _nameText.getText().toString();
 
-            List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("email", email));
-            params.add(new BasicNameValuePair("passwd", passwd));
-            params.add(new BasicNameValuePair("name", name));
+//            List<NameValuePair> params = new ArrayList<NameValuePair>();
+//            params.add(new BasicNameValuePair("email", email));
+//            params.add(new BasicNameValuePair("passwd", passwd));
+//            params.add(new BasicNameValuePair("name", name));
+//
+//            // getting JSON Object
+//            // Note that create product url accepts POST method
+//            JSONObject json = jsonParser.makeHttpRequest(url_create_product, "POST", params);
+//
+//            // check log cat fro response
+//            Log.d("Create Response", json.toString());
 
-            // getting JSON Object
-            // Note that create product url accepts POST method
-            JSONObject json = jsonParser.makeHttpRequest(url_create_product, "POST", params);
+            onSignupSuccess();
 
-            // check log cat fro response
-            Log.d("Create Response", json.toString());
-
-            // check for success tag
-            try {
-                int success = json.getInt(TAG_SUCCESS);
-
-                if (success == 1) {
-                    // successfully created product
-                    onSignupSuccess();
-                } else {
-                    // failed to create product
-                    onSignupFailed();
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+//            // check for success tag
+//            try {
+//                int success = json.getInt(TAG_SUCCESS);
+//
+//                if (success == 1) {
+//                    // successfully created product
+//                    onSignupSuccess();
+//                } else {
+//                    // failed to create product
+//                    onSignupFailed();
+//                }
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
             return null;
         }
 

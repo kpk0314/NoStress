@@ -5,10 +5,12 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.text.SpannableStringBuilder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.app.ProgressDialog;
@@ -83,13 +85,22 @@ public class PrivacyActivity extends AppCompatActivity implements NumberPicker.O
         });
     }
 
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        switch (keyCode) {
+//            case KeyEvent.KEYCODE_BACK:
+//                return true;
+//        }
+//        return super.onKeyDown(keyCode, event);
+//    }
+
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        switch (keyCode) {
-            case KeyEvent.KEYCODE_BACK:
-                return true;
-        }
-        return super.onKeyDown(keyCode, event);
+    public void onBackPressed() {
+        overridePendingTransition(0, 0);
+        Intent intent = new Intent(this, SignupActivity.class);
+        startActivity(intent);
+        finish();
+        super.onBackPressed();
     }
 
     public void signup() {
@@ -104,7 +115,7 @@ public class PrivacyActivity extends AppCompatActivity implements NumberPicker.O
 
         final ProgressDialog progressDialog = new ProgressDialog(PrivacyActivity.this, R.style.Progress_Dialog);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("계정 생성중...");
+        progressDialog.setMessage("정보 등록 중...");
         progressDialog.show();
 
         String name = _birthText.getText().toString();
@@ -130,6 +141,8 @@ public class PrivacyActivity extends AppCompatActivity implements NumberPicker.O
     public void onSignupSuccess() {
         _signupButton.setEnabled(true);
         setResult(RESULT_OK, null);
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
         finish();
     }
 
@@ -184,8 +197,7 @@ public class PrivacyActivity extends AppCompatActivity implements NumberPicker.O
         final Dialog d = new Dialog(PrivacyActivity.this, R.style.Theme_AppCompat_Light_Dialog_Alert);
         d.setTitle("NumberPicker");
         d.setContentView(R.layout.dialog);
-        Button b1 = (Button) d.findViewById(R.id.button1);
-        Button b2 = (Button) d.findViewById(R.id.button2);
+        Button b1 = (Button) d.findViewById(R.id.finish);
         final NumberPicker np = (NumberPicker) d.findViewById(R.id.numberPicker1);
 
         //Set min, max, wheel and populate.
@@ -195,18 +207,17 @@ public class PrivacyActivity extends AppCompatActivity implements NumberPicker.O
         np.setDisplayedValues(gender);
         np.setOnValueChangedListener(this);
 
+        if (_genderText.getText().toString().matches("여자"))
+            np.setValue(1);
+        else
+            np.setValue(0);
+
+
         b1.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v) {
                 _genderText.setText(String.valueOf(gender[np.getValue()]));
-                d.dismiss();
-            }
-        });
-        b2.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v) {
                 d.dismiss();
             }
         });
@@ -219,8 +230,7 @@ public class PrivacyActivity extends AppCompatActivity implements NumberPicker.O
         final Dialog d = new Dialog(PrivacyActivity.this, R.style.Theme_AppCompat_Light_Dialog_Alert);
         d.setTitle("NumberPicker");
         d.setContentView(R.layout.dialog);
-        Button b1 = (Button) d.findViewById(R.id.button1);
-        Button b2 = (Button) d.findViewById(R.id.button2);
+        Button b1 = (Button) d.findViewById(R.id.finish);
         final NumberPicker np = (NumberPicker) d.findViewById(R.id.numberPicker1);
 
         //Set min, max, wheel and popunp.setValue(170);late.
@@ -229,20 +239,17 @@ public class PrivacyActivity extends AppCompatActivity implements NumberPicker.O
         np.setMaxValue(200);
         np.setWrapSelectorWheel(true);
         np.setOnValueChangedListener(this);
-        np.setValue(170);
+
+        if (_heightText.getText().toString().matches(""))
+            np.setValue(170);
+        else
+            np.setValue(Integer.parseInt(_heightText.getText().toString().split(" ")[0]));
 
         b1.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v) {
                 _heightText.setText(String.valueOf(np.getValue()) + " cm");
-                d.dismiss();
-            }
-        });
-        b2.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v) {
                 d.dismiss();
             }
         });
@@ -256,8 +263,7 @@ public class PrivacyActivity extends AppCompatActivity implements NumberPicker.O
         final Dialog d = new Dialog(PrivacyActivity.this, R.style.Theme_AppCompat_Light_Dialog_Alert);
         d.setTitle("NumberPicker");
         d.setContentView(R.layout.dialog);
-        Button b1 = (Button) d.findViewById(R.id.button1);
-        Button b2 = (Button) d.findViewById(R.id.button2);
+        Button b1 = (Button) d.findViewById(R.id.finish);
         final NumberPicker np = (NumberPicker) d.findViewById(R.id.numberPicker1);
 
         //Set min, max, wheel and popunp.setValue(170);late.
@@ -266,20 +272,17 @@ public class PrivacyActivity extends AppCompatActivity implements NumberPicker.O
         np.setMaxValue(120);
         np.setWrapSelectorWheel(true);
         np.setOnValueChangedListener(this);
-        np.setValue(50);
 
-        b1.setOnClickListener(new View.OnClickListener()
-        {
+        if (_weightText.getText().toString().matches(""))
+            np.setValue(50);
+        else
+            np.setValue(Integer.parseInt(_weightText.getText().toString().split(" ")[0]));
+
+
+        b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 _weightText.setText(String.valueOf(np.getValue()) + " kg");
-                d.dismiss();
-            }
-        });
-        b2.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v) {
                 d.dismiss();
             }
         });

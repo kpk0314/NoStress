@@ -8,28 +8,49 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="64dp" />
+        android:layout_marginTop="64dp"
+        android:scaleX="1.4"
+        android:scaleY="1.4"
+        android:descendantFocusability="blocksDescendants"
+        />
 
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="160dp"
-        android:layout_height="40dp"
-        android:text="취소"
-        android:layout_marginTop="20dp"
+    <LinearLayout
+        android:id="@+id/ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/numberPicker1"
-        android:layout_toRightOf="@+id/numberPicker1"
-        android:layout_toEndOf="@+id/numberPicker1" />
+        android:orientation="horizontal"
+        android:background="#EEEEEE"
+        android:layout_marginTop="50dp">
 
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="160dp"
-        android:layout_height="40dp"
-        android:text="확인"
-        android:layout_marginTop="20dp"
-        android:layout_below="@+id/numberPicker1"
-        android:layout_toLeftOf="@+id/numberPicker1"
-        android:layout_toStartOf="@+id/numberPicker1" />
+        <!--<android.support.v7.widget.AppCompatButton-->
+            <!--android:id="@+id/button2"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="40dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@color/black"-->
+            <!--android:text="취소"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:textSize="15dp" />-->
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/finish"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:text="완료"
+            android:textColor="@color/white"
+            android:textSize="15dp" />
+
+
+
+
+    </LinearLayout>
+
+
+
+
 
 
 </RelativeLayout>
