@@ -41,6 +41,7 @@ public class InitialActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initial);
+        getWindow().setWindowAnimations(android.R.style.Animation_Toast);
         ButterKnife.bind(this);
 
         //Initializing viewPager

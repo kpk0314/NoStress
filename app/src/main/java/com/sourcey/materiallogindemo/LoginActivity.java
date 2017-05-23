@@ -27,6 +27,7 @@ public class LoginActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        getWindow().setWindowAnimations(android.R.style.Animation_Toast);
         ButterKnife.bind(this);
         
         _loginButton.setOnClickListener(new View.OnClickListener() {

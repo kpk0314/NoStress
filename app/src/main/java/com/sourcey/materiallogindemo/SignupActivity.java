@@ -54,6 +54,7 @@ public class SignupActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
+        getWindow().setWindowAnimations(android.R.style.Animation_Toast);
         ButterKnife.bind(this);
 
         _signupButton.setOnClickListener(new View.OnClickListener() {
@@ -115,15 +116,13 @@ public class SignupActivity extends AppCompatActivity {
 //            // check log cat fro response
 //            Log.d("Create Response", json.toString());
 
-            onSignupSuccess();
-
 //            // check for success tag
 //            try {
 //                int success = json.getInt(TAG_SUCCESS);
 //
 //                if (success == 1) {
 //                    // successfully created product
-//                    onSignupSuccess();
+                    onSignupSuccess();
 //                } else {
 //                    // failed to create product
 //                    onSignupFailed();

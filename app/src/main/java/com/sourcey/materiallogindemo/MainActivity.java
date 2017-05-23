@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getWindow().setWindowAnimations(android.R.style.Animation_Toast);
 
         // SQLight DB  생성
         MyOpenHelper helper = new MyOpenHelper(this);
