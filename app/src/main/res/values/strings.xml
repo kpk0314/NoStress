@@ -7,5 +7,8 @@
     <string name="tab1">CHART</string>
     <string name="tab2">MAIN</string>
     <string name="tab3">SETTING</string>
+    <string name="roboto_light">sans-serif-light</string>
+    <string name="number_picker_formatter">%02d</string>
+
 
 </resources>

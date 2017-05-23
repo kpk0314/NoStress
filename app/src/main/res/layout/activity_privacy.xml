@@ -61,6 +61,7 @@
                 android:textColor="@color/black"
                 android:textColorHint="#999999"
                 android:textSize="15dp"
+                android:focusable="false"
                 android:textStyle="normal" />
 
             <EditText
@@ -76,6 +77,7 @@
                 android:textColor="@color/black"
                 android:textColorHint="#999999"
                 android:textSize="15dp"
+                android:focusable="false"
                 android:textStyle="normal" />
 
             <EditText
@@ -91,6 +93,7 @@
                 android:textColor="@color/black"
                 android:textColorHint="#999999"
                 android:textSize="15dp"
+                android:focusable="false"
                 android:textStyle="normal" />
 
         <android.support.v7.widget.AppCompatButton
