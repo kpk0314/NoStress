@@ -136,7 +136,7 @@ public class SignupActivity extends AppCompatActivity {
         protected void onPostExecute(String file_url) {
             // dismiss the dialog once done
             progressDialog.dismiss();
-        }
+       }
     }
 
     public void onSignupSuccess() {

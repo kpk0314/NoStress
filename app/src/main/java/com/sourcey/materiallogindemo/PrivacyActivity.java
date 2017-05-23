@@ -18,6 +18,8 @@ import android.app.ProgressDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -64,6 +66,7 @@ public class PrivacyActivity extends AppCompatActivity implements NumberPicker.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_privacy);
         getWindow().setWindowAnimations(android.R.style.Animation_Toast);
+
         ButterKnife.bind(this);
 
         _signupButton.setOnClickListener(new View.OnClickListener() {
@@ -162,7 +165,7 @@ public class PrivacyActivity extends AppCompatActivity implements NumberPicker.O
 //
 //                if (success == 1) {
 //                    // successfully created product
-                    onSignupSuccess();
+            onSignupSuccess();
 //                } else {
 //                    // failed to create product
 //                    onSignupFailed();
@@ -179,7 +182,7 @@ public class PrivacyActivity extends AppCompatActivity implements NumberPicker.O
         }
     }
 
-        public void onSignupSuccess() {
+    public void onSignupSuccess() {
         _signupButton.setEnabled(true);
         setResult(RESULT_OK, null);
         Intent intent = new Intent(this, MainActivity.class);
