@@ -31,6 +31,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,12 +45,12 @@ public class PrivacyActivity extends AppCompatActivity implements NumberPicker.O
     //Initializing a new string array with elements
     final String[] gender= {"남자","여자"};
 
-    JSONParser jsonParser = new JSONParser();
+    JSONParser jsonParser = new JSONParser();tjf
 
     private ProgressDialog progressDialog;
 
     // url to create new product
-    private static String url_create_product = "http://10.0.2.2/db/create_private.php";
+    private static String url_create_product = "http://test.huy.kr/api/v1/user/signup";
 
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
@@ -141,38 +142,39 @@ public class PrivacyActivity extends AppCompatActivity implements NumberPicker.O
         protected String doInBackground(String... args) {
 
             String birth = _birthText.getText().toString();
-            String gender = _genderText.getText().toString();
-            String height = _heightText.getText().toString();
-            String weight = _weightText.getText().toString();
+            int gender = Integer.parseInt(_genderText.getText().toString());
+            float height= Float.parseFloat(_heightText.getText().toString());
+            float weight= Float.parseFloat(_weightText.getText().toString());
 
-//            List<NameValuePair> params = new ArrayList<NameValuePair>();
-//            params.add(new BasicNameValuePair("birth", birth));
-//            params.add(new BasicNameValuePair("gender", gender));
-//            params.add(new BasicNameValuePair("height", height));
-//            params.add(new BasicNameValuePair("weight", weight));
-//
-//            // getting JSON Object
-//            // Note that create product url accepts POST method
-//            JSONObject json = jsonParser.makeHttpRequest(url_create_product, "POST", params);
-//
-//
-//            // check log cat fro response
-//            Log.d("Create Response", json.toString());
-//
-//            // check for success tag
-//            try {
-//                int success = json.getInt(TAG_SUCCESS);
-//
-//                if (success == 1) {
-//                    // successfully created product
+
+           List<NameValuePair> params = new ArrayList<NameValuePair>();
+           params.add(new BasicNameValuePair("birth", birth));
+           params.add(new BasicNameValuePair("gender", gender));
+           params.add(new BasicNameValuePair("height", height));
+           params.add(new BasicNameValuePair("weight", weight));
+
+         // getting JSON Object
+            // Note that create product url accepts POST method
+           JSONObject json = jsonParser.makeHttpRequest(url_create_product, "GET", params);
+
+
+            // check log cat fro response
+           Log.d("Create Response", json.toString());
+
+            // check for success tag
+           try {
+                int success = json.getInt(TAG_SUCCESS);
+
+                if (success == 1) {
+                    // successfully created product
             onSignupSuccess();
-//                } else {
-//                    // failed to create product
-//                    onSignupFailed();
-//                }
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
+                } else {
+                   // failed to create product
+                   onSignupFailed();
+              }
+          } catch (JSONException e) {
+              e.printStackTrace();
+           }
             return null;
         }
 
@@ -198,10 +200,10 @@ public class PrivacyActivity extends AppCompatActivity implements NumberPicker.O
     public boolean validate() {
         boolean valid = true;
 
-        String name = _birthText.getText().toString();
-        String email = _genderText.getText().toString();
-        String password = _heightText.getText().toString();
-        String reEnterPassword = _weightText.getText().toString();
+        String birth = _birthText.getText().toString();
+        int gender = Integer.parseInt(_genderText.getText().toString());
+        float height= Float.parseFloat(_heightText.getText().toString());
+        float weight= Float.parseFloat(_weightText.getText().toString());
 
         return valid;
     }
