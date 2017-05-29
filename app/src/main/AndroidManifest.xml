@@ -36,7 +36,15 @@
             android:windowSoftInputMode="stateAlwaysHidden"
             android:theme="@style/AppTheme.Dark" />
         <activity
-            android:name="com.sourcey.materiallogindemo.PrivacyActivity"
+        android:name="com.sourcey.materiallogindemo.PrivacyActivity"
+        android:windowSoftInputMode="stateAlwaysHidden"
+        android:theme="@style/AppTheme.Dark" />
+        <activity
+            android:name="com.sourcey.materiallogindemo.PasswordActivity"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:theme="@style/AppTheme.Dark" />
+        <activity
+            android:name="com.sourcey.materiallogindemo.StartActivity"
             android:windowSoftInputMode="stateAlwaysHidden"
             android:theme="@style/AppTheme.Dark" />
     </application>

@@ -185,7 +185,7 @@ public class PrivacyActivity extends AppCompatActivity implements NumberPicker.O
     public void onSignupSuccess() {
         _signupButton.setEnabled(true);
         setResult(RESULT_OK, null);
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, StartActivity.class);
         startActivity(intent);
         finish();
     }
@@ -229,7 +229,7 @@ public class PrivacyActivity extends AppCompatActivity implements NumberPicker.O
 
     //텍스트뷰의 값을 업데이트 하는 메소드
     void UpdateNow(){
-        _birthText.setText(String.format("%d/%d/%d", mYear, mMonth + 1, mDay));
+        _birthText.setText(String.format("%d%02d%02d", mYear, mMonth + 1, mDay));
     }
 
     /* Gender Dialog */
