@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient"
+    android:background="@drawable/animation_list"
     tools:context=".MainActivity">
+    <!--android:background="@drawable/animation_list"-->
+    <!--<transition xmlns:android="http://schemas.android.com/apk/res/android">-->
+        <!--&lt;!&ndash; use whatever drawables you want, gradients, shapes etc&ndash;&gt;-->
+        <!--<item android:drawable="@drawable/background1" />-->
+        <!--<item android:drawable="@drawable/background5" />-->
+    <!--</transition>-->
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottom_navigation"

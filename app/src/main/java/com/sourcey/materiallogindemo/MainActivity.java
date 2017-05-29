@@ -1,16 +1,25 @@
 package com.sourcey.materiallogindemo;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 
+import android.graphics.Color;
+import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Layout;
 import android.util.Log;
 import android.view.MenuItem;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.Cursor;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.sourcey.materiallogindemo.Fragment.ChartFragment;
 import com.sourcey.materiallogindemo.Fragment.MainFragment;
@@ -23,6 +32,10 @@ import java.util.Date;
 
 
 public class MainActivity extends AppCompatActivity {
+
+    Handler handler = new Handler();
+    AnimationDrawable anim;
+    RelativeLayout container;
 
     BottomNavigationView bottomNavigationView;
 
@@ -43,6 +56,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getWindow().setWindowAnimations(android.R.style.Animation_Toast);
+
+        container = (RelativeLayout) findViewById(R.id.activity_main);
+        anim = (AnimationDrawable) container.getBackground();
+        anim.setEnterFadeDuration(2000);
+        anim.setExitFadeDuration(2000);
+
 
         // SQLight DB  생성
         MyOpenHelper helper = new MyOpenHelper(this);
@@ -113,16 +132,29 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
             }
         });
 
         setupViewPager(viewPager);
         viewPager.setCurrentItem(1);
 
+
+
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (anim != null && !anim.isRunning())
+            anim.start();
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (anim != null && anim.isRunning())
+            anim.stop();
+    }
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());

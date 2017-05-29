@@ -4,6 +4,7 @@ package com.sourcey.materiallogindemo.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,10 @@ import com.sourcey.materiallogindemo.R;
  */
 public class MainFragment extends Fragment {
 
+    SwipeRefreshLayout swipeLayout;
+    String stressValue;
+
+
     public MainFragment() {
         // Required empty public constructor
     }
@@ -30,7 +35,7 @@ public class MainFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        String value = ((MainActivity) getActivity()).stress;
+        stressValue = ((MainActivity) getActivity()).stress;
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         GraphView graph = (GraphView) rootView.findViewById(R.id.graph);
@@ -44,12 +49,10 @@ public class MainFragment extends Fragment {
         graph.addSeries(series);
 
         TextView test = (TextView) rootView.findViewById(R.id.textView);
-        test.setText(value);
-
+        test.setText(stressValue);
 
         return rootView;
         //return inflater.inflate(R.layout.fragment_main, container, false);
     }
-
 
 }
