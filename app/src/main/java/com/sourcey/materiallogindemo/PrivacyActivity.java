@@ -45,7 +45,7 @@ public class PrivacyActivity extends AppCompatActivity implements NumberPicker.O
     //Initializing a new string array with elements
     final String[] gender= {"남자","여자"};
 
-    JSONParser jsonParser = new JSONParser();tjf
+    JSONParser jsonParser = new JSONParser();
 
     private ProgressDialog progressDialog;
 
@@ -163,15 +163,20 @@ public class PrivacyActivity extends AppCompatActivity implements NumberPicker.O
 
             // check for success tag
            try {
-                int success = json.getInt(TAG_SUCCESS);
+                int error_code = json.getInt("error_code");
 
-                if (success == 1) {
+                if (error_code == 1000) {
                     // successfully created product
             onSignupSuccess();
-                } else {
-                   // failed to create product
-                   onSignupFailed();
-              }
+                } else if(error_code == 1001) {
+                   onSignupFailed1();
+               }
+                else if(error_code == 1002) {
+                    onSignupFailed2();
+                }
+                else if(error_code == 1003) {
+                    onSignupFailed3();
+                }
           } catch (JSONException e) {
               e.printStackTrace();
            }
@@ -192,10 +197,22 @@ public class PrivacyActivity extends AppCompatActivity implements NumberPicker.O
         finish();
     }
 
-    public void onSignupFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
+    public void onSignupFailed1() {
+        Toast.makeText(getBaseContext(), "Login failed:1001", Toast.LENGTH_LONG).show();
         _signupButton.setEnabled(true);
     }
+
+    public void onSignupFailed2() {
+        Toast.makeText(getBaseContext(), "Login failed:1002", Toast.LENGTH_LONG).show();
+        _signupButton.setEnabled(true);
+    }
+
+    public void onSignupFailed3() {
+        Toast.makeText(getBaseContext(), "Login failed:1003", Toast.LENGTH_LONG).show();
+        _signupButton.setEnabled(true);
+    }
+
+
 
     public boolean validate() {
         boolean valid = true;
