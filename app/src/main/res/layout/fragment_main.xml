@@ -8,6 +8,16 @@
 
     <!-- TODO: Update blank fragment layout -->
 
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swiperefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ListView
+            android:id="@+id/listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
     <TextView
         android:id="@+id/textUpdate"
         android:layout_width="wrap_content"
@@ -58,19 +68,19 @@
         android:id="@+id/todayValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/graph"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="85dp"
         android:text="100"
         android:textColor="@color/black"
-        android:textSize="95sp" />
+        android:textSize="95sp"
+        android:layout_above="@+id/tableRow"
+        android:layout_centerHorizontal="true" />
 
     <TableRow
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/graph"
+        android:layout_above="@+id/chart1"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="63dp">
+        android:layout_marginBottom="63dp"
+        android:id="@+id/tableRow">
 
         <TextView
             android:id="@+id/textYestedayValue"
@@ -90,11 +100,17 @@
 
     </TableRow>
 
-    <com.jjoe64.graphview.GraphView
-        android:id="@+id/graph"
+    <!--<com.jjoe64.graphview.GraphView-->
+        <!--android:id="@+id/graph"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="200dip"-->
+        <!--android:layout_below="@id/imageView" />-->
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/chart1"
         android:layout_width="match_parent"
         android:layout_height="200dip"
-        android:layout_below="@id/imageView" />
+        android:layout_below="@id/imageView"/>
 
 
 </RelativeLayout>

@@ -24,6 +24,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.0.1'
     compile 'com.android.support:design:25.0.1'
     compile 'com.jakewharton:butterknife:7.0.1'
-    compile files('libs/GraphView-4.0.1.jar')
+//    compile files('libs/GraphView-4.0.1.jar')
     compile 'org.jbundle.util.osgi.wrapped:org.jbundle.util.osgi.wrapped.org.apache.http.client:4.1.2'
+    compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
 }

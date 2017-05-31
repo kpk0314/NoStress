@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
 //    RelativeLayout container;
 
     BottomNavigationView bottomNavigationView;
+    RelativeLayout container;
 
     //This is our viewPager
     private ViewPager viewPager;
@@ -68,8 +69,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         getWindow().setWindowAnimations(android.R.style.Animation_Toast);
 
-         final RelativeLayout container = (RelativeLayout) findViewById(R.id.activity_main);
-
+        container = (RelativeLayout) findViewById(R.id.activity_main);
 
         // SQLight DB  생성
         MyOpenHelper helper = new MyOpenHelper(this);
@@ -92,6 +92,8 @@ public class MainActivity extends AppCompatActivity {
         }
         rs.close();
         db.close();
+
+        stress = String.valueOf((int)(Math.random() * 100) + 1);
 
         // 스트레스 지수에 따라 배경화면 색상 변하기
         int intNow = Integer.parseInt(stress);
@@ -144,14 +146,7 @@ public class MainActivity extends AppCompatActivity {
         setupViewPager(viewPager);
         viewPager.setCurrentItem(1); // 초기화면 설정
 
-
-
-
-
-
-
     }
-
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
@@ -162,6 +157,20 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFragment(mainFragment);
         adapter.addFragment(settingFragment);
         viewPager.setAdapter(adapter);
+    }
+
+    public void refreshUI() {
+
+        stress = String.valueOf((int)(Math.random() * 100) + 1);
+
+        // 스트레스 지수에 따라 배경화면 색상 변하기
+        int intNow = Integer.parseInt(stress);
+        if(intNow > 80) container.setBackgroundResource(R.drawable.color5);
+        else if(intNow > 60) container.setBackgroundResource(R.drawable.color4);
+        else if(intNow > 40) container.setBackgroundResource(R.drawable.color3);
+        else if(intNow > 20) container.setBackgroundResource(R.drawable.color2);
+        else container.setBackgroundResource(R.drawable.color1);
+
     }
 
 
