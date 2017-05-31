@@ -8,13 +8,16 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true">
-
-    </RelativeLayout>
+    <TextView
+        android:id="@+id/textUpdate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="22dp"
+        android:text="마지막 업데이트."
+        android:textColor="@color/white"
+        android:textSize="12sp" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -26,21 +29,72 @@
         android:scaleType="fitCenter"
         android:src="@drawable/circle" />
 
-    <TextView
-        android:id="@+id/textView"
+    <TableRow
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/imageView"
+        android:layout_above="@+id/todayValue"
+        android:layout_centerHorizontal="true">
+
+        <TextView
+            android:id="@+id/textLevel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="LEVEL "
+            android:textColor="@color/black"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/levelValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5"
+            android:textColor="#e89336"
+            android:textSize="17sp" />
+
+    </TableRow>
+
+
+    <TextView
+        android:id="@+id/todayValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/graph"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="119dp"
-        android:text="@string/tab2"
-        android:textSize="30sp" />
+        android:layout_marginBottom="85dp"
+        android:text="100"
+        android:textColor="@color/black"
+        android:textSize="95sp" />
+
+    <TableRow
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/graph"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="63dp">
+
+        <TextView
+            android:id="@+id/textYestedayValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="어제이시간  "
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/yesterdayValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="88"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
+    </TableRow>
 
     <com.jjoe64.graphview.GraphView
         android:id="@+id/graph"
         android:layout_width="match_parent"
         android:layout_height="200dip"
-        android:layout_below="@id/imageView"/>
+        android:layout_below="@id/imageView" />
 
 
 </RelativeLayout>

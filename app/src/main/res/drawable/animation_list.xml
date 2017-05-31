@@ -4,6 +4,6 @@
         android:drawable="@drawable/color1"
         android:duration="10000" />
     <item
-        android:drawable="@drawable/color2"
+        android:drawable="@drawable/color5"
         android:duration="10000" />
 </animation-list>
