@@ -105,6 +105,7 @@
     <orderEntry type="library" exported="" name="butterknife-7.0.1" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-25.0.1" level="project" />
     <orderEntry type="library" exported="" name="design-25.0.1" level="project" />
+    <orderEntry type="library" exported="" name="MPAndroidChart-v2.1.6" level="project" />
     <orderEntry type="library" exported="" name="GraphView-4.0.1" level="project" />
     <orderEntry type="library" exported="" name="hellocharts-library-1.5.8" level="project" />
     <orderEntry type="library" exported="" name="org.jbundle.util.osgi.wrapped.org.apache.http.client-4.1.2" level="project" />
