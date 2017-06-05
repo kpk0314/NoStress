@@ -6,6 +6,7 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
 
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.TransitionDrawable;
@@ -106,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
         // ViewPAager를 위한 코드
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setTextAlignment(0);
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override

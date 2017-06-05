@@ -8,12 +8,6 @@
     android:layout_height="match_parent"
     android:background="@drawable/animation_list"
     tools:context=".MainActivity">
-    <!--android:background="@drawable/animation_list"-->
-    <!--<transition xmlns:android="http://schemas.android.com/apk/res/android">-->
-        <!--&lt;!&ndash; use whatever drawables you want, gradients, shapes etc&ndash;&gt;-->
-        <!--<item android:drawable="@drawable/background1" />-->
-        <!--<item android:drawable="@drawable/background5" />-->
-    <!--</transition>-->
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottom_navigation"
@@ -21,6 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         app:itemBackground="@android:color/transparent"
+        app:itemIconTint="@color/white"
         app:menu="@menu/menu_bottom_navigation" />
 
     <android.support.v4.view.ViewPager

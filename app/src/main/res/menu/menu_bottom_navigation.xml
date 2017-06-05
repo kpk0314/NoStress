@@ -3,20 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_call"
-        android:checked="true"
-        android:icon="@drawable/ic_call"
-        android:title="@string/tab1"
-        app:showAsAction="ifRoom" />
+        android:checked="false"
+        android:icon="@drawable/btn1"
+        android:title=""
+        app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/action_chat"
-        android:checked="false"
-        android:icon="@drawable/ic_chat"
-        android:title="@string/tab2"
+        android:checked="true"
+        android:icon="@drawable/btn2"
+        android:title=""
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_contact"
         android:checked="false"
-        android:icon="@drawable/ic_contact"
-        android:title="@string/tab3"
+        android:icon="@drawable/btn3"
+        android:title=""
         app:showAsAction="ifRoom" />
 </menu>
