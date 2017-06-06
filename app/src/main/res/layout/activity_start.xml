@@ -4,59 +4,54 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#EEEEEE"
+    android:background="@color/main_background"
     android:fillViewport="false"
+    android:fitsSystemWindows="true"
     android:focusable="true"
-    android:focusableInTouchMode="true"
-    android:fitsSystemWindows="true">
+    android:focusableInTouchMode="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingLeft="24dp"
-        android:paddingRight="24dp"
+
         android:paddingTop="45dp"
         android:weightSum="1">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="72dp"
+            android:layout_width="108dp"
+            android:layout_height="36dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="1dp"
-            android:src="@drawable/logo" />
+            android:layout_marginBottom="14dp"
+            android:src="@drawable/icon_logo_black" />
+
+        <ImageView
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/icon_1000" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="120dp"
+            android:layout_marginTop="21.8dp"
             android:gravity="center"
-            android:text="회원가입이 완료되었습니다. 이제 처음으로 스트레스를\n측정해 보겠습니다. 첫 측정은 부정확할 수 있습니다."
+            android:text="회원가입이 완료되었습니다!\n아래 앱 시작하기 버튼을 누르면 첫 측정이 진행됩니다.\n첫 측정은 부정확할 수 있으며,  앞으로 측정되는\n모든 스트레스 데이터가 서버에 저장됩니다."
             android:textColor="@color/black"
-            android:textSize="13dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="20dp"
-            android:gravity="center"
-            android:text="아래 버튼을 누르시면 앞으로 측정되는 모든 스트레스 데이터가\n서버에 저장됩니다. 저장된 데이터는 스트레스 분석에 활용됩니다."
-            android:textColor="#999999"
-            android:textSize="11dp" />
+            android:textSize="14sp" />
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/btn_start"
-            android:layout_width="290dp"
+            android:layout_width="280dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
-            android:layout_marginBottom="10dp"
+            android:layout_marginTop="7.5dp"
             android:background="@drawable/loginbutton"
-            android:text="동의하고 앱 시작하기"
+            android:text="스트레스 측정하기"
             android:textColor="@color/white"
-            android:textSize="15dp" />
-
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 

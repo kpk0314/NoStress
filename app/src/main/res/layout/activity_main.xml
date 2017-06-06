@@ -10,6 +10,11 @@
     tools:context=".MainActivity">
 
 
+    <View android:background="#66ffffff"
+        android:layout_width = "match_parent"
+        android:layout_height="1dp"
+        android:layout_above="@+id/bottom_navigation"/>
+
     <com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"

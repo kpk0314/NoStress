@@ -51,6 +51,8 @@ public class PrivacyActivity extends AppCompatActivity implements NumberPicker.O
     // url to create new product
     private static String url_create_product = "http://10.0.2.2/db/create_private.php";
 
+
+
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
 
@@ -314,7 +316,6 @@ public class PrivacyActivity extends AppCompatActivity implements NumberPicker.O
             np.setValue(50);
         else
             np.setValue(Integer.parseInt(_weightText.getText().toString().split(" ")[0]));
-
 
         b1.setOnClickListener(new View.OnClickListener() {
             @Override

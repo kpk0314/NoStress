@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#EEEEEE"
+    android:background="@color/main_background"
     android:fillViewport="false"
     android:focusable="true"
     android:focusableInTouchMode="true"
@@ -20,25 +20,25 @@
         android:weightSum="1">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="72dp"
+            android:layout_width="108dp"
+            android:layout_height="36dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="1dp"
-            android:src="@drawable/logo" />
+            android:layout_marginBottom="12.8dp"
+            android:src="@drawable/icon_logo_black" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="60dp"
+            android:layout_marginBottom="63dp"
             android:gravity="center"
-            android:text="NOSTRESS는 당신의 스트레스를 빠르게\n알려주고 관리할 수 있는 기능을 제공합니다."
+            android:text="로그인 시, Stless의 개인 정보 취급 방침\n및 이용 약관에 동의하게 됩니다."
             android:textColor="@color/black"
-            android:textSize="15dp" />
+            android:textSize="14sp" />
 
         <EditText
             android:id="@+id/input_email"
-            android:layout_width="300dp"
+            android:layout_width="280dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
             android:layout_marginBottom="10dp"
@@ -47,13 +47,13 @@
             android:inputType="textEmailAddress"
             android:paddingLeft="10dp"
             android:textColor="@color/black"
-            android:textColorHint="#999999"
-            android:textSize="15dp"
+            android:textColorHint="#b4b3b3"
+            android:textSize="14sp"
             android:textStyle="normal" />
 
         <EditText
             android:id="@+id/input_password"
-            android:layout_width="300dp"
+            android:layout_width="280dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
             android:background="@drawable/boxinput"
@@ -61,8 +61,8 @@
             android:inputType="textPassword"
             android:paddingLeft="10dp"
             android:textColor="@color/black"
-            android:textColorHint="#999999"
-            android:textSize="15dp"
+            android:textColorHint="#b4b3b3"
+            android:textSize="14sp"
             android:textStyle="normal" />
 
 
@@ -70,35 +70,24 @@
             android:id="@+id/find_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_marginBottom="30dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
-            android:text="비밀번호를 잊으셨나요?"
-            android:textColor="#999999"
-            android:textSize="13dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:gravity="center"
-            android:text="로그인하면 NOSTRESS의 개인 정보 취급 방침 및\n이용 약관에 동의하게 됩니다."
-            android:textColor="#999999"
-            android:textSize="13dp" />
+            android:layout_marginTop="41dp"
+            android:text="비밀번호를 잊은 경우"
+            android:textColor="#494949"
+            android:textSize="12sp" />
 
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/btn_login"
-            android:layout_width="290dp"
+            android:layout_width="280dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="9.5dp"
             android:background="@drawable/loginbutton"
             android:text="로그인"
             android:textColor="@color/white"
-            android:textSize="15dp" />
+            android:textSize="18sp"
+            android:textStyle="bold"/>
 
 
     </LinearLayout>
