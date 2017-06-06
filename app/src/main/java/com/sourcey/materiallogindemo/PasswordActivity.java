@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import butterknife.Bind;
@@ -18,6 +19,7 @@ import butterknife.ButterKnife;
 public class PasswordActivity extends AppCompatActivity {
 
     @Bind(R.id.input_email) EditText _emailText;
+    @Bind(R.id.btn_back) ImageButton _backButton;
     @Bind(R.id.btn_send) Button _sendButton;
 
     @Override
@@ -27,6 +29,13 @@ public class PasswordActivity extends AppCompatActivity {
         getWindow().setWindowAnimations(android.R.style.Animation_Toast);
         ButterKnife.bind(this);
 
+        _backButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                back();
+            }
+        });
         _sendButton.setOnClickListener(new View.OnClickListener() {
 
         @Override
@@ -35,6 +44,21 @@ public class PasswordActivity extends AppCompatActivity {
         }
     });
 }
+
+    @Override
+    public void onBackPressed() {
+        overridePendingTransition(0, 0);
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        finish();
+        super.onBackPressed();
+    }
+
+    private void back() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        finish();
+    }
 
     public void sendEmail() {
 
