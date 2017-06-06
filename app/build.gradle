@@ -27,4 +27,5 @@ dependencies {
     compile 'org.jbundle.util.osgi.wrapped:org.jbundle.util.osgi.wrapped.org.apache.http.client:4.1.2'
     compile 'com.github.PhilJay:MPAndroidChart:v2.1.6'
     compile 'com.github.lecho:hellocharts-library:1.5.8@aar'
+    compile 'com.github.ittianyu:BottomNavigationViewEx:1.2.0'
 }

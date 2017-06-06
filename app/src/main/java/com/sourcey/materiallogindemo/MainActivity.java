@@ -30,6 +30,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.sourcey.materiallogindemo.Fragment.ChartFragment;
 import com.sourcey.materiallogindemo.Fragment.MainFragment;
 import com.sourcey.materiallogindemo.Fragment.SettingFragment;
@@ -48,7 +49,9 @@ public class MainActivity extends AppCompatActivity {
 //    AnimationDrawable anim;
 //    RelativeLayout container;
 
-    BottomNavigationView bottomNavigationView;
+//    BottomNavigationView bottomNavigationView;
+
+    BottomNavigationViewEx bottomNavigationView;
     RelativeLayout container;
 
     //This is our viewPager
@@ -104,21 +107,28 @@ public class MainActivity extends AppCompatActivity {
         else if(intNow > 20) container.setBackgroundResource(R.drawable.color2);
         else container.setBackgroundResource(R.drawable.color1);
 
+        // bottom navigation view에 property 설정
+        bottomNavigationView= (BottomNavigationViewEx) findViewById(R.id.bottom_navigation);
+        bottomNavigationView.enableAnimation(false);
+        bottomNavigationView.setTextVisibility(false);
+        bottomNavigationView.setIconSize(23.3f, 23.8f);
+        bottomNavigationView.setItemIconTintList(getResources().getColorStateList(R.color.selector_option));
+
+
         // ViewPAager를 위한 코드
         viewPager = (ViewPager) findViewById(R.id.viewpager);
-        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch (item.getItemId()) {
-                            case R.id.action_call:
+                            case R.id.chart_fragment:
                                 viewPager.setCurrentItem(0);
                                 break;
-                            case R.id.action_chat:
+                            case R.id.main_fragment:
                                 viewPager.setCurrentItem(1);
                                 break;
-                            case R.id.action_contact:
+                            case R.id.setting_fragment:
                                 viewPager.setCurrentItem(2);
                                 break;
                         }
@@ -160,10 +170,9 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(adapter);
     }
 
+    // fragment에서 Mainactivity의 갱신된 스트레스 정보를 받아오기 위한 함수
     public void refreshUI() {
-
         stress = String.valueOf((int)(Math.random() * 100) + 1);
-
         // 스트레스 지수에 따라 배경화면 색상 변하기
         int intNow = Integer.parseInt(stress);
         if(intNow > 80) container.setBackgroundResource(R.drawable.color5);
@@ -174,11 +183,4 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-    /**
-     * Created by Isaac Kim on 2017-05-15.
-     */
-
-    public static class PrivacyActivity {
-    }
 }
