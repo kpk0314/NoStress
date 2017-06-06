@@ -9,8 +9,8 @@
     <ImageView
         android:layout_width="216dp"
         android:layout_height="72dp"
-        android:layout_marginLeft="72dp"
         android:layout_marginTop="84dp"
+        android:layout_centerHorizontal="true"
         android:src="@drawable/icon_logo_white" />
 
 

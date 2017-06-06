@@ -6,17 +6,20 @@
         android:checked="false"
         android:icon="@drawable/btn1"
         android:title=""
+        android:checkable="true"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/action_chat"
         android:checked="true"
         android:icon="@drawable/btn2"
         android:title=""
+        android:checkable="true"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_contact"
         android:checked="false"
         android:icon="@drawable/btn3"
         android:title=""
+        android:checkable="true"
         app:showAsAction="ifRoom" />
 </menu>
