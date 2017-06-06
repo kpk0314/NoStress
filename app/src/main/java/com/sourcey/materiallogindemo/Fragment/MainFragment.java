@@ -54,17 +54,16 @@ import lecho.lib.hellocharts.view.LineChartView;
 
 public class MainFragment extends Fragment {
 
-    String nowValue;
-    private SwipeRefreshLayout mSwipeRefresh;
-//    private LineChart mChart;
+    String nowValue; // 현재 스트레스 지수
+    private SwipeRefreshLayout mSwipeRefresh; // 당겨서 새로고침 위한 변수
+
+    // 그래프 프로퍼티 변수
     private LineChartView chart;
     private LineChartData data;
     private int numberOfLines = 1;
     private int maxNumberOfLines = 4;
-    private int numberOfPoints = 12;
-
+    private int numberOfPoints = 9;
     float[][] randomNumbersTab = new float[maxNumberOfLines][numberOfPoints];
-
     private boolean hasAxes = true;
     private boolean hasAxesNames = false;
     private boolean hasLines = true;
@@ -95,29 +94,41 @@ public class MainFragment extends Fragment {
         nowValue = ((MainActivity) getActivity()).stress;
 
 
+        // 엘리먼트 아이디 받아오기
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-
         TextView _textUpdate = (TextView) rootView.findViewById(R.id.textUpdate);
         TextView _levelValue = (TextView) rootView.findViewById(R.id.levelValue);
         TextView _todayValue = (TextView) rootView.findViewById(R.id.todayValue);
         TextView _yesterdayValue = (TextView) rootView.findViewById(R.id.yesterdayValue);
-//        GraphView graph = (GraphView) rootView.findViewById(R.id.graph);
-
+        chart = (LineChartView) rootView.findViewById(R.id.chart);
 
         // 현재 시간 업데이트
         currentTime = DateFormat.getDateTimeInstance().format(new Date());
 
         _textUpdate.setText("마지막 업데이트. " + currentTime);
 
-
-
-        // 스트레스 레벨 업데이트
+        // 스트레스 레벨, 글씨 색상 업데이트
         int intNow = Integer.parseInt(nowValue);
-        if(intNow > 80) _levelValue.setText("5");
-        else if(intNow > 60) _levelValue.setText("4");
-        else if(intNow > 40) _levelValue.setText("3");
-        else if(intNow > 20) _levelValue.setText("2");
-        else _levelValue.setText("1");
+        if(intNow > 80){
+            _levelValue.setText("5");
+            _levelValue.setTextColor(getResources().getColor(R.color.level5));
+        }
+        else if(intNow > 60) {
+            _levelValue.setText("4");
+            _levelValue.setTextColor(getResources().getColor(R.color.level4));
+        }
+        else if(intNow > 40){
+            _levelValue.setText("3");
+            _levelValue.setTextColor(getResources().getColor(R.color.level3));
+        }
+        else if(intNow > 20) {
+            _levelValue.setText("2");
+            _levelValue.setTextColor(getResources().getColor(R.color.level2));
+        }
+        else {
+            _levelValue.setText("1");
+            _levelValue.setTextColor(getResources().getColor(R.color.level1));
+        }
 
         // 현재 스트레스 지수 업데이트
         _todayValue.setText(nowValue);
@@ -125,17 +136,8 @@ public class MainFragment extends Fragment {
         // 어제이시간 업데이트(일단 임의의 값으로)
         int randomNum = (int)(Math.random() * 100) + 1;
         _yesterdayValue.setText(String.valueOf(randomNum));
-        if(randomNum > 80) _yesterdayValue.setTextColor(getResources().getColor(R.color.level5));
-        else if(randomNum > 60) _yesterdayValue.setTextColor(getResources().getColor(R.color.level4));
-        else if(randomNum > 40) _yesterdayValue.setTextColor(getResources().getColor(R.color.level3));
-        else if(randomNum > 20) _yesterdayValue.setTextColor(getResources().getColor(R.color.level2));
-        else _yesterdayValue.setTextColor(getResources().getColor(R.color.level1));
 
-
-        int test[] = {30, 20, 15, 18, 60, 30, 10, 50, 60, 32, 24, 45};
-
-        chart = (LineChartView) rootView.findViewById(R.id.chart);
-
+        // 그래프 생성 함수
         generateValues();
         generateData();
 
@@ -163,6 +165,7 @@ public class MainFragment extends Fragment {
 
 
 
+    // 그래프 갯수를 정하기 위한 코드
     private void generateValues() {
         for (int i = 0; i < maxNumberOfLines; ++i) {
             for (int j = 0; j < numberOfPoints; ++j) {
@@ -171,11 +174,14 @@ public class MainFragment extends Fragment {
         }
     }
 
+
+    // 그래프를 생성하기 위한 코드
     private void generateData() {
 
         List<Line> lines = new ArrayList<Line>();
         for (int i = 0; i < numberOfLines; ++i) {
 
+            // 랜덤으로 데이터 생성
             List<PointValue> values = new ArrayList<PointValue>();
             for (int j = 0; j < numberOfPoints; ++j) {
                 values.add(new PointValue(j, randomNumbersTab[i][j]));
@@ -202,29 +208,33 @@ public class MainFragment extends Fragment {
             Axis axisX = new Axis();
             Axis axisY = new Axis().setHasLines(true);
 
+            // Y축 단위를 지정하기 위한 코드
             List<AxisValue> axisYvalues = new ArrayList<>();
             for (int i = 0; i <= 100; i += 50) { //i represents value on a chart, for example Y value for vertical axis
                 AxisValue axisValue = new AxisValue(i);
                 axisYvalues.add(axisValue);
             }
 
+            // X축 단위를 지정하기 위한 코드 - 지금으로부터 한시간 전부터 두시간 단위로 빼나간다
             List<AxisValue> axisXvalues = new ArrayList<>();
             for (int i = 0; i <= numberOfPoints; i++) {
-                Date currentDate = new Date(System.currentTimeMillis() - TimeUnit.HOURS.toMillis(numberOfPoints - i));
+                Date currentDate;
+                currentDate = new Date(System.currentTimeMillis() - TimeUnit.HOURS.toMillis(24 - i*3));
                 SimpleDateFormat sdf = new SimpleDateFormat("a h");
                 String hour = sdf.format(currentDate);
                 AxisValue axisValue = new AxisValue(i);
                 axisValue.setLabel (hour);
-                if (i%2 == 1)
+//                if (i%2 == 1)
                     axisXvalues.add(axisValue);
             }
+
+            // X Y축 프로퍼티 설정
             axisX.setValues(axisXvalues);
             axisY.setValues(axisYvalues);
             axisX.setTextSize(8);
             axisX.setHasSeparationLine(true);
             axisX.setHasLines(true);
             axisY.setTextSize(8);
-
 
             if (hasAxesNames) {
                 axisX.setName("Axis X");
@@ -243,10 +253,10 @@ public class MainFragment extends Fragment {
         chart.setZoomEnabled(false);
 
         final Viewport v = new Viewport(chart.getMaximumViewport());
-        v.bottom = 0;
-        v.top = 100;
+        v.bottom = -5;
+        v.top = 105;
         v.left = 0;
-        v. right = 11;
+        v. right = 8;
         chart.setMaximumViewport(v);
         chart.setCurrentViewport(v);
     }
