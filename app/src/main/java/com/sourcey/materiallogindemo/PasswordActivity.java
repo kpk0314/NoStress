@@ -19,7 +19,7 @@ import butterknife.ButterKnife;
 public class PasswordActivity extends AppCompatActivity {
 
     @Bind(R.id.input_email) EditText _emailText;
-    @Bind(R.id.btn_back) ImageButton _backButton;
+//    @Bind(R.id.btn_back) ImageButton _backButton;
     @Bind(R.id.btn_send) Button _sendButton;
 
     @Override
@@ -29,13 +29,13 @@ public class PasswordActivity extends AppCompatActivity {
         getWindow().setWindowAnimations(android.R.style.Animation_Toast);
         ButterKnife.bind(this);
 
-        _backButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                back();
-            }
-        });
+//        _backButton.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//                back();
+//            }
+//        });
         _sendButton.setOnClickListener(new View.OnClickListener() {
 
         @Override

@@ -28,7 +28,7 @@
         android:layout_marginTop="22dp"
         android:text="마지막 업데이트."
         android:textColor="@color/white"
-        android:textSize="12sp" />
+        android:textSize="10sp" />
 
 
     <RelativeLayout
@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_gravity="top|center"
-        android:layout_marginTop="65dp">
+        android:layout_marginTop="57dp">
 
         <ImageView
             android:id="@+id/imageView"
@@ -126,6 +126,6 @@
         android:layout_height="160dp"
         android:layout_below="@+id/circle_layout"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="30dp" />
 
 </RelativeLayout>
