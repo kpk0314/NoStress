@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
         getWindow().setWindowAnimations(android.R.style.Animation_Toast);
 
         container = (RelativeLayout) findViewById(R.id.activity_main);
+        final View naviLine = (View)findViewById(R.id.navi_line);
 
         // SQLight DB  생성
         MyOpenHelper helper = new MyOpenHelper(this);
@@ -124,6 +125,7 @@ public class MainActivity extends AppCompatActivity {
                         switch (item.getItemId()) {
                             case R.id.chart_fragment:
                                 viewPager.setCurrentItem(0);
+
                                 break;
                             case R.id.main_fragment:
                                 viewPager.setCurrentItem(1);
@@ -135,12 +137,24 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     }
                 });
+
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             }
             @Override
             public void onPageSelected(int position) {
+                if (position == 0) {
+                    bottomNavigationView.setBackgroundColor(getResources().getColor(R.color.main_background));
+                    bottomNavigationView.setItemIconTintList(getResources().getColorStateList(R.color.selector_option2));
+                    naviLine.setBackgroundColor(Color.DKGRAY);
+
+                } else {
+                    bottomNavigationView.setBackgroundColor(Color.TRANSPARENT);
+                    bottomNavigationView.setItemIconTintList(getResources().getColorStateList(R.color.selector_option));
+                    naviLine.setBackgroundColor(getResources().getColor(R.color.op40));
+                }
+
                 if (prevMenuItem != null) {
                     prevMenuItem.setChecked(false);
                 } else {
