@@ -20,7 +20,7 @@
         android:gravity="center"
         android:text="스트레스 측정"
         android:textColor="@color/white"
-        android:textSize="20dp"
+        android:textSize="18sp"
         android:textStyle="bold" />
 
     <TextView
@@ -30,9 +30,9 @@
         android:layout_marginTop="350dp"
         android:gravity="center"
         android:lineSpacingExtra="5dp"
-        android:text="GEAR S3에서 측정되는 데이터를\nNOSTRESS만의 알고리즘으로 분석하여\n당신의 현재 스트레스를 정확히 수치화합니다."
-        android:textColor="@color/white"
-        android:textSize="15dp" />
+        android:text="스마트 밴드에서 측정되는 데이터를\nStless만의 알고리즘으로 분석하여\n현재 스트레스를 정확히 수치화합니다."
+        android:textColor="#b3ffffff"
+        android:textSize="14sp" />
 
 
     <LinearLayout
@@ -47,7 +47,7 @@
             android:layout_width="12dp"
             android:layout_height="12dp"
             android:background="@drawable/circle_border"
-            android:backgroundTint="@color/dark_grey"
+            android:backgroundTint="#4DFFFFFF"
             android:gravity="center" />
 
         <ImageView
@@ -64,7 +64,7 @@
             android:layout_width="12dp"
             android:layout_height="12dp"
             android:background="@drawable/circle_border"
-            android:backgroundTint="@color/dark_grey"
+            android:backgroundTint="#4DFFFFFF"
             android:gravity="center" />
     </LinearLayout>
 

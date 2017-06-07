@@ -22,7 +22,7 @@
         android:gravity="center"
         android:text="환영합니다"
         android:textColor="@color/white"
-        android:textSize="20dp"
+        android:textSize="18sp"
         android:textStyle="bold" />
 
     <TextView
@@ -32,9 +32,9 @@
         android:layout_marginTop="350dp"
         android:gravity="center"
         android:lineSpacingExtra="5dp"
-        android:text="NOSTRESS는 스트레스 전문가입니다.\n당신의 스트레스를 측정하고 기록을 저장합니다.\n필요한 것은 오직 무료 회원가입 뿐입니다."
-        android:textColor="@color/white"
-        android:textSize="15dp" />
+        android:text="Stless는 스트레스 전문가입니다.\n우리는 당신의 스트레스를 측정하고\n기록을 저장하여 당신에게 보여줍니다."
+        android:textColor="#b3ffffff"
+        android:textSize="14sp" />
 
 
     <LinearLayout
@@ -57,7 +57,7 @@
             android:layout_height="12dp"
             android:layout_margin="8dp"
             android:background="@drawable/circle_border"
-            android:backgroundTint="@color/dark_grey"
+            android:backgroundTint="#4DFFFFFF"
             android:gravity="center" />
 
         <ImageView
@@ -65,7 +65,7 @@
             android:layout_width="12dp"
             android:layout_height="12dp"
             android:background="@drawable/circle_border"
-            android:backgroundTint="@color/dark_grey"
+            android:backgroundTint="#4DFFFFFF"
             android:gravity="center" />
     </LinearLayout>
 

@@ -20,7 +20,7 @@
         android:gravity="center"
         android:text="기록과 분석"
         android:textColor="@color/white"
-        android:textSize="20dp"
+        android:textSize="18sp"
         android:textStyle="bold" />
 
     <TextView
@@ -31,8 +31,8 @@
         android:gravity="center"
         android:lineSpacingExtra="5dp"
         android:text="모든 측정 기록이 저장되고 분석됩니다.\n기록과 분석을 보며 스트레스에 대처하는\n전략을 세우고, 건강한 삶을 누리세요."
-        android:textColor="@color/white"
-        android:textSize="15dp" />
+        android:textColor="#b3ffffff"
+        android:textSize="14sp" />
 
 
     <LinearLayout
@@ -47,7 +47,7 @@
             android:layout_width="12dp"
             android:layout_height="12dp"
             android:background="@drawable/circle_border"
-            android:backgroundTint="@color/dark_grey"
+            android:backgroundTint="#4DFFFFFF"
             android:gravity="center" />
 
         <ImageView
@@ -56,7 +56,7 @@
             android:layout_height="12dp"
             android:layout_margin="8dp"
             android:background="@drawable/circle_border"
-            android:backgroundTint="@color/dark_grey"
+            android:backgroundTint="#4DFFFFFF"
             android:gravity="center" />
 
         <ImageView
