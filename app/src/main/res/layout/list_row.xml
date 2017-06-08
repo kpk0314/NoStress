@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <!-- ListRow Left sied Thumbnail image -->
+
+    <LinearLayout
+        android:id="@+id/thumbnail"
+        android:layout_width="match_parent"
+        android:layout_height="90dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="2"
+            android:orientation="vertical"
+            android:paddingLeft="10dp">
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="2017.6.5"
+                android:layout_marginBottom="2dp"
+                android:textColor="#040404"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/day_of_week"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="월요일"
+                android:textColor="#040404"
+                android:textSize="24sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingLeft="10dp">
+
+            <TextView
+                android:layout_width="35dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="평균"
+                android:layout_marginBottom="5dp"
+                android:textColor="#040404"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/average"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:background="@drawable/circle_text"
+                android:gravity="center"
+                android:text="69"
+                android:textColor="#040404"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingLeft="10dp">
+
+            <TextView
+                android:layout_width="35dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="최대"
+                android:layout_marginBottom="5dp"
+                android:textColor="#040404"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/maximum"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:background="@drawable/circle_text"
+                android:gravity="center"
+                android:text="89"
+                android:textColor="#040404"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingLeft="10dp">
+
+            <TextView
+                android:layout_width="35dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="최소"
+                android:layout_marginBottom="5dp"
+                android:textColor="#040404"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/minimum"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:background="@drawable/circle_text"
+                android:gravity="center"
+                android:text="89"
+                android:textColor="#040404"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</RelativeLayout>
