@@ -7,6 +7,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.RadioButton;
 
 import com.github.mikephil.charting.charts.CandleStickChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -32,6 +35,10 @@ import lecho.lib.hellocharts.model.PointValue;
 public class ChartFragment extends Fragment {
 
 
+
+    RadioButton week_btn;
+    RadioButton month_btn;
+
     public ChartFragment() {
         // Required empty public constructor
     }
@@ -44,65 +51,48 @@ public class ChartFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_chart, container, false);
 
-//        CandleStickChart candleStickChart = (CandleStickChart) rootView.findViewById(R.id.chart);
-//
-//        ArrayList<CandleEntry> entries = new ArrayList<>();
-//        entries.add(new CandleEntry(0, 46.2f, 20.2f, 27.0f, 41.3f));
-//        entries.add(new CandleEntry(1, 55.0f, 27.0f, 33.5f, 49.6f));
-//        entries.add(new CandleEntry(2, 52.5f, 30.2f, 35.0f, 45.0f));
-//        entries.add(new CandleEntry(3, 60.0f, 32.5f, 44.0f, 50.0f));
-//        entries.add(new CandleEntry(4, 56.7f, 20.0f, 28.0f, 45.0f));
-//        entries.add(new CandleEntry(5, 46.2f, 20.2f, 27.0f, 41.3f));
-//        entries.add(new CandleEntry(6, 55.0f, 27.0f, 33.5f, 49.6f));
-//
-//        CandleDataSet dataset = new CandleDataSet(entries, "# of Calls");
-//
-//        ArrayList<String> labels = new ArrayList<String>();
-//
-//        for (int i = 1; i <= 7; i++) {
-//            Date currentDate = new Date(System.currentTimeMillis() - TimeUnit.DAYS.toMillis(7 - i));
-//            SimpleDateFormat sdf = new SimpleDateFormat("E");
-//            String day = sdf.format(currentDate);
-//            labels.add(day);
-//        }
-//
-//        CandleData data = new CandleData(labels, dataset);
-//        candleStickChart.setData(data);
-//        int[] black = {Color.BLACK, Color.BLACK};
-//        dataset.setColors(black);
-//        dataset.setValueTextSize(15);
-//
-//        // dataset.setColors(ColorTemplate.COLORFUL_COLORS); //
-//        candleStickChart.setBackgroundColor(Color.TRANSPARENT); //set whatever color you prefer
-//        candleStickChart.setDrawGridBackground(false);// this is a must
-//
-//        XAxis xAxis = candleStickChart.getXAxis();
-//        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-//        xAxis.setDrawGridLines(false);
-//        xAxis.setDrawAxisLine(true);
-//        xAxis.setAxisLineColor(Color.BLACK);
-//        xAxis.setTextSize(15);
-//
-//
-//        candleStickChart.getLegend().setEnabled(false);
-//        candleStickChart.setDescription("");
-//        candleStickChart.getAxisLeft().setDrawLabels(false);
-//        candleStickChart.getAxisRight().setDrawLabels(false);
-//        candleStickChart.getAxisLeft().setDrawGridLines(false);
-//        candleStickChart.getAxisLeft().setDrawAxisLine(false);
-//        candleStickChart.getAxisLeft().setAxisMinValue(80f);
-//        candleStickChart.getAxisRight().setAxisMinValue(80f);
-//        candleStickChart.getAxisRight().setDrawGridLines(false);
-//        candleStickChart.getAxisRight().setDrawAxisLine(false);
-//        candleStickChart.setPinchZoom(false);
-//        candleStickChart.setDoubleTapToZoomEnabled(false);
-//        candleStickChart.setTouchEnabled(false);
-//        candleStickChart.setDescriptionTextSize(15);
-//
-//        // candleStickChart.setAutoScaleMinMaxEnabled(true);
-//        candleStickChart.invalidate();
+        week_btn = (RadioButton) rootView.findViewById(R.id.week_btn);
+        month_btn = (RadioButton) rootView.findViewById(R.id.month_btn);
+
+        // ArrayAdapter를 통해 LIST로 표시할 오브젝트를 지정한다.
+        // 여기서는 심플하게 그냥 String
+        // 레이아웃 android.R.layout.simple_list_item_1 는 안드로이드가 기본적으로 제공하는 간단한 아이템 레이아웃
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1);
+
+        // 아이템을 추가
+        adapter.add("item1");
+        adapter.add("item2");
+        adapter.add("item3");
+
+        // ListView 가져오기
+        ListView listView = (ListView) rootView.findViewById(R.id.listView);
+
+        // ListView에 각각의 아이템표시를 제어하는 Adapter를 설정
+        listView.setAdapter(adapter);
+
+
+
+        week_btn.setOnClickListener(optionOnClickListener);
+        month_btn.setOnClickListener(optionOnClickListener);
+        week_btn.setChecked(true);
+
+
 
         return rootView;
     }
+
+    RadioButton.OnClickListener optionOnClickListener
+            = new RadioButton.OnClickListener() {
+        public void onClick(View v) {
+            if(week_btn.isChecked()){
+                week_btn.setTextColor(Color.BLACK);
+                month_btn.setTextColor(Color.WHITE);
+            } else {
+                week_btn.setTextColor(Color.WHITE);
+                month_btn.setTextColor(Color.BLACK);
+            }
+
+        }
+    };
 
 }

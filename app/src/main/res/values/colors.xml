@@ -38,6 +38,11 @@
 
   <color name="main_background">#f5f4f5</color>
   <color name="op40">#66ffffff</color>
+  <color name="pink"> #ffffff</color>
+  <color name="dark_pink"> #80ffffff</color>
+  <color name="transparent"> #00000000</color>
+
+
 
 
 
