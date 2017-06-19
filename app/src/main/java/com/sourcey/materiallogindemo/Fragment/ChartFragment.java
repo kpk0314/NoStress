@@ -8,10 +8,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.RadioButton;
 
 import com.sourcey.materiallogindemo.BinderData;
+import com.sourcey.materiallogindemo.MainActivity;
 import com.sourcey.materiallogindemo.R;
 
 import org.w3c.dom.Document;
@@ -61,37 +63,32 @@ public class ChartFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
+        // xml -> java 바인드
         rootView = inflater.inflate(R.layout.fragment_chart, container, false);
         week_btn = (RadioButton) rootView.findViewById(R.id.week_btn);
         month_btn = (RadioButton) rootView.findViewById(R.id.month_btn);
 
-        refreshListView();
-
-
-//        // ArrayAdapter를 통해 LIST로 표시할 오브젝트를 지정한다.
-//        // 여기서는 심플하게 그냥 String
-//        // 레이아웃 android.R.layout.simple_list_item_1 는 안드로이드가 기본적으로 제공하는 간단한 아이템 레이아웃
-//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1);
-//        // 아이템을 추가
-//        adapter.add("화요일");
-//        adapter.add("item2");
-//        adapter.add("item3");
-//        // ListView 가져오기
-//        listView = (ListView) rootView.findViewById(R.id.listView);
-//        // ListView에 각각의 아이템표시를 제어하는 Adapter를 설정
-//        listView.setAdapter(adapter);
-
-
+        // 라디오 버튼 초기값 설정
+        if (selected) {
+            week_btn.setTextColor(Color.BLACK);
+            month_btn.setTextColor(Color.WHITE);
+        } else {
+            week_btn.setTextColor(Color.WHITE);
+            month_btn.setTextColor(Color.BLACK);
+        }
+        week_btn.setChecked(true);
+        month_btn.setChecked(false);
         week_btn.setOnClickListener(optionOnClickListener);
         month_btn.setOnClickListener(optionOnClickListener);
-        week_btn.setChecked(true);
+
+        refreshListView(); // 라디오 버튼 설정에 따라 리스트뷰 갱신
 
         return rootView;
 
     }
 
-
-    void refreshListView(){
+    // 라디오 버튼 설정에 따라 리스트뷰 갱신
+    void refreshListView() {
         try {
             DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
@@ -105,7 +102,7 @@ public class ChartFragment extends Fragment {
             month_doc.getDocumentElement().normalize();
 
             NodeList dataList;
-            if(selected){
+            if (selected) {
                 dataList = week_doc.getElementsByTagName("listdata");
             } else {
                 dataList = month_doc.getElementsByTagName("listdata");
@@ -183,6 +180,7 @@ public class ChartFragment extends Fragment {
         }
     }
 
+    // 라디오 버튼 클릭 되었을 시 색상 반전 및 체크상태 설정
     RadioButton.OnClickListener optionOnClickListener
             = new RadioButton.OnClickListener() {
         public void onClick(View v) {
@@ -190,14 +188,14 @@ public class ChartFragment extends Fragment {
                 week_btn.setTextColor(Color.BLACK);
                 month_btn.setTextColor(Color.WHITE);
                 selected = true;
-
-            } else {
+            } else if (month_btn.isChecked()) {
                 week_btn.setTextColor(Color.WHITE);
                 month_btn.setTextColor(Color.BLACK);
                 selected = false;
             }
-            refreshListView();
+            refreshListView(); // 버튼 클릭시 마다 조건에 맞도록 리스트뷰 갱신(주별/월별)
         }
     };
+
 
 }

@@ -92,9 +92,6 @@ public class BinderData extends BaseAdapter {
         return vi;
     }
 
-    /*
-     *
-     * */
     static class ViewHolder{
 
         TextView day_of_week;

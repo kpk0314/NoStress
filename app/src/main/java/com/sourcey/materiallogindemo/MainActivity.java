@@ -45,11 +45,6 @@ import static android.os.SystemClock.sleep;
 
 public class MainActivity extends AppCompatActivity {
 
-//    Handler handler = new Handler();
-//    AnimationDrawable anim;
-//    RelativeLayout container;
-
-//    BottomNavigationView bottomNavigationView;
 
     BottomNavigationViewEx bottomNavigationView;
     RelativeLayout container;
@@ -114,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView.setTextVisibility(false);
         bottomNavigationView.setIconSize(23.3f, 23.8f);
         bottomNavigationView.setItemIconTintList(getResources().getColorStateList(R.color.selector_option));
-
+        naviLine.bringToFront();
 
         // ViewPAager를 위한 코드
         viewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -125,7 +120,6 @@ public class MainActivity extends AppCompatActivity {
                         switch (item.getItemId()) {
                             case R.id.chart_fragment:
                                 viewPager.setCurrentItem(0);
-
                                 break;
                             case R.id.main_fragment:
                                 viewPager.setCurrentItem(1);
@@ -144,13 +138,10 @@ public class MainActivity extends AppCompatActivity {
             }
             @Override
             public void onPageSelected(int position) {
-                if (position == 0) {
-                    bottomNavigationView.setBackgroundColor(getResources().getColor(R.color.main_background));
+                if (position == 0 || position == 2) {
                     bottomNavigationView.setItemIconTintList(getResources().getColorStateList(R.color.selector_option2));
-                    naviLine.setBackgroundColor(Color.DKGRAY);
-
+                    naviLine.setBackgroundColor(getResources().getColor(R.color.navi_color));
                 } else {
-                    bottomNavigationView.setBackgroundColor(Color.TRANSPARENT);
                     bottomNavigationView.setItemIconTintList(getResources().getColorStateList(R.color.selector_option));
                     naviLine.setBackgroundColor(getResources().getColor(R.color.op40));
                 }

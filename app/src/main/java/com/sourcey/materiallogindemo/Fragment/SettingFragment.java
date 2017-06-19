@@ -15,6 +15,8 @@ import com.sourcey.materiallogindemo.R;
  */
 public class SettingFragment extends Fragment {
 
+    View rootView;
+
 
     public SettingFragment() {
         // Required empty public constructor
@@ -25,7 +27,10 @@ public class SettingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_setting, container, false);
+        rootView = inflater.inflate(R.layout.fragment_setting, container, false);
+
+
+        return rootView;
     }
 
 }
