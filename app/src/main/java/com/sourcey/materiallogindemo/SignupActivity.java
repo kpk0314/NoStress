@@ -25,15 +25,22 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.sourcey.materiallogindemo.LoginActivity.getSHA256;
+
 public class SignupActivity extends AppCompatActivity {
     private static final String TAG = "SignupActivity";
+
+    public String email = null;
+    public String password = null;
+    public String name = null;
+
 
     JSONParser jsonParser = new JSONParser();
     // Progress Dialog
     private ProgressDialog progressDialog;
 
     // url to create new product
-    private static String url_create_product = "http://10.0.2.2/db/create.php";
+    private static String url_create_product = "http://test.huy.kr/api/v1/user/signup.json";
 
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
@@ -75,68 +82,41 @@ public class SignupActivity extends AppCompatActivity {
         finish();
         super.onBackPressed();
     }
-
     public void signup() {
         Log.d(TAG, "Signup");
 
         if (!validate()) {
-            onSignupFailed();
+            onSignupFailed1();
             return;
         }
-        new CreateNewProduct().execute();
+
+        progressDialog = new ProgressDialog(SignupActivity.this, R.style.Progress_Dialog);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage("계정 생성 중...");
+        progressDialog.show();
+
+        email = _emailText.getText().toString();
+        String passwd = _passwordText.getText().toString();
+        String reEnterPassword = _reEnterPasswordText.getText().toString();
+        name = _nameText.getText().toString();
+
+        password = getSHA256(passwd);
+        _signupButton.setEnabled(true);
+
+        setResult(RESULT_OK, null);
+        Intent intent = new Intent(this, PrivacyActivity.class);
+        intent.putExtra("email", email);
+        intent.putExtra("password", password);
+        intent.putExtra("name", name);
+        startActivity(intent);
+        finish();
+
+        // new CreateNewProduct().execute();
     }
 
-    class CreateNewProduct extends AsyncTask<String, String, String> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progressDialog = new ProgressDialog(SignupActivity.this, R.style.Progress_Dialog);
-            progressDialog.setIndeterminate(true);
-            progressDialog.setMessage("계정 생성 중...");
-            progressDialog.show();
-        }
-
-        protected String doInBackground(String... args) {
-
-            String email = _emailText.getText().toString();
-            String passwd = _passwordText.getText().toString();
-            String reEnterPassword = _reEnterPasswordText.getText().toString();
-            String name = _nameText.getText().toString();
-
-//            List<NameValuePair> params = new ArrayList<NameValuePair>();
-//            params.add(new BasicNameValuePair("email", email));
-//            params.add(new BasicNameValuePair("passwd", passwd));
-//            params.add(new BasicNameValuePair("name", name));
-//
-//            // getting JSON Object
-//            // Note that create product url accepts POST method
-//            JSONObject json = jsonParser.makeHttpRequest(url_create_product, "POST", params);
-//
-//            // check log cat fro response
-//            Log.d("Create Response", json.toString());
-
-//            // check for success tag
-//            try {
-//                int success = json.getInt(TAG_SUCCESS);
-//
-//                if (success == 1) {
-//                    // successfully created product
-                    onSignupSuccess();
-//                } else {
-//                    // failed to create product
-//                    onSignupFailed();
-//                }
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-            return null;
-        }
-
-        protected void onPostExecute(String file_url) {
-            // dismiss the dialog once done
-            progressDialog.dismiss();
-       }
+    public void onSignupFailed1() {
+        Toast.makeText(getBaseContext(), "Login failed:1001", Toast.LENGTH_LONG).show();
+        _signupButton.setEnabled(true);
     }
 
     public void onSignupSuccess() {

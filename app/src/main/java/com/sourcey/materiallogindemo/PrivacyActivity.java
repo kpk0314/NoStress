@@ -49,7 +49,7 @@ public class PrivacyActivity extends AppCompatActivity implements NumberPicker.O
     private ProgressDialog progressDialog;
 
     // url to create new product
-    private static String url_create_product = "http://10.0.2.2/db/create_private.php";
+    private static String url_create_product = "http://test.huy.kr/api/v1/user/signup.json";
 
 
 
@@ -118,21 +118,19 @@ public class PrivacyActivity extends AppCompatActivity implements NumberPicker.O
     public void signup() {
         Log.d(TAG, "Signup");
 
-        if (!validate()) {
-            onSignupFailed();
-            return;
-        }
+//        if (!validate()) {
+//            onSignupFailed();
+//            return;
+//        }
 
         new CreateNewProduct().execute();
     }
 
     class CreateNewProduct extends AsyncTask<String, String, String> {
 
-        @Override
+        // @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
-
             progressDialog = new ProgressDialog(PrivacyActivity.this, R.style.Progress_Dialog);
             progressDialog.setIndeterminate(true);
             progressDialog.setMessage("정보 등록 중...");
@@ -142,39 +140,61 @@ public class PrivacyActivity extends AppCompatActivity implements NumberPicker.O
 
         protected String doInBackground(String... args) {
 
-            String birth = _birthText.getText().toString();
-            String gender = _genderText.getText().toString();
-            String height = _heightText.getText().toString();
-            String weight = _weightText.getText().toString();
+            Intent intent = getIntent();
+            String email = intent.getStringExtra("email");
+            String password = intent.getStringExtra("password");
+            String name = intent.getStringExtra("name");
 
-//            List<NameValuePair> params = new ArrayList<NameValuePair>();
-//            params.add(new BasicNameValuePair("birth", birth));
-//            params.add(new BasicNameValuePair("gender", gender));
-//            params.add(new BasicNameValuePair("height", height));
-//            params.add(new BasicNameValuePair("weight", weight));
-//
-//            // getting JSON Object
-//            // Note that create product url accepts POST method
-//            JSONObject json = jsonParser.makeHttpRequest(url_create_product, "POST", params);
-//
-//
-//            // check log cat fro response
-//            Log.d("Create Response", json.toString());
-//
-//            // check for success tag
-//            try {
-//                int success = json.getInt(TAG_SUCCESS);
-//
-//                if (success == 1) {
-//                    // successfully created product
-            onSignupSuccess();
-//                } else {
-//                    // failed to create product
-//                    onSignupFailed();
-//                }
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
+            String birth = _birthText.getText().toString();
+            //  int gender = Integer.parseInt(_genderText.getText().toString());
+            // String gender = _genderText.getText().toString();
+            String height = _heightText.getText().toString().split(" ")[0];
+            String weight = _weightText.getText().toString().split(" ")[0];
+            //  float height= Float.parseFloat(_heightText.getText().toString());
+            //  float weight= Float.parseFloat(_weightText.getText().toString());
+
+
+
+//            float height1 = Float.valueOf(height).floatValue();
+//            float weight1 = Float.valueOf(weight).floatValue();
+
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("email", email));
+            params.add(new BasicNameValuePair("password", password));
+            params.add(new BasicNameValuePair("name", name));
+            params.add(new BasicNameValuePair("birth", birth));
+            //  params.add(new BasicNameValuePair("gender", Integer.toString(gender1)));
+            params.add(new BasicNameValuePair("gender", "1"));
+            params.add(new BasicNameValuePair("height", height));
+            params.add(new BasicNameValuePair("weight", weight));
+
+            // getting JSON Object
+            // Note that create product url accepts POST method
+            JSONObject json = jsonParser.makeHttpRequest(url_create_product, "POST", params);
+
+
+            // check log cat fro response
+            Log.d("Create Response", json.toString());
+
+            // check for success tag
+            try {
+                int error_code = json.getInt("error_code");
+
+                if (error_code == 1000) {
+                    // successfully created product
+                    onSignupSuccess();
+                } else if(error_code == 1001) {
+                    onSignupFailed1();
+                }
+                else if(error_code == 1002) {
+                    onSignupFailed2();
+                }
+                else if(error_code == 1003) {
+                    onSignupFailed3();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             return null;
         }
 
@@ -187,23 +207,33 @@ public class PrivacyActivity extends AppCompatActivity implements NumberPicker.O
     public void onSignupSuccess() {
         _signupButton.setEnabled(true);
         setResult(RESULT_OK, null);
-        Intent intent = new Intent(this, StartActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
     }
 
-    public void onSignupFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
+    public void onSignupFailed1() {
+        Toast.makeText(getBaseContext(), "Login failed:1001", Toast.LENGTH_LONG).show();
+        _signupButton.setEnabled(true);
+    }
+
+    public void onSignupFailed2() {
+        Toast.makeText(getBaseContext(), "Login failed:1002", Toast.LENGTH_LONG).show();
+        _signupButton.setEnabled(true);
+    }
+
+    public void onSignupFailed3() {
+        Toast.makeText(getBaseContext(), "Login failed:1003", Toast.LENGTH_LONG).show();
         _signupButton.setEnabled(true);
     }
 
     public boolean validate() {
         boolean valid = true;
 
-        String name = _birthText.getText().toString();
-        String email = _genderText.getText().toString();
-        String password = _heightText.getText().toString();
-        String reEnterPassword = _weightText.getText().toString();
+        String birth = _birthText.getText().toString();
+        String gender = _genderText.getText().toString();
+        String height = _heightText.getText().toString();
+        String weight = _weightText.getText().toString();
 
         return valid;
     }
