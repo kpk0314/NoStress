@@ -41,23 +41,26 @@
             android:layout_width="match_parent"
             android:divider="@color/navi_color"
             android:dividerHeight="1dp"
-            android:footerDividersEnabled="true"
             android:layout_height="wrap_content"></ListView>
+
+        <View
+            android:id="@+id/end_line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:visibility="invisible"
+            android:background="@color/navi_color" />
 
         <TextView
             android:id="@+id/content_label"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:text=" "
+            android:text=""
             android:textColor="@color/black"
             android:paddingTop="10dp"
             android:paddingLeft="26dp"
             android:textSize="16sp" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/navi_color" />
+
 
 
 

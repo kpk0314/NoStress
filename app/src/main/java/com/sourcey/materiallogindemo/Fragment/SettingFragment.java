@@ -37,8 +37,11 @@ public class SettingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         rootView = inflater.inflate(R.layout.fragment_setting, container, false);
         listView = (ListView) rootView.findViewById(R.id.setting_list);
+
+        getActivity().overridePendingTransition(0, 0);
 
         // Defined Array values to show in ListView
         String[] values = new String[] {
@@ -82,8 +85,4 @@ public class SettingFragment extends Fragment {
 
         return rootView;
     }
-
-
-
-
 }

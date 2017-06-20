@@ -12,11 +12,6 @@
         <activity
             android:name="com.sourcey.materiallogindemo.MainActivity"
             android:label="@string/app_name">
-            <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.MAIN" />-->
-
-            <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
         </activity>
         <activity
             android:name="com.sourcey.materiallogindemo.InitialActivity">
@@ -50,10 +45,12 @@
         <activity
             android:name="com.sourcey.materiallogindemo.BoardActivity"
             android:windowSoftInputMode="stateAlwaysHidden"
-            android:theme="@style/AppTheme.Dark" />
+             />
     </application>
 
     <!--  Internet Permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="com.microsoft.band.service.access.BIND_BAND_SERVICE"/>
 
 </manifest>

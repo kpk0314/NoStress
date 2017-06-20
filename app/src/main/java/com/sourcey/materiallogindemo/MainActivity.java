@@ -185,7 +185,6 @@ public class MainActivity extends AppCompatActivity {
         else if(intNow > 40) container.setBackgroundResource(R.drawable.color3);
         else if(intNow > 20) container.setBackgroundResource(R.drawable.color2);
         else container.setBackgroundResource(R.drawable.color1);
-
     }
 
 }
