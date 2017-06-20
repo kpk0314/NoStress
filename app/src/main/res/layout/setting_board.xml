@@ -1,9 +1,8 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
     android:background="@color/main_background"
-    tools:context="com.sourcey.materiallogindemo.Fragment.SettingFragment">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/layout1"
@@ -12,6 +11,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/title_label"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:gravity="center_vertical"
@@ -20,13 +20,13 @@
             android:textStyle="bold"
             android:textColor="#040404"
             android:textSize="16sp" />
+
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/layout2"
-        android:layout_marginTop="45dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="47.5dp"
         android:orientation="vertical">
 
@@ -37,16 +37,33 @@
 
         <ListView
             android:layout_marginLeft="10dp"
-            android:id="@+id/setting_list"
+            android:id="@+id/usrinfo_list"
             android:layout_width="match_parent"
             android:divider="@color/navi_color"
             android:dividerHeight="1dp"
+            android:footerDividersEnabled="true"
             android:layout_height="wrap_content"></ListView>
 
-        <View android:background="@color/navi_color"
-            android:layout_width = "match_parent"
+        <TextView
+            android:id="@+id/content_label"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:text=" "
+            android:textColor="@color/black"
+            android:paddingTop="10dp"
+            android:paddingLeft="26dp"
+            android:textSize="16sp" />
+
+        <View
+            android:layout_width="match_parent"
             android:layout_height="1dp"
-            />
+            android:background="@color/navi_color" />
+
+
+
 
     </LinearLayout>
-</RelativeLayout>
+
+
+
+</LinearLayout>
