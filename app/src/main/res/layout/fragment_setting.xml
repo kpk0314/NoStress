@@ -8,6 +8,7 @@
     <LinearLayout
         android:id="@+id/layout1"
         android:layout_width="fill_parent"
+        android:layout_marginTop="30dp"
         android:layout_height="45dp"
         android:orientation="vertical">
 
@@ -15,6 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:gravity="center_vertical"
+
             android:text="설정"
             android:paddingLeft="26dp"
             android:textStyle="bold"
@@ -24,7 +26,7 @@
 
     <LinearLayout
         android:id="@+id/layout2"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="75dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="47.5dp"

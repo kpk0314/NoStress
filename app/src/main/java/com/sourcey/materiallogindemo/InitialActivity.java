@@ -116,7 +116,6 @@ public class InitialActivity extends AppCompatActivity {
             @Override
             public void transformPage(View view, float position) {
                 view.setTranslationX(view.getWidth() * -position);
-
                 if(position <= -1.0F || position >= 1.0F) {
                     view.setAlpha(0.0F);
                 } else if( position == 0.0F ) {

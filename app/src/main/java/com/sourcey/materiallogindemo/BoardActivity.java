@@ -69,7 +69,6 @@ public class BoardActivity extends Activity {
             txtContent.setText("개인 정보 취급 방침");
         } else if (title.matches("개발사 문의")) {
             txtContent.setText("개발사 문의");
-        } else if (title.matches("로그아웃")) {
         }
 
 
@@ -79,13 +78,45 @@ public class BoardActivity extends Activity {
     public void onPause() {
         super.onPause();
         overridePendingTransition(0, 0);
+
+
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(0, 0);
+    }
 
+    @Override public void finish()
+    {
+        super.finish();
+        overridePendingTransition(0, 0);
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        overridePendingTransition(0, 0);
+    }
+
+    @Override
+    public void onStop(){
+        super.onStop();
+        overridePendingTransition(0, 0);
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        overridePendingTransition(0, 0);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        overridePendingTransition(0, 0);
     }
 
 }
