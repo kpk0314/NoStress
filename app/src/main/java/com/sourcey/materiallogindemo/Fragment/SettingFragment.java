@@ -53,7 +53,7 @@ public class SettingFragment extends Fragment {
                 "로그아웃",
         };
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(rootView.getContext(),  R.layout.item_row , android.R.id.text1, values);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(rootView.getContext(),  android.R.layout.simple_list_item_1, android.R.id.text1, values);
 
         // Assign adapter to ListView
         listView.setAdapter(adapter);
@@ -74,6 +74,7 @@ public class SettingFragment extends Fragment {
                 } else{
                     // Launching new Activity on selecting single List Item
                     Intent i = new Intent(getActivity().getApplicationContext(), BoardActivity.class);
+                    i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     // sending data to new activity
                     i.putExtra("title", title);
                     startActivity(i);

@@ -28,14 +28,16 @@ public class BoardActivity extends Activity {
         View endLine = (View) findViewById(R.id.end_line);
 
         Intent i = getIntent();
+        i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         // getting attached intent data
         String title = i.getStringExtra("title");
         // displaying selected product name
         txtTitle.setText(title);
 
         if (title.matches("내 정보")) {
-            // Defined Array values to show in ListView
-            String[] values = new String[]{
+
+            // 내 정보 리스트에 들어갈 스트링 값 생성
+            String[] titles = new String[]{
                     "계정",
                     "이름",
                     "생년월일",
@@ -43,11 +45,24 @@ public class BoardActivity extends Activity {
                     "키",
                     "몸무게",
             };
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.item_row, android.R.id.text1, values);
-            // Assign adapter to ListView
-            listView.setAdapter(adapter);
+            String[] contents = new String[]{
+                    "ephiker@naver.com",
+                    "서안드레",
+                    "1991년 4월 10일",
+                    "남성",
+                    "170cm",
+                    "62kg",
+            };
+
+            // 리스트뷰 어댑터 클래스를 이용하여 두개 이상의 리스트뷰의 한 아이템에 두개 이상의 텍스트뷰가 들어갈 수 있도록 설정
+            ListViewAdapter lviewAdapter = new ListViewAdapter(this, titles, contents);
+            listView.setAdapter(lviewAdapter);
+
+            // 내 정보의 경우에만 endline 뷰가 visible하게 변하도록
             endLine.setVisibility(View.VISIBLE);
-            txtContent.setText("");
+
+            // txtcontent의 경우 숨김
+            txtContent.setVisibility(View.INVISIBLE);
         } else if (title.matches("이용 약관")) {
             txtContent.setText("이용 약관");
         } else if (title.matches("개인 정보 취급 방침")) {
@@ -61,9 +76,16 @@ public class BoardActivity extends Activity {
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        overridePendingTransition(0, 0);
+    }
+
+    @Override
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(0, 0);
+
     }
 
 }
