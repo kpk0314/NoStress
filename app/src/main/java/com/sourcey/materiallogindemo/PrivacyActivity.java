@@ -6,12 +6,15 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.SpannableStringBuilder;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.app.ProgressDialog;
@@ -267,11 +270,17 @@ public class PrivacyActivity extends AppCompatActivity implements NumberPicker.O
     /* Gender Dialog */
     public void genderDialog()
     {
-        final Dialog d = new Dialog(PrivacyActivity.this, R.style.Theme_AppCompat_Light_Dialog_Alert);
-        d.setTitle("NumberPicker");
+        final Dialog d = new Dialog(PrivacyActivity.this, R.style.Theme_AppCompat_Light_Dialog_MinWidth);
         d.setContentView(R.layout.dialog);
         Button b1 = (Button) d.findViewById(R.id.finish);
         final NumberPicker np = (NumberPicker) d.findViewById(R.id.numberPicker1);
+
+        // Dialog 사이즈 조절 하기
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(d.getWindow().getAttributes());
+        lp.width =  (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 240, getResources().getDisplayMetrics());
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
 
         //Set min, max, wheel and populate.
         np.setMinValue(0);
@@ -279,13 +288,10 @@ public class PrivacyActivity extends AppCompatActivity implements NumberPicker.O
         np.setWrapSelectorWheel(true);
         np.setDisplayedValues(gender);
         np.setOnValueChangedListener(this);
-
         if (_genderText.getText().toString().matches("여자"))
             np.setValue(1);
         else
             np.setValue(0);
-
-
         b1.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -294,7 +300,10 @@ public class PrivacyActivity extends AppCompatActivity implements NumberPicker.O
                 d.dismiss();
             }
         });
+
         d.show();
+        Window window = d.getWindow();
+        window.setAttributes(lp);
     }
 
     /* Hieght Dialog */
@@ -305,6 +314,12 @@ public class PrivacyActivity extends AppCompatActivity implements NumberPicker.O
         d.setContentView(R.layout.dialog);
         Button b1 = (Button) d.findViewById(R.id.finish);
         final NumberPicker np = (NumberPicker) d.findViewById(R.id.numberPicker1);
+
+        // Dialog 사이즈 조절 하기
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(d.getWindow().getAttributes());
+        lp.width =  (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 240, getResources().getDisplayMetrics());
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
 
         np.setMinValue(0);
         np.setMaxValue(200);
@@ -325,6 +340,8 @@ public class PrivacyActivity extends AppCompatActivity implements NumberPicker.O
             }
         });
         d.show();
+        Window window = d.getWindow();
+        window.setAttributes(lp);
 
     }
 
@@ -336,6 +353,12 @@ public class PrivacyActivity extends AppCompatActivity implements NumberPicker.O
         d.setContentView(R.layout.dialog);
         Button b1 = (Button) d.findViewById(R.id.finish);
         final NumberPicker np = (NumberPicker) d.findViewById(R.id.numberPicker1);
+
+        // Dialog 사이즈 조절 하기
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(d.getWindow().getAttributes());
+        lp.width =  (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 240, getResources().getDisplayMetrics());
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
 
         np.setMinValue(0);
         np.setMaxValue(120);
@@ -355,6 +378,8 @@ public class PrivacyActivity extends AppCompatActivity implements NumberPicker.O
             }
         });
         d.show();
+        Window window = d.getWindow();
+        window.setAttributes(lp);
 
     }
 
