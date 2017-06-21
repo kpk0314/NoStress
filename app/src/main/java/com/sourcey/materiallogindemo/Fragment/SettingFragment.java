@@ -120,30 +120,30 @@ public class SettingFragment extends Fragment {
         alertDialog.show();
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        getActivity().overridePendingTransition(0, 0);
-    }
-
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        getActivity().overridePendingTransition(0, 0);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        getActivity().overridePendingTransition(0, 0);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        getActivity().overridePendingTransition(0, 0);
-    }
+//    @Override
+//    public void onPause() {
+//        super.onPause();
+//        getActivity().overridePendingTransition(0, 0);
+//    }
+//
+//
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        getActivity().overridePendingTransition(0, 0);
+//    }
+//
+//    @Override
+//    public void onStop() {
+//        super.onStop();
+//        getActivity().overridePendingTransition(0, 0);
+//    }
+//
+//    @Override
+//    public void onDestroy() {
+//        super.onDestroy();
+//        getActivity().overridePendingTransition(0, 0);
+//    }
 
 
 }
