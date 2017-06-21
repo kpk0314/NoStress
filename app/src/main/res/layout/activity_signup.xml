@@ -4,7 +4,6 @@
     android:layout_height="fill_parent"
     android:background="@color/main_background"
     android:fillViewport="false"
-    android:fitsSystemWindows="true"
     android:focusable="true"
     android:focusableInTouchMode="true">
 
@@ -27,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="63dp"
+            android:layout_marginBottom="63.3dp"
             android:gravity="center"
             android:text="회원가입 시, Stless의 개인 정보 취급 방침\n및 이용 약관에 동의하게 됩니다."
             android:textColor="@color/black"

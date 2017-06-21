@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="22dp"
+        android:layout_marginTop="33.5dp"
         android:text="마지막 업데이트."
         android:textColor="@color/white"
         android:textSize="10sp" />
@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_gravity="top|center"
-        android:layout_marginTop="57dp">
+        android:layout_marginTop="79.3dp">
 
         <ImageView
             android:id="@+id/imageView"
@@ -117,8 +117,14 @@
 
         </LinearLayout>
 
+
     </RelativeLayout>
 
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_horizontal"
+        android:layout_height="wrap_content">
 
     <lecho.lib.hellocharts.view.LineChartView
         android:id="@+id/chart"
@@ -126,6 +132,10 @@
         android:layout_height="160dp"
         android:layout_below="@+id/circle_layout"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp" />
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="83.5dp" />
+
+    </LinearLayout>
+
 
 </RelativeLayout>

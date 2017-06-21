@@ -97,7 +97,7 @@
         <TextView
             android:id="@+id/find_password"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="29dp"
             android:layout_gravity="center"
             android:layout_marginTop="27.3dp"
             android:text="아래 버튼을 누르면 Stless의 개인 정보\n취급 방침 및 이용 약관에 동의하게 됩니다. "

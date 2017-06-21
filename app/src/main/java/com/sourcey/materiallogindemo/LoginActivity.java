@@ -59,20 +59,20 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 //
-//        _findButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                password();
-//            }
-//        });
+        _findButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                password();
+            }
+        });
 
     }
-//
-//    public void password() {
-//        Intent intent = new Intent(this, PasswordActivity.class);
-//        startActivity(intent);
-//        finish();
-//    }
+
+    public void password() {
+        Intent intent = new Intent(this, PasswordActivity.class);
+        startActivity(intent);
+        finish();
+    }
 
 
     public void login() {

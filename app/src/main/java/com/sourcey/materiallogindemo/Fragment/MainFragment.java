@@ -235,6 +235,8 @@ public class MainFragment extends Fragment {
             axisX.setHasSeparationLine(true);
             axisX.setHasLines(true);
             axisY.setTextSize(8);
+            axisX.setTextColor(Color.parseColor("#ccffffff"));
+            axisY.setTextColor(Color.parseColor("#ccffffff"));
 
             if (hasAxesNames) {
                 axisX.setName("Axis X");
