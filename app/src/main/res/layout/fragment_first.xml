@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="fill_parent"
     android:background="@drawable/splash_1"
     android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools">
@@ -18,7 +18,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="300dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="174dp"
         android:gravity="center"
         android:text="환영합니다"
         android:textColor="@color/white"
@@ -29,7 +30,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="350dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="92dp"
         android:gravity="center"
         android:lineSpacingExtra="5dp"
         android:text="Stless는 스트레스 전문가입니다.\n우리는 당신의 스트레스를 측정하고\n기록을 저장하여 당신에게 보여줍니다."
@@ -41,7 +43,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="450dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="52dp"
         android:gravity="center">
 
         <ImageView
@@ -55,7 +58,8 @@
             android:id="@+id/iv2"
             android:layout_width="12dp"
             android:layout_height="12dp"
-            android:layout_margin="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
             android:background="@drawable/circle_border"
             android:backgroundTint="#4DFFFFFF"
             android:gravity="center" />

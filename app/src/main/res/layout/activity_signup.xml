@@ -97,7 +97,7 @@
             android:layout_width="280dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
-            android:layout_marginTop="72.5dp"
+            android:layout_marginTop="62dp"
             android:background="@drawable/loginbutton"
             android:text="다음"
             android:textColor="@color/white"

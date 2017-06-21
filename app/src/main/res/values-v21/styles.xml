@@ -13,6 +13,7 @@
         <item name="windowNoTitle">true</item>
 
         <item name="android:windowTranslucentStatus">true</item>
+        <!--<item name="android:windowTranslucentNavigation">true</item>-->
     </style>
 
     <style name="AppTheme.Dark" parent="Theme.AppCompat.NoActionBar">
@@ -40,6 +41,7 @@
         <item name="android:colorButtonNormal">@color/primary</item>
 
         <item name="android:windowTranslucentStatus">true</item>
+        <!--<item name="android:windowTranslucentNavigation">true</item>-->
     </style>
 
 </resources>

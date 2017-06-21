@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_initial"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="fill_parent"
     android:background="#EEEEEE">
 
     <LinearLayout
@@ -17,7 +17,7 @@
         <Button
             android:id="@+id/btn_signup2"
             android:layout_width="0dip"
-            android:layout_height="50dp"
+            android:layout_height="48dp"
             android:layout_weight="1"
             android:background="@drawable/initialbutton"
             android:text="가입하기" />
@@ -31,7 +31,7 @@
         <Button
             android:id="@+id/btn_login2"
             android:layout_width="0dip"
-            android:layout_height="50dp"
+            android:layout_height="48dp"
             android:layout_weight="1"
             android:background="@drawable/initialbutton"
             android:text="로그인" />
