@@ -11,6 +11,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.SpannableStringBuilder;
@@ -111,11 +112,12 @@ public class PrivacyActivity extends AppCompatActivity implements NumberPicker.O
 
     @Override
     public void onBackPressed() {
-        overridePendingTransition(0, 0);
-        Intent intent = new Intent(this, SignupActivity.class);
-        startActivity(intent);
-        finish();
-        super.onBackPressed();
+        // 뒤로가기 버튼 막기(주석처리)
+//        overridePendingTransition(0, 0);
+//        Intent intent = new Intent(this, SignupActivity.class);
+//        startActivity(intent);
+//        finish();
+//        super.onBackPressed();
     }
 
     public void signup() {
@@ -382,6 +384,7 @@ public class PrivacyActivity extends AppCompatActivity implements NumberPicker.O
         window.setAttributes(lp);
 
     }
+
 
 
 }

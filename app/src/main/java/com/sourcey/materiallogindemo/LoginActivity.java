@@ -58,7 +58,6 @@ public class LoginActivity extends AppCompatActivity {
                 login();
             }
         });
-//
         _findButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,29 +82,6 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         new Loginpage1().execute();
-
-
-//        _loginButton.setEnabled(false);
-//
-//        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this, R.style.AppTheme_Dark_Dialog);
-//        progressDialog.setIndeterminate(true);
-//        progressDialog.setMessage("사용자 인증 중...");
-//        progressDialog.show();
-//
-//        String email = _emailText.getText().toString();
-//        String password = _passwordText.getText().toString();
-//
-//        // TODO: Implement your own authentication logic here.
-//
-//        new android.os.Handler().postDelayed(
-//                new Runnable() {
-//                    public void run() {
-//                        // On complete call either onLoginSuccess or onLoginFailed
-//                        onLoginSuccess();
-//                        // onLoginFailed();
-//                        progressDialog.dismiss();
-//                    }
-//                }, 3000);
     }
 
     class Loginpage1 extends AsyncTask<String, String, Integer> {

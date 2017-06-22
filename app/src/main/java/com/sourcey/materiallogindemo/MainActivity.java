@@ -45,6 +45,7 @@ import static android.os.SystemClock.sleep;
 
 public class MainActivity extends AppCompatActivity {
 
+    boolean doubleBackToExitPressedOnce = false; // 뒤로가기 버튼을 한번 눌렀는지 체크하기 위한 변수
 
     BottomNavigationViewEx bottomNavigationView;
     RelativeLayout container;
@@ -69,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
         //getWindow().setWindowAnimations(android.R.style.Animation_Toast);
 
         container = (RelativeLayout) findViewById(R.id.activity_main);
-        final View naviLine = (View)findViewById(R.id.navi_line);
+        final View naviLine = (View) findViewById(R.id.navi_line);
 
         // SQLight DB  생성
         MyOpenHelper helper = new MyOpenHelper(this);
@@ -78,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         SQLiteDatabase db = helper.getWritableDatabase();
 
         double randomValue = Math.random();
-        int intValue = (int)(randomValue * 100) + 1;
+        int intValue = (int) (randomValue * 100) + 1;
 
         DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         String date = df.format(Calendar.getInstance().getTime());
@@ -93,18 +94,18 @@ public class MainActivity extends AppCompatActivity {
         rs.close();
         db.close();
 
-        stress = String.valueOf((int)(Math.random() * 100) + 1);
+        stress = String.valueOf((int) (Math.random() * 100) + 1);
 
         // 스트레스 지수에 따라 배경화면 색상 변하기
         int intNow = Integer.parseInt(stress);
-        if(intNow > 80) container.setBackgroundResource(R.drawable.color5);
-        else if(intNow > 60) container.setBackgroundResource(R.drawable.color4);
-        else if(intNow > 40) container.setBackgroundResource(R.drawable.color3);
-        else if(intNow > 20) container.setBackgroundResource(R.drawable.color2);
+        if (intNow > 80) container.setBackgroundResource(R.drawable.color5);
+        else if (intNow > 60) container.setBackgroundResource(R.drawable.color4);
+        else if (intNow > 40) container.setBackgroundResource(R.drawable.color3);
+        else if (intNow > 20) container.setBackgroundResource(R.drawable.color2);
         else container.setBackgroundResource(R.drawable.color1);
 
         // bottom navigation view에 property 설정
-        bottomNavigationView= (BottomNavigationViewEx) findViewById(R.id.bottom_navigation);
+        bottomNavigationView = (BottomNavigationViewEx) findViewById(R.id.bottom_navigation);
         bottomNavigationView.enableAnimation(false);
         bottomNavigationView.setTextVisibility(false);
         bottomNavigationView.setIconSize(23.3f, 23.8f);
@@ -136,6 +137,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             }
+
             @Override
             public void onPageSelected(int position) {
                 if (position == 0 || position == 2) {
@@ -155,6 +157,7 @@ public class MainActivity extends AppCompatActivity {
                 bottomNavigationView.getMenu().getItem(position).setChecked(true);
                 prevMenuItem = bottomNavigationView.getMenu().getItem(position);
             }
+
             @Override
             public void onPageScrollStateChanged(int state) {
             }
@@ -178,14 +181,30 @@ public class MainActivity extends AppCompatActivity {
 
     // fragment에서 Mainactivity의 갱신된 스트레스 정보를 받아오기 위한 함수
     public void refreshUI() {
-        stress = String.valueOf((int)(Math.random() * 100) + 1);
+        stress = String.valueOf((int) (Math.random() * 100) + 1);
         // 스트레스 지수에 따라 배경화면 색상 변하기
         int intNow = Integer.parseInt(stress);
-        if(intNow > 80) container.setBackgroundResource(R.drawable.color5);
-        else if(intNow > 60) container.setBackgroundResource(R.drawable.color4);
-        else if(intNow > 40) container.setBackgroundResource(R.drawable.color3);
-        else if(intNow > 20) container.setBackgroundResource(R.drawable.color2);
+        if (intNow > 80) container.setBackgroundResource(R.drawable.color5);
+        else if (intNow > 60) container.setBackgroundResource(R.drawable.color4);
+        else if (intNow > 40) container.setBackgroundResource(R.drawable.color3);
+        else if (intNow > 20) container.setBackgroundResource(R.drawable.color2);
         else container.setBackgroundResource(R.drawable.color1);
     }
 
+    // 뒤로가기를 두번 클릭 시 앱 종료
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "'뒤로'버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce = false;
+            }
+        }, 2000);
+    }
 }

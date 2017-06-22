@@ -70,5 +70,8 @@ public class StartActivity extends AppCompatActivity {
         finish();
     }
 
-
+    @Override
+    public void onBackPressed() {
+        // 뒤로가기 버튼 막기
+    }
 }

@@ -36,12 +36,13 @@ import butterknife.ButterKnife;
 
 public class InitialActivity extends AppCompatActivity {
 
-    static Timer timer = new Timer();
-    //This is our viewPager
+    static Timer timer = new Timer(); // 일정시간 지나면 화면 전환을 위한 time 변수
+
+    // 뷰 페이져 변수
     private ViewPager viewPager;
     int i = 0;
 
-    //Fragments
+    // 세 가지 프레그먼트
     FirstFragment firstFragment;
     SecondFragment secondFragment;
     ThirdFragment thirdFragment;
@@ -55,12 +56,14 @@ public class InitialActivity extends AppCompatActivity {
         getWindow().setWindowAnimations(android.R.style.Animation_Toast);
         ButterKnife.bind(this);
 
-        //Initializing viewPager
+        //뷰 페이져 초기화
         viewPager = (ViewPager) findViewById(R.id.viewpager);
 
-        Button btn_first = (Button)findViewById(R.id.btn_signup2);
-        Button btn_second = (Button)findViewById(R.id.btn_login2);
+        // 아이디 - 변수 매칭
+        Button btn_first = (Button) findViewById(R.id.btn_signup2);
+        Button btn_second = (Button) findViewById(R.id.btn_login2);
 
+        // 뷰페이지 함수
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -84,6 +87,7 @@ public class InitialActivity extends AppCompatActivity {
         viewPager.setCurrentItem(0);
         SwitchPage(5);
 
+        // 회원가입 버튼 클릭 시
         btn_first.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,6 +97,7 @@ public class InitialActivity extends AppCompatActivity {
             }
         });
 
+        // 로그인 버튼 클릭 시
         btn_second.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,6 +110,7 @@ public class InitialActivity extends AppCompatActivity {
     }
 
 
+    // 세 가지 프레그먼트 -> 뷰 페이저
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         firstFragment = new FirstFragment();
@@ -119,9 +125,9 @@ public class InitialActivity extends AppCompatActivity {
             @Override
             public void transformPage(View view, float position) {
                 view.setTranslationX(view.getWidth() * -position);
-                if(position <= -1.0F || position >= 1.0F) {
+                if (position <= -1.0F || position >= 1.0F) {
                     view.setAlpha(0.0F);
-                } else if( position == 0.0F ) {
+                } else if (position == 0.0F) {
                     view.setAlpha(1.0F);
                 } else {
                     // position is between -1.0F & 0.0F OR 0.0F & 1.0F
@@ -131,10 +137,9 @@ public class InitialActivity extends AppCompatActivity {
         });
     }
 
-    public void SwitchPage(int seconds)
-    {
-        if(timer != null)
-        {
+    // 5초 지나면 자동 화면 전환
+    public void SwitchPage(int seconds) {
+        if (timer != null) {
             timer.cancel();
         }
         timer = new Timer(); // At this line a new Thread will be created
@@ -143,19 +148,15 @@ public class InitialActivity extends AppCompatActivity {
         // delay in milliseconds
     }
 
-    class SwitchPageTask extends TimerTask
-    {
+    class SwitchPageTask extends TimerTask {
         @Override
         public void run() {
             runOnUiThread(new Runnable() {
                 public void run() {
-                    if(i < viewPager.getAdapter().getCount())
-                    {
+                    if (i < viewPager.getAdapter().getCount()) {
                         i++;
                         viewPager.setCurrentItem(i, true);
-                    }
-                    else
-                    {
+                    } else {
                         i = 0;
                     }
                 }
