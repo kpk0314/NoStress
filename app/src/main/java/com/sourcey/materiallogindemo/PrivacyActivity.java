@@ -46,7 +46,8 @@ public class PrivacyActivity extends AppCompatActivity implements NumberPicker.O
     static Dialog d ;
     int mYear = 1990, mMonth = 1, mDay = 1;
     //Initializing a new string array with elements
-    final String[] gender= {"남자","여자"};
+    final String[] genderArray= {"남자","여자"};
+    String genderValue = null;
 
     JSONParser jsonParser = new JSONParser();
 
@@ -152,14 +153,11 @@ public class PrivacyActivity extends AppCompatActivity implements NumberPicker.O
 
             String birth = _birthText.getText().toString();
             //  int gender = Integer.parseInt(_genderText.getText().toString());
-            // String gender = _genderText.getText().toString();
+            String gender = _genderText.getText().toString();
             String height = _heightText.getText().toString().split(" ")[0];
             String weight = _weightText.getText().toString().split(" ")[0];
             //  float height= Float.parseFloat(_heightText.getText().toString());
             //  float weight= Float.parseFloat(_weightText.getText().toString());
-
-
-
 //            float height1 = Float.valueOf(height).floatValue();
 //            float weight1 = Float.valueOf(weight).floatValue();
 
@@ -169,7 +167,11 @@ public class PrivacyActivity extends AppCompatActivity implements NumberPicker.O
             params.add(new BasicNameValuePair("name", name));
             params.add(new BasicNameValuePair("birth", birth));
             //  params.add(new BasicNameValuePair("gender", Integer.toString(gender1)));
-            params.add(new BasicNameValuePair("gender", "1"));
+            if(gender.matches("여자")){
+                params.add(new BasicNameValuePair("gender", "1"));
+            } else {
+                params.add(new BasicNameValuePair("gender", "1"));
+            }
             params.add(new BasicNameValuePair("height", height));
             params.add(new BasicNameValuePair("weight", weight));
 
@@ -234,12 +236,10 @@ public class PrivacyActivity extends AppCompatActivity implements NumberPicker.O
 
     public boolean validate() {
         boolean valid = true;
-
         String birth = _birthText.getText().toString();
         String gender = _genderText.getText().toString();
         String height = _heightText.getText().toString();
         String weight = _weightText.getText().toString();
-
         return valid;
     }
 
@@ -286,9 +286,9 @@ public class PrivacyActivity extends AppCompatActivity implements NumberPicker.O
 
         //Set min, max, wheel and populate.
         np.setMinValue(0);
-        np.setMaxValue(gender.length-1);
+        np.setMaxValue(genderArray.length-1);
         np.setWrapSelectorWheel(true);
-        np.setDisplayedValues(gender);
+        np.setDisplayedValues(genderArray);
         np.setOnValueChangedListener(this);
         if (_genderText.getText().toString().matches("여자"))
             np.setValue(1);
@@ -298,10 +298,12 @@ public class PrivacyActivity extends AppCompatActivity implements NumberPicker.O
         {
             @Override
             public void onClick(View v) {
-                _genderText.setText(String.valueOf(gender[np.getValue()]));
+                _genderText.setText(String.valueOf(genderArray[np.getValue()]));
                 d.dismiss();
             }
         });
+
+        genderValue = String.valueOf(np.getValue());
 
         d.show();
         Window window = d.getWindow();
@@ -382,9 +384,5 @@ public class PrivacyActivity extends AppCompatActivity implements NumberPicker.O
         d.show();
         Window window = d.getWindow();
         window.setAttributes(lp);
-
     }
-
-
-
 }

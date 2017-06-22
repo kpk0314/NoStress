@@ -5,18 +5,19 @@
     <application
         android:allowBackup="true"
         android:debuggable="true"
+        android:fitsSystemWindows="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:fitsSystemWindows="true"
         android:screenOrientation="portrait"
         android:theme="@style/AppTheme">
 
         <activity
             android:name="com.sourcey.materiallogindemo.MainActivity"
-            android:label="@string/app_name">
-        </activity>
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"></activity>
         <activity
-            android:name="com.sourcey.materiallogindemo.InitialActivity">
+            android:name="com.sourcey.materiallogindemo.InitialActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,30 +26,35 @@
         </activity>
         <activity
             android:name="com.sourcey.materiallogindemo.LoginActivity"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            android:theme="@style/AppTheme.Dark" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Dark"
+            android:windowSoftInputMode="stateAlwaysHidden" />
 
         <activity
             android:name="com.sourcey.materiallogindemo.SignupActivity"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            android:theme="@style/AppTheme.Dark" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Dark"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-        android:name="com.sourcey.materiallogindemo.PrivacyActivity"
-        android:windowSoftInputMode="stateAlwaysHidden"
-        android:theme="@style/AppTheme.Dark" />
+            android:name="com.sourcey.materiallogindemo.PrivacyActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Dark"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name="com.sourcey.materiallogindemo.PasswordActivity"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            android:theme="@style/AppTheme.Dark" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Dark"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name="com.sourcey.materiallogindemo.StartActivity"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            android:theme="@style/AppTheme.Dark" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Dark"
+            android:windowSoftInputMode="stateAlwaysHidden" />
     </application>
 
     <!--  Internet Permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="com.microsoft.band.service.access.BIND_BAND_SERVICE"/>
+    <uses-permission android:name="com.microsoft.band.service.access.BIND_BAND_SERVICE" />
 
 </manifest>

@@ -30,8 +30,8 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
 
-    private static final String TAG_SUCCESS = "error_code";
-    private static final String NONCE = "nonce";
+    public String NONCE = "nonce";
+    public  String realm = "realm";
     private static final String access_tocken = "access_tocken";
     int error_code ;
 
@@ -88,7 +88,6 @@ public class LoginActivity extends AppCompatActivity {
 
         long L = System.currentTimeMillis() / 1000;
         String unixtimestamp = Long.toString(L);
-
         String hash = getSHA256(unixtimestamp);
 
 
@@ -149,19 +148,20 @@ public class LoginActivity extends AppCompatActivity {
             String email = _emailText.getText().toString();
             String password = _passwordText.getText().toString();
 
-            String ha1 = getSHA256(email+":"+"realm"+":"+password);
+            String ha1 = getSHA256(email+":"+realm+":"+getSHA256(password));
             String ha2 = getSHA256("POST"+":"+"/api/v1/user/signin.json");
             String hash = getSHA256(ha1+":"+NONCE+":"+ha2);
 
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("nonce", NONCE));
             params.add(new BasicNameValuePair("email", email));
-            params.add(new BasicNameValuePair("uri", "api/v1/user/signin"));
+            params.add(new BasicNameValuePair("uri", "/api/v1/user/signin.json"));
             params.add(new BasicNameValuePair("hash", hash));
+            params.add(new BasicNameValuePair("realm", realm));
 
             // getting JSON Object
             // Note that create product url accepts POST method
-            JSONObject json = jsonParser.makeHttpRequest(url_create_product, "GET", params);
+            JSONObject json = jsonParser.makeHttpRequest(url_create_product, "POST", params);
 
 
             // check log cat fro response
