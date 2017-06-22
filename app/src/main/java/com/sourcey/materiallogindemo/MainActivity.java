@@ -58,6 +58,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import butterknife.ButterKnife;
+
 import static android.os.SystemClock.sleep;
 
 
@@ -112,6 +114,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //getWindow().setWindowAnimations(android.R.style.Animation_Toast);
+
+
 
         container = (RelativeLayout) findViewById(R.id.activity_main);
         final View naviLine = (View) findViewById(R.id.navi_line);

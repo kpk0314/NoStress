@@ -43,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
     @Bind(R.id.input_password) EditText _passwordText;
     @Bind(R.id.btn_login) Button _loginButton;
     @Bind(R.id.find_password) TextView _findButton;
+    @Bind(R.id.alert) TextView alert;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         getWindow().setWindowAnimations(android.R.style.Animation_Toast);
         ButterKnife.bind(this);
+
         
         _loginButton.setOnClickListener(new View.OnClickListener() {
 
@@ -101,8 +103,8 @@ public class LoginActivity extends AppCompatActivity {
             JSONObject json = jsonParser.makeHttpRequest(url_create_product, "GET", params);
 
             try {
-                String nonce = json.getString("nonce");
-                String realm = json.getString("realm");
+                NONCE = json.getString("nonce");
+                 realm = json.getString("realm");
                 error_code = json.getInt("error_code");
 
             } catch (JSONException e) {
@@ -270,18 +272,26 @@ public class LoginActivity extends AppCompatActivity {
         String password = _passwordText.getText().toString();
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            _emailText.setError("enter a valid email address");
+            alert.setText("이메일 형식이 맞지 않습니다.");
             valid = false;
-        } else {
-            _emailText.setError(null);
+        } else if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
+            alert.setText("4에서 10자리 사이의 비밀번호를 입력해주세요.");
+            valid = false;
         }
 
-        if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            _passwordText.setError("between 4 and 10 alphanumeric characters");
-            valid = false;
-        } else {
-            _passwordText.setError(null);
-        }
+//        if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+//            _emailText.setError("enter a valid email address");
+//            valid = false;
+//        } else {
+//            _emailText.setError(null);
+//        }
+//
+//        if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
+//            _passwordText.setError("between 4 and 10 alphanumeric characters");
+//            valid = false;
+//        } else {
+//            _passwordText.setError(null);
+//        }
 
         return valid;
     }
