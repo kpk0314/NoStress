@@ -44,10 +44,6 @@
             android:name="com.sourcey.materiallogindemo.StartActivity"
             android:windowSoftInputMode="stateAlwaysHidden"
             android:theme="@style/AppTheme.Dark" />
-        <activity
-            android:name="com.sourcey.materiallogindemo.BoardActivity"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            android:theme="@style/AppTheme.Dark" />
     </application>
 
     <!--  Internet Permissions -->

@@ -1,10 +1,13 @@
 package com.sourcey.materiallogindemo;
 
 import android.app.Activity;
+import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.telecom.Call;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -13,27 +16,32 @@ import android.widget.TextView;
  * Created by Isaac Kim on 2017-06-20.
  */
 
-public class BoardActivity extends Activity {
+public class BoardFragment extends Fragment {
+
+    View rootView;
+
+    public BoardFragment() {
+        // Required empty public constructor
+
+    }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.setting_board);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // 아이디 - 변수 매칭
+        rootView = inflater.inflate(R.layout.setting_board, container, false);
+        TextView txtTitle = (TextView) rootView.findViewById(R.id.title_label);
+        TextView txtContent = (TextView) rootView.findViewById(R.id.content_label);
+        ListView listView = (ListView) rootView.findViewById(R.id.usrinfo_list);
+        View endLine = (View) rootView.findViewById(R.id.end_line);
 
-        overridePendingTransition(0, 0);
+        getActivity().overridePendingTransition(0, 0); // 화면 전환 애니메이션 효과 없애기
 
-        TextView txtTitle = (TextView) findViewById(R.id.title_label);
-        TextView txtContent = (TextView) findViewById(R.id.content_label);
-        ListView listView = (ListView) findViewById(R.id.usrinfo_list);
-        View endLine = (View) findViewById(R.id.end_line);
-
-        Intent i = getIntent();
-        i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        // getting attached intent data
-        String title = i.getStringExtra("title");
-        // displaying selected product name
+        // SettingFragment로 부터 title 변수 받아 Title로 적용
+        String title = getArguments().getString("title");
         txtTitle.setText(title);
 
+        // Title에 따라 다른 내용 출력
         if (title.matches("내 정보")) {
 
             // 내 정보 리스트에 들어갈 스트링 값 생성
@@ -55,7 +63,7 @@ public class BoardActivity extends Activity {
             };
 
             // 리스트뷰 어댑터 클래스를 이용하여 두개 이상의 리스트뷰의 한 아이템에 두개 이상의 텍스트뷰가 들어갈 수 있도록 설정
-            ListViewAdapter lviewAdapter = new ListViewAdapter(this, titles, contents);
+            ListViewAdapter lviewAdapter = new ListViewAdapter(getActivity(), titles, contents);
             listView.setAdapter(lviewAdapter);
 
             // 내 정보의 경우에만 endline 뷰가 visible하게 변하도록
@@ -71,52 +79,9 @@ public class BoardActivity extends Activity {
             txtContent.setText("개발사 문의");
         }
 
+        return rootView;
+
 
     }
-
-//    @Override
-//    public void onPause() {
-//        super.onPause();
-//        overridePendingTransition(0, 0);
-//
-//
-//    }
-//
-//    @Override
-//    public void onBackPressed() {
-//        super.onBackPressed();
-//        overridePendingTransition(0, 0);
-//    }
-//
-//    @Override public void finish()
-//    {
-//        super.finish();
-//        overridePendingTransition(0, 0);
-//    }
-//
-//    @Override
-//    protected void onResume()
-//    {
-//        super.onResume();
-//        overridePendingTransition(0, 0);
-//    }
-//
-//    @Override
-//    public void onStop(){
-//        super.onStop();
-//        overridePendingTransition(0, 0);
-//    }
-//
-//    @Override
-//    public void onDestroy(){
-//        super.onDestroy();
-//        overridePendingTransition(0, 0);
-//    }
-//
-//    @Override
-//    protected void onNewIntent(Intent intent) {
-//        super.onNewIntent(intent);
-//        overridePendingTransition(0, 0);
-//    }
 
 }

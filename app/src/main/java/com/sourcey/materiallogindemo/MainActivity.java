@@ -162,6 +162,7 @@ public class MainActivity extends AppCompatActivity {
         setupViewPager(viewPager);
         viewPager.setCurrentItem(1); // 초기화면 설정
 
+
     }
 
     private void setupViewPager(ViewPager viewPager) {

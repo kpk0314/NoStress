@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,8 +19,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.sourcey.materiallogindemo.BoardActivity;
+import com.sourcey.materiallogindemo.BoardFragment;
 import com.sourcey.materiallogindemo.LoginActivity;
+import com.sourcey.materiallogindemo.MainActivity;
 import com.sourcey.materiallogindemo.R;
 
 
@@ -41,12 +44,13 @@ public class SettingFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
+        // 아이디 - 변수 매칭
         rootView = inflater.inflate(R.layout.fragment_setting, container, false);
         listView = (ListView) rootView.findViewById(R.id.setting_list);
 
-        getActivity().overridePendingTransition(0, 0);
+        getActivity().overridePendingTransition(0, 0); // 화면 전환 효과 없애기
 
-        // Defined Array values to show in ListView
+        // 리스트뷰 제목 어레이
         String[] values = new String[]{
                 "내 정보",
                 "이용 약관",
@@ -56,35 +60,36 @@ public class SettingFragment extends Fragment {
                 "로그아웃",
         };
 
+        // 리스트뷰 생성을 위한 어레이 어댑터
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(rootView.getContext(), android.R.layout.simple_list_item_1, android.R.id.text1, values);
 
-        // Assign adapter to ListView
+        // 리스트뷰에 어댑터 적용
         listView.setAdapter(adapter);
 
-        // ListView Item Click Listener
+        // 어떤 아이템 클릭되었는지에 따라 다른 함수 실행
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
 
-                // selected item
+                // 클릭된 아이템 타이틀 얻어오기
                 String title = ((TextView) view).getText().toString();
 
                 if (title.matches("버전 정보")) {
-                    Toast.makeText(rootView.getContext(),
-                            "버전 정보: test version", Toast.LENGTH_LONG)
-                            .show();
+                    Toast.makeText(rootView.getContext(), "버전 정보: test version", Toast.LENGTH_LONG).show();
                 } else if (title.matches("로그아웃")) {
                     logout();
-
                 } else {
-                    // Launching new Activity on selecting single List Item
-                    Intent i = new Intent(getActivity().getApplicationContext(), BoardActivity.class);
-                    i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                    // sending data to new activity
-                    i.putExtra("title", title);
-                    //startActivity(i);
-                    startActivityForResult(i, 0);
+                    // BoardFragment로 이동 및 title 데이터 전송
+                    Bundle bundle = new Bundle();
+                    bundle.putString("title", title);
+                    BoardFragment fragment = new BoardFragment();
+                    fragment.setArguments(bundle);
+                    FragmentManager fragmentManager = getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.container, fragment);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
                 }
             }
 
@@ -94,6 +99,7 @@ public class SettingFragment extends Fragment {
         return rootView;
     }
 
+    // 로그아웃 다이얼로그 띄우기
     public void logout() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
 
@@ -119,31 +125,5 @@ public class SettingFragment extends Fragment {
         });
         alertDialog.show();
     }
-
-//    @Override
-//    public void onPause() {
-//        super.onPause();
-//        getActivity().overridePendingTransition(0, 0);
-//    }
-//
-//
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        getActivity().overridePendingTransition(0, 0);
-//    }
-//
-//    @Override
-//    public void onStop() {
-//        super.onStop();
-//        getActivity().overridePendingTransition(0, 0);
-//    }
-//
-//    @Override
-//    public void onDestroy() {
-//        super.onDestroy();
-//        getActivity().overridePendingTransition(0, 0);
-//    }
-
 
 }
