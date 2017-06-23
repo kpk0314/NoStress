@@ -52,6 +52,7 @@ import com.sourcey.materiallogindemo.Fragment.ChartFragment;
 import com.sourcey.materiallogindemo.Fragment.MainFragment;
 import com.sourcey.materiallogindemo.Fragment.SettingFragment;
 
+
 import java.lang.ref.WeakReference;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -107,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
     String A, B, C, D, E;
 
     // SQLight DB  생성
-    MyOpenHelper helper = new MyOpenHelper(this);
+    MyOpenHelper helper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         //getWindow().setWindowAnimations(android.R.style.Animation_Toast);
 
+        helper = new MyOpenHelper(this);
 
 
         container = (RelativeLayout) findViewById(R.id.activity_main);
@@ -122,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         //실제 스마트폰 단말기 내의 data/data/database경로에 파일이 만들어지게된다.
-        db = helper.getWritableDatabase();
+//        db = helper.getWritableDatabase();
 //        Cursor c = db.rawQuery("select * from datareceived;", null);
 //
 //        System.out.println("----------TABLE DATARECEIVED----------");
