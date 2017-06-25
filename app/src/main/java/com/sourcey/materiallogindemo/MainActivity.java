@@ -16,6 +16,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Layout;
@@ -48,6 +50,7 @@ import com.microsoft.band.sensors.BandRRIntervalEvent;
 import com.microsoft.band.sensors.BandRRIntervalEventListener;
 import com.microsoft.band.sensors.HeartRateConsentListener;
 import com.microsoft.band.sensors.SampleRate;
+import com.sourcey.materiallogindemo.BoardFragment;
 import com.sourcey.materiallogindemo.Fragment.ChartFragment;
 import com.sourcey.materiallogindemo.Fragment.MainFragment;
 import com.sourcey.materiallogindemo.Fragment.SettingFragment;
@@ -276,10 +279,20 @@ public class MainActivity extends AppCompatActivity {
     // 뒤로가기를 두번 클릭 시 앱 종료
     @Override
     public void onBackPressed() {
+        // BoardFragment의 container가 존재할 때는 그냥 백 버튼 실행
+        FragmentManager fm = getSupportFragmentManager();
+        Fragment fragment_byID = fm.findFragmentById(R.id.container);
+        if(fragment_byID != null){
+            super.onBackPressed();
+            return;
+        }
+
+        // 백 버튼을 두번 이상 누르면 종료
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed();
             return;
         }
+        // 아니면 다음과 같은 알림창을 띄움
         this.doubleBackToExitPressedOnce = true;
         Toast.makeText(this, "'뒤로'버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show();
         new Handler().postDelayed(new Runnable() {
@@ -289,6 +302,14 @@ public class MainActivity extends AppCompatActivity {
             }
         }, 2000);
     }
+
+    private Fragment getCurrentFragment(){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        String fragmentTag = fragmentManager.getBackStackEntryAt(fragmentManager.getBackStackEntryCount() - 1).getName();
+        Fragment currentFragment = fragmentManager.findFragmentByTag(fragmentTag);
+        return currentFragment;
+    }
+
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     /*
