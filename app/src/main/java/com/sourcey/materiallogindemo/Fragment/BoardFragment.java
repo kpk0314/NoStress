@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.telecom.Call;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -79,10 +80,19 @@ public class BoardFragment extends Fragment {
             txtContent.setText("개발사 문의");
         }
 
+        // 뒤에 있는 프레그먼트로 터치가 전달되지 않도록 막는 함수
+        rootView.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
+
         return rootView;
 
 
     }
+
+
 
 
 
