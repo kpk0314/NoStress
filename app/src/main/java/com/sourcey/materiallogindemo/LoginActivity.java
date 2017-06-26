@@ -243,7 +243,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void onLoginSuccess() {
         _loginButton.setEnabled(true);
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, StartActivity.class);
         intent.putExtra("access_tocken", access_tocken);
         startActivity(intent);
         finish();

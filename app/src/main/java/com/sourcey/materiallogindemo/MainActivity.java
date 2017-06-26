@@ -1,16 +1,7 @@
 package com.sourcey.materiallogindemo;
 
-import android.animation.ArgbEvaluator;
-import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-
-import android.content.res.ColorStateList;
-import android.graphics.Color;
-import android.graphics.drawable.AnimationDrawable;
-import android.graphics.drawable.TransitionDrawable;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,17 +9,10 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Layout;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.Cursor;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,11 +40,10 @@ import java.lang.ref.WeakReference;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
-import butterknife.ButterKnife;
-
-import static android.os.SystemClock.sleep;
+import static com.sourcey.materiallogindemo.InitialActivity.timer;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -105,9 +88,12 @@ public class MainActivity extends AppCompatActivity {
     double rrInterval;
     String date;
     String A, B, C, D, E;
+    public int sum =0 ;
 
     // SQLight DB  생성
-    MyOpenHelper helper = new MyOpenHelper(this);
+    MyOpenHelper helper;
+
+    final WeakReference<Activity> reference = new WeakReference<Activity>(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,56 +101,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         //getWindow().setWindowAnimations(android.R.style.Animation_Toast);
 
+        helper = new MyOpenHelper(this);
 
 
         container = (RelativeLayout) findViewById(R.id.activity_main);
         final View naviLine = (View) findViewById(R.id.navi_line);
 
 
-        //실제 스마트폰 단말기 내의 data/data/database경로에 파일이 만들어지게된다.
-        db = helper.getWritableDatabase();
-//        Cursor c = db.rawQuery("select * from datareceived;", null);
-//
-//        System.out.println("----------TABLE DATARECEIVED----------");
-//        while(c.moveToNext()){
-//            System.out.println(
-//                    "TIME: " + c.getString(0) +
-//                            ", HR: " + c.getString(1) +
-//                            ", RR: " + c.getString(2) +
-//                            ", ACC: " + c.getString(3) +
-//                            ", " + c.getString(4) +
-//                            ", " + c.getString(5)
-//            );
-//        }
-//        System.out.println("----------TABLE DATARECEIVED----------");
-//        ////////////////////////////////////////////////////////////
 
-
-/*        double randomValue = Math.random();
-        int intValue = (int) (randomValue * 100) + 1;
-
-        DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        String date = df.format(Calendar.getInstance().getTime());
-
-        db.execSQL("insert into member(t, h, r, x) values ('" + date + "', " + intValue + ", 0, '0/0/0');");
-
-        //데이터데이스의 데이터를 그대로 메모리상에 올려놓은 객체자 Cursor이다.
-        Cursor rs = db.rawQuery("select * from member;", null);
-        while (rs.moveToNext()) {
-            stress = String.valueOf(rs.getInt(1));
-        }
-        rs.close();
-        db.close();
-
-        stress = String.valueOf((int) (Math.random() * 100) + 1);
-
-        // 스트레스 지수에 따라 배경화면 색상 변하기
-        int intNow = Integer.parseInt(stress);
-        if (intNow > 80) container.setBackgroundResource(R.drawable.color5);
-        else if (intNow > 60) container.setBackgroundResource(R.drawable.color4);
-        else if (intNow > 40) container.setBackgroundResource(R.drawable.color3);
-        else if (intNow > 20) container.setBackgroundResource(R.drawable.color2);
-        else container.setBackgroundResource(R.drawable.color1);*/
+        new HeartRateConsentTask().execute(reference);
+        SwitchPage(10);
 
         stress = String.valueOf(heartRate);
 
@@ -236,15 +182,45 @@ public class MainActivity extends AppCompatActivity {
         });
         setupViewPager(viewPager);
         viewPager.setCurrentItem(1); // 초기화면 설정
-        final WeakReference<Activity> reference = new WeakReference<Activity>(this);
 
-        //-----------------측정 실행은 이 Mesaurement().execute()로 시작된다---------------------------//
-        new Measurement().execute();
-        new HeartRateConsentTask().execute(reference);
-        //=======================================================================================//
+
+
 
 
     }
+
+
+    public void SwitchPage(int seconds) {
+        if (timer != null) {
+            timer.cancel();
+        }
+        timer = new Timer(); // At this line a new Thread will be created
+        timer.schedule(new MainActivity.MeasureTime(),
+                0, seconds * 1000);
+
+    }
+
+    class MeasureTime extends TimerTask {
+        @Override
+        public void run() {
+
+
+            //-----------------측정 실행은 이 Mesaurement().execute()로 시작된다---------------------------//
+            System.out.println("--------------------시작---------------------------------------");
+            new Measurement().execute();
+
+            System.out.println("--------------------멈춰!---------------------------------------");
+
+
+         //   db.execSQL("insert into HRSUM(sum) values('"+ sum+"');");
+          //  System.out.println("sum " + sum);
+           // System.out.println("저장 완료");
+            //=======================================================================================//
+
+        }
+    }
+
+
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
@@ -302,12 +278,12 @@ public class MainActivity extends AppCompatActivity {
         public void onBandHeartRateChanged(final BandHeartRateEvent event) {
             if (event != null) {
                 c = Calendar.getInstance();
-                if(c.get(Calendar.SECOND) % 5 == 0) {
+                if(c.get(Calendar.SECOND) % 1 == 0) {
                     HRPrinted = true;
-                    date = String.format("%d/%d/%d %02d:%02d:%02d",
-                            c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH),
-                            c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), c.get(Calendar.SECOND)
-                    );
+//                   date = String.format("%d/%d/%d %02d:%02d:%02d",
+//                            c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH),
+//                            c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), c.get(Calendar.SECOND)
+//                    );
                     heartRate = event.getHeartRate();
                 }}}};
     //----------심박-------------------------------------------------------------------------------//
@@ -358,6 +334,8 @@ public class MainActivity extends AppCompatActivity {
 
                 db.execSQL("insert into datareceived(d, hr, rrInterval, acc_x, acc_y, acc_z) values ('" +
                         date + "', " + A + ", " + B + ", " + C + ", " + D + ", " + E + ");");
+
+                sum = sum+heartRate;
             }
         }
     };

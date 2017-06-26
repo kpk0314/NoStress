@@ -6,11 +6,11 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
 
 import com.microsoft.band.BandClient;
 import com.microsoft.band.BandClientManager;
@@ -32,12 +32,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
-
-import static android.os.SystemClock.sleep;
 
 /**
  * Created by Isaac Kim on 2017-05-30.
@@ -64,11 +60,12 @@ public class StartActivity extends AppCompatActivity {
     String A, B, C, D, E;
 
     SQLiteDatabase db;
+private CountDownTimer countDownTimer;
 
     // SQLight DB  생성
     MyOpenHelper helper = new MyOpenHelper(this);
 
-
+    final WeakReference<Activity> reference = new WeakReference<Activity>(this);
 
     // Progress Dialog
     private ProgressDialog progressDialog;
@@ -84,11 +81,22 @@ public class StartActivity extends AppCompatActivity {
 
         db = helper.getWritableDatabase();
 
+        //SwitchPage(300);
+        //timer.cancel();
+
+
+
+
         _startButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
+
+
+                countDownTimer();
+                countDownTimer.start();
                 new CreateNewProduct().execute();
+                new StartActivity.HeartRateConsentTask().execute(reference);
             }
         });
     }
@@ -104,9 +112,10 @@ public class StartActivity extends AppCompatActivity {
         }
 
         protected String doInBackground(String... args) {
-            // 여기에 스트레스 측정하는 코드 넣어주세요 sleep은 빼고 성공할 경우 onStartSuccess 실행하도록
-            sleep(3000);
-            onStartSuccess();
+
+
+
+
             return null;
         }
 
@@ -116,18 +125,55 @@ public class StartActivity extends AppCompatActivity {
         }
     }
 
+    public void onStartSuccess() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        // 뒤로가기 버튼 막기
+    }
+
+   public void countDownTimer()
+   {
+       countDownTimer = new CountDownTimer(30000,1000) {
+           @Override
+           public void onTick(long millisUntilFinished) {
+
+              System.out.println("----------시작--------------");
+               new StartActivity.Measurement().execute();
+
+           }
+
+           @Override
+           public void onFinish() {
+//               String Average = "SELECT AVE(hr) FROM datareceived";
+//                Cursor c = db.rawQuery(Average, null);
+//                c.moveToFirst();
+//                int AverageValue = c.getInt(0);
+//               Log.v("tag",Integer.toString(AverageValue));
+
+               onStartSuccess();
+           }
+       };
+   }
+
+
+
+
+
+
     //----------심박-------------------------------------------------------------------------------//
     private BandHeartRateEventListener mHeartRateEventListener = new BandHeartRateEventListener() {
         @Override
         public void onBandHeartRateChanged(final BandHeartRateEvent event) {
             if (event != null) {
                 c = Calendar.getInstance();
-                if(c.get(Calendar.SECOND) % 5 == 0) {
+                if(c.get(Calendar.SECOND) % 1 == 0) {
                     HRPrinted = true;
-                    date = String.format("%d/%d/%d %02d:%02d:%02d",
-                            c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH),
-                            c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), c.get(Calendar.SECOND)
-                    );
+
                     heartRate = event.getHeartRate();
                 }}}};
     //----------심박-------------------------------------------------------------------------------//
@@ -176,8 +222,14 @@ public class StartActivity extends AppCompatActivity {
                 DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
                 date = df.format(Calendar.getInstance().getTime());
 
-                db.execSQL("insert into datareceived(d, hr, rrInterval, acc_x, acc_y, acc_z) values ('" +
-                        date + "', " + A + ", " + B + ", " + C + ", " + D + ", " + E + ");");
+//                db.execSQL("insert into datareceived(d, hr, rrInterval, acc_x, acc_y, acc_z) values ('" +
+//                        date + "', " + A + ", " + B + ", " + C + ", " + D + ", " + E + ");");
+
+
+
+
+
+
             }
         }
     };
@@ -278,17 +330,4 @@ public class StartActivity extends AppCompatActivity {
         appendToUI("Band is connecting...\n");
         return ConnectionState.CONNECTED == client.connect().await();}
     ////////////////////////////////////////////////////////////////////////////////////////////////
-}
-
-
-    public void onStartSuccess() {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-        finish();
-    }
-
-    @Override
-    public void onBackPressed() {
-        // 뒤로가기 버튼 막기
-    }
 }

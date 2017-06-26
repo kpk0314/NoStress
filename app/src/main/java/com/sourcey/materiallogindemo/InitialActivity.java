@@ -1,22 +1,12 @@
 package com.sourcey.materiallogindemo;
 
-import android.animation.Animator;
-import android.animation.ValueAnimator;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.view.animation.AccelerateInterpolator;
 import android.widget.Button;
 
 import com.sourcey.materiallogindemo.InitialFragment.FirstFragment;
@@ -137,7 +127,8 @@ public class InitialActivity extends AppCompatActivity {
         });
     }
 
-    // 5초 지나면 자동 화면 전환
+
+
     public void SwitchPage(int seconds) {
         if (timer != null) {
             timer.cancel();
@@ -147,6 +138,8 @@ public class InitialActivity extends AppCompatActivity {
                 2000, seconds * 2000);
         // delay in milliseconds
     }
+
+
 
     class SwitchPageTask extends TimerTask {
         @Override
