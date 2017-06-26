@@ -68,7 +68,6 @@ import static android.os.SystemClock.sleep;
 
 
 public class MainActivity extends AppCompatActivity {
-
     // url to create new product
     private static String url_create_product = "http://test.huy.kr/api/v1/user/signup.json";
     JSONParser jsonParser = new JSONParser();
@@ -90,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
     MenuItem prevMenuItem;
 
     public String testYesterday = null; // 어제 이 시간 값으로 사용하기 위한 테스트 데이터
-    public String stress = null;
+    public String stress;
 
     SQLiteDatabase db;
 
@@ -113,65 +112,26 @@ public class MainActivity extends AppCompatActivity {
     // SQLight DB  생성
     MyOpenHelper helper;
 
+    // 임시 데이터를 추출하기 위한 헬퍼와 커서
+    TestHelper testHelper;
+    Cursor d_cursor, w_cursor, m_cursor;
+    SQLiteDatabase testDB;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //getWindow().setWindowAnimations(android.R.style.Animation_Toast);
 
         helper = new MyOpenHelper(this);
-
+        testHelper = new TestHelper(this); // 테스트 헬퍼
 
         container = (RelativeLayout) findViewById(R.id.activity_main);
         final View naviLine = (View) findViewById(R.id.navi_line);
 
-
-        //실제 스마트폰 단말기 내의 data/data/database경로에 파일이 만들어지게된다.
-//        db = helper.getWritableDatabase();
-//        Cursor c = db.rawQuery("select * from datareceived;", null);
-//
-//        System.out.println("----------TABLE DATARECEIVED----------");
-//        while(c.moveToNext()){
-//            System.out.println(
-//                    "TIME: " + c.getString(0) +
-//                            ", HR: " + c.getString(1) +
-//                            ", RR: " + c.getString(2) +
-//                            ", ACC: " + c.getString(3) +
-//                            ", " + c.getString(4) +
-//                            ", " + c.getString(5)
-//            );
-//        }
-//        System.out.println("----------TABLE DATARECEIVED----------");
-//        ////////////////////////////////////////////////////////////
-
-
-/*        double randomValue = Math.random();
-        int intValue = (int) (randomValue * 100) + 1;
-
-        DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        String date = df.format(Calendar.getInstance().getTime());
-
-        db.execSQL("insert into member(t, h, r, x) values ('" + date + "', " + intValue + ", 0, '0/0/0');");
-
-        //데이터데이스의 데이터를 그대로 메모리상에 올려놓은 객체자 Cursor이다.
-        Cursor rs = db.rawQuery("select * from member;", null);
-        while (rs.moveToNext()) {
-            stress = String.valueOf(rs.getInt(1));
-        }
-        rs.close();
-        db.close();
-
-        stress = String.valueOf((int) (Math.random() * 100) + 1);
-
-        // 스트레스 지수에 따라 배경화면 색상 변하기
-        int intNow = Integer.parseInt(stress);
-        if (intNow > 80) container.setBackgroundResource(R.drawable.color5);
-        else if (intNow > 60) container.setBackgroundResource(R.drawable.color4);
-        else if (intNow > 40) container.setBackgroundResource(R.drawable.color3);
-        else if (intNow > 20) container.setBackgroundResource(R.drawable.color2);
-        else container.setBackgroundResource(R.drawable.color1);*/
-
         stress = String.valueOf(heartRate);
+
+        testDB = testHelper.getReadableDatabase(); // 테스트 디비
+        //getDataFromDB();
 
         // 스트레스 지수에 따라 배경화면 색상 변하기
         int intNow = Integer.parseInt(stress);
@@ -247,6 +207,11 @@ public class MainActivity extends AppCompatActivity {
         new Measurement().execute();
         new HeartRateConsentTask().execute(reference);
         //=======================================================================================//
+
+
+    }
+
+    private void getDataFromDB() {
 
 
     }
