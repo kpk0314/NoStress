@@ -93,8 +93,9 @@ public class ChartFragment extends Fragment {
             DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
 //            Document week_doc = docBuilder.parse(getActivity().getAssets().open("weekdata.xml"));
-            Document week_doc = ((MainActivity)getActivity()).month_doc;
-            Document month_doc = docBuilder.parse(getActivity().getAssets().open("monthdata.xml"));
+            Document week_doc = ((MainActivity)getActivity()).week_doc;
+            Document month_doc = ((MainActivity)getActivity()).month_doc;
+//            Document month_doc = docBuilder.parse(getActivity().getAssets().open("monthdata.xml"));
 
             dataCollection = new ArrayList<HashMap<String, String>>();
 
@@ -173,9 +174,6 @@ public class ChartFragment extends Fragment {
             Log.i("BEFORE", "<<------------- Before SetAdapter-------------->>");
             listView.setAdapter(bindingData);
             Log.i("AFTER", "<<------------- After SetAdapter-------------->>");
-
-        } catch (IOException ex) {
-            Log.e("Error", ex.getMessage());
         } catch (Exception ex) {
             Log.e("Error", "Loading exception");
         }

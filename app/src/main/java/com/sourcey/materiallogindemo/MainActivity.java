@@ -118,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
 
     public String testYesterday = null; // 어제 이 시간 값으로 사용하기 위한 테스트 데이터
     public String stress;
+    public Document week_doc;
     public Document month_doc;
 
     SQLiteDatabase db;
@@ -268,6 +269,21 @@ public class MainActivity extends AppCompatActivity {
                         "WHERE DATE(d) BETWEEN DATE('now', '-7 day', 'localtime') AND DATE('now', '-1 day', 'localtime')\n" +
                         "GROUP BY DATE(d)", null);
 
+        // 30일 날짜, 평균, 최대, 최소, 요일
+        m_cursor = testDB.rawQuery(
+                "SELECT DATE(d), AVG(s), MAX(s), MIN(s),\n" +
+                        "  case cast (strftime('%w', d) as integer)\n" +
+                        "  when 0 then '일요일'\n" +
+                        "  when 1 then '월요일'\n" +
+                        "  when 2 then '화요일'\n" +
+                        "  when 3 then '수요일'\n" +
+                        "  when 4 then '목요일'\n" +
+                        "  when 5 then '금요일'\n" +
+                        "  else '토요일' end as dayofweek FROM rand\n" +
+                        "WHERE DATE(d) BETWEEN DATE('now', '-30 day', 'localtime') AND DATE('now', '-1 day', 'localtime')\n" +
+                        "GROUP BY DATE(d)",null
+        );
+
         // 일주일 데이터를 Jason Array에 저장
         JSONArray array = new JSONArray();
         if (w_cursor != null && w_cursor.getCount() > 0) {
@@ -287,18 +303,49 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
+        w_cursor.close();
 
         // Jason Array를 String으로 저장
-        String xml = "<Data>";
+        String week_xml = "<Data>";
         try {
-            xml += XML.toString(array, "listdata");
+            week_xml += XML.toString(array, "listdata");
         } catch(JSONException je){
         }
-        xml += "</Data>";
+        week_xml += "</Data>";
+
+        // 30일 데이터를 Jason Array에 저장
+        array = new JSONArray();
+        if (m_cursor != null && m_cursor.getCount() > 0) {
+            int id = 0;
+            while (m_cursor.moveToNext()) {
+                JSONObject object = new JSONObject();
+                try {
+                    object.put("id", ++id);
+                    object.put("day_of_week", m_cursor.getString(4));
+                    object.put("date", m_cursor.getString(0));
+                    object.put("average", m_cursor.getInt(1));
+                    object.put("maximum", m_cursor.getInt(2));
+                    object.put("minimum", m_cursor.getInt(3));
+                    array.put(object);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        m_cursor.close();
+
+        // Jason Array를 String으로 저장
+        String month_xml = "<Data>";
+        try {
+            month_xml += XML.toString(array, "listdata");
+        } catch(JSONException je){
+        }
+        month_xml += "</Data>";
 
         // String을 Document로 저장
         try {
-            month_doc = stringToDom(xml);
+            week_doc = stringToDom(week_xml);
+            month_doc = stringToDom(month_xml);
         } catch(SAXException e) {
         } catch(ParserConfigurationException e) {
         } catch(IOException e) {
