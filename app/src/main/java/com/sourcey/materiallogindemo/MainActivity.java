@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
 
     // 임시 데이터를 추출하기 위한 헬퍼와 커서
     TestHelper testHelper;
-    Cursor d_cursor, w_cursor, m_cursor;
+    public Cursor d_cursor, w_cursor, m_cursor;
     SQLiteDatabase testDB;
 
     @Override
@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         testDB = testHelper.getReadableDatabase(); // 테스트 디비
-        //getDataFromDB();
+        getDataFromDB();
 
         // 스트레스 지수에 따라 배경화면 색상 변하기
         int intNow = Integer.parseInt(stress);
@@ -224,8 +224,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getDataFromDB() {
-
-
+//        d_cursor = testDB.rawQuery(
+//                "SELECT STRFTIME('%H', d) / 3 * 3 AS hour, AVG(s)\n" +
+//                        "FROM rand \n" +
+//                        "WHERE DATETIME(d) BETWEEN DATETIME('now','-25 hour', 'localtime') AND DATETIME('now', 'localtime')\n" +
+//                        "GROUP BY DATE(d), hour"
+//                , null);
+        d_cursor = testDB.rawQuery(
+                "SELECT STRFTIME('%H', d) / 3 AS hour, AVG(s)\n" +
+                        "FROM rand \n" +
+                        "WHERE DATE(d) IS DATE('now', 'localtime')\n" +
+                        "GROUP BY hour"
+                , null);
     }
 
     private void setupViewPager(ViewPager viewPager) {

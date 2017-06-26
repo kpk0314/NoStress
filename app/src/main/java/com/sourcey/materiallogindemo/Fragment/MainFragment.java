@@ -51,9 +51,6 @@ import lecho.lib.hellocharts.view.LineChartView;
  */
 
 
-
-
-
 public class MainFragment extends Fragment {
 
     String nowValue; // 현재 스트레스 지수
@@ -79,6 +76,7 @@ public class MainFragment extends Fragment {
     private boolean hasGradientToTransparent = false;
 
     String currentTime;
+    Cursor d_cursor;
 
 
     public MainFragment() {
@@ -92,8 +90,8 @@ public class MainFragment extends Fragment {
         // Inflate the layout for this fragment
 
 
-
         nowValue = ((MainActivity) getActivity()).stress;
+        d_cursor = ((MainActivity) getActivity()).d_cursor;
 
         // 엘리먼트 아이디 받아오기
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
@@ -106,27 +104,24 @@ public class MainFragment extends Fragment {
         // 현재 시간 업데이트
         currentTime = DateFormat.getDateTimeInstance().format(new Date());
 
+
         _textUpdate.setText("마지막 업데이트. " + currentTime);
 
         // 스트레스 레벨, 글씨 색상 업데이트
         int intNow = Integer.parseInt(nowValue);
-        if(intNow > 80){
+        if (intNow > 80) {
             _levelValue.setText("5");
             _levelValue.setTextColor(getResources().getColor(R.color.level5));
-        }
-        else if(intNow > 60) {
+        } else if (intNow > 60) {
             _levelValue.setText("4");
             _levelValue.setTextColor(getResources().getColor(R.color.level4));
-        }
-        else if(intNow > 40){
+        } else if (intNow > 40) {
             _levelValue.setText("3");
             _levelValue.setTextColor(getResources().getColor(R.color.level3));
-        }
-        else if(intNow > 20) {
+        } else if (intNow > 20) {
             _levelValue.setText("2");
             _levelValue.setTextColor(getResources().getColor(R.color.level2));
-        }
-        else {
+        } else {
             _levelValue.setText("1");
             _levelValue.setTextColor(getResources().getColor(R.color.level1));
         }
@@ -135,11 +130,11 @@ public class MainFragment extends Fragment {
         _todayValue.setText(nowValue);
 
         // 어제이시간 업데이트(일단 임의의 값으로)
-        int randomNum = (int)(Math.random() * 100) + 1;
+        int randomNum = (int) (Math.random() * 100) + 1;
         _yesterdayValue.setText(String.valueOf(randomNum));
 
         // 그래프 생성 함수
-        generateValues();
+//        generateValues();
         generateData();
 
         // 화면 아래로 당겨서 업데이트
@@ -153,7 +148,7 @@ public class MainFragment extends Fragment {
             public void onRefresh() {
                 // animation을 멈추려면, fasle로 설정
                 mSwipeRefresh.setRefreshing(true);
-                ((MainActivity)getActivity()).refreshUI();
+                ((MainActivity) getActivity()).refreshUI();
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.detach(MainFragment.this).attach(MainFragment.this).commit();
             }
@@ -165,15 +160,14 @@ public class MainFragment extends Fragment {
     }
 
 
-
-    // 그래프 갯수를 정하기 위한 코드
-    private void generateValues() {
-        for (int i = 0; i < maxNumberOfLines; ++i) {
-            for (int j = 0; j < numberOfPoints; ++j) {
-                randomNumbersTab[i][j] = (float) Math.random() * 100f;
-            }
-        }
-    }
+//    // 그래프 갯수를 정하기 위한 코드
+//    private void generateValues() {
+//        for (int i = 0; i < maxNumberOfLines; ++i) {
+//            for (int j = 0; j < numberOfPoints; ++j) {
+//                randomNumbersTab[i][j] = (float) Math.random() * 100f;
+//            }
+//        }
+//    }
 
 
     // 그래프를 생성하기 위한 코드
@@ -181,14 +175,14 @@ public class MainFragment extends Fragment {
 
         List<Line> lines = new ArrayList<Line>();
         for (int i = 0; i < numberOfLines; ++i) {
-
-            // 랜덤으로 데이터 생성
             List<PointValue> values = new ArrayList<PointValue>();
-            for (int j = 0; j < numberOfPoints; ++j) {
-                values.add(new PointValue(j, randomNumbersTab[i][j]));
+
+            // db로부터 오늘 3시간 간격 데이터 받아오기
+            while (d_cursor.moveToNext()) {
+                values.add(new PointValue(d_cursor.getInt(0), d_cursor.getInt(1)));
             }
 
-
+            // 그래프 프로퍼티 설정
             Line line = new Line(values);
             line.setColor(Color.WHITE);
             line.setShape(shape);
@@ -198,7 +192,7 @@ public class MainFragment extends Fragment {
             line.setHasLabelsOnlyForSelected(hasLabelForSelected);
             line.setHasLines(hasLines);
             line.setHasPoints(hasPoints);
-            if (pointsHaveDifferentColor){
+            if (pointsHaveDifferentColor) {
                 line.setPointColor(ChartUtils.COLORS[(i + 1) % ChartUtils.COLORS.length]);
             }
             lines.add(line);
@@ -219,16 +213,23 @@ public class MainFragment extends Fragment {
 
             // X축 단위를 지정하기 위한 코드 - 지금으로부터 한시간 전부터 두시간 단위로 빼나간다
             List<AxisValue> axisXvalues = new ArrayList<>();
+//            for (int i = 0; i <= numberOfPoints; i++) {
+//                Date currentDate;
+//                currentDate = new Date(System.currentTimeMillis() - TimeUnit.HOURS.toMillis(26 - i * 3));
+//                SimpleDateFormat sdf = new SimpleDateFormat("a h");
+//                String hour = sdf.format(currentDate);
+//                AxisValue axisValue = new AxisValue(i);
+//                axisValue.setLabel(hour);
+//                axisXvalues.add(axisValue);
+//            }
+
+            // X축 단위를 지정하기 위한 코드 - 0, 3, 6 ... 고정
             for (int i = 0; i <= numberOfPoints; i++) {
-                Date currentDate;
-//                currentDate = new Date(System.currentTimeMillis() - TimeUnit.HOURS.toMillis(24 - i*3));
-                currentDate = new Date(TimeUnit.HOURS.toMillis(i*3 - 9));
                 SimpleDateFormat sdf = new SimpleDateFormat("a h");
-                String hour = sdf.format(currentDate);
+                String hour = sdf.format(new Date(TimeUnit.HOURS.toMillis(i * 3 - 9)));
                 AxisValue axisValue = new AxisValue(i);
-                axisValue.setLabel (hour);
-//                if (i%2 == 1)
-                    axisXvalues.add(axisValue);
+                axisValue.setLabel(hour);
+                axisXvalues.add(axisValue);
             }
 
 
@@ -242,12 +243,18 @@ public class MainFragment extends Fragment {
             axisX.setTextColor(Color.parseColor("#ccffffff"));
             axisY.setTextColor(Color.parseColor("#ccffffff"));
 
+            // 그래프 가로길이 확장을 위한 가짜 axis Z
+            Axis axisZ = new Axis();
+            axisZ.setTextSize(8);
+            axisZ.setTextColor(Color.parseColor("#00000000"));
+
             if (hasAxesNames) {
                 axisX.setName("Axis X");
                 axisY.setName("Axis Y");
             }
             data.setAxisXTop(axisX);
             data.setAxisYLeft(axisY);
+            data.setAxisYRight(axisZ); // 투명색 가짜 axis Z를 오른쪽에 삽입함으로써 가로길이를 조금 더 증가시킴
         } else {
             data.setAxisXBottom(null);
             data.setAxisYLeft(null);
@@ -262,11 +269,10 @@ public class MainFragment extends Fragment {
         v.bottom = -5;
         v.top = 105;
         v.left = 0;
-        v. right = 8;
+        v.right = 8;
         chart.setMaximumViewport(v);
         chart.setCurrentViewport(v);
     }
-
 
 
 }
