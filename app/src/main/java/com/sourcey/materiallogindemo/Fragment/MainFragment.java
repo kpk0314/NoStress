@@ -76,7 +76,7 @@ public class MainFragment extends Fragment {
     private boolean hasGradientToTransparent = false;
 
     String currentTime;
-    Cursor d_cursor;
+    Cursor y_cursor, d_cursor;
 
 
     public MainFragment() {
@@ -129,12 +129,17 @@ public class MainFragment extends Fragment {
         // 현재 스트레스 지수 업데이트
         _todayValue.setText(nowValue);
 
-        // 어제이시간 업데이트(일단 임의의 값으로)
-        int randomNum = (int) (Math.random() * 100) + 1;
-        _yesterdayValue.setText(String.valueOf(randomNum));
+        // 어제이시간 업데이트, 없을 경우 "-"
+        y_cursor = ((MainActivity) getActivity()).y_cursor;
+        if(y_cursor.moveToNext()){
+            _yesterdayValue.setText(String.valueOf(y_cursor.getInt(0)));
+        } else {
+            _yesterdayValue.setText("-");
+        }
+        y_cursor.close();
+
 
         // 그래프 생성 함수
-//        generateValues();
         generateData();
 
         // 화면 아래로 당겨서 업데이트
@@ -158,17 +163,6 @@ public class MainFragment extends Fragment {
         return rootView;
         //return inflater.inflate(R.layout.fragment_main, container, false);
     }
-
-
-//    // 그래프 갯수를 정하기 위한 코드
-//    private void generateValues() {
-//        for (int i = 0; i < maxNumberOfLines; ++i) {
-//            for (int j = 0; j < numberOfPoints; ++j) {
-//                randomNumbersTab[i][j] = (float) Math.random() * 100f;
-//            }
-//        }
-//    }
-
 
     // 그래프를 생성하기 위한 코드
     private void generateData() {
