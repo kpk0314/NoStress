@@ -3,12 +3,14 @@ package com.sourcey.materiallogindemo.Fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,6 +58,7 @@ public class MainFragment extends Fragment {
 
     String nowValue; // 현재 스트레스 지수
     private SwipeRefreshLayout mSwipeRefresh; // 당겨서 새로고침 위한 변수
+    Cursor houlyAverageCursor;
 
     // 그래프 프로퍼티 변수
     private LineChartView chart;
@@ -92,6 +95,7 @@ public class MainFragment extends Fragment {
 
 
         nowValue = ((MainActivity) getActivity()).stress;
+        houlyAverageCursor = ((MainActivity) getActivity()).houlyAverageCursor;
 
 
         // 엘리먼트 아이디 받아오기
@@ -138,7 +142,7 @@ public class MainFragment extends Fragment {
         _yesterdayValue.setText(String.valueOf(randomNum));
 
         // 그래프 생성 함수
-        generateValues();
+//        generateValues();
         generateData();
 
         // 화면 아래로 당겨서 업데이트
@@ -165,14 +169,14 @@ public class MainFragment extends Fragment {
 
 
 
-    // 그래프 갯수를 정하기 위한 코드
-    private void generateValues() {
-        for (int i = 0; i < maxNumberOfLines; ++i) {
-            for (int j = 0; j < numberOfPoints; ++j) {
-                randomNumbersTab[i][j] = (float) Math.random() * 100f;
-            }
-        }
-    }
+//    // 그래프 갯수를 정하기 위한 코드
+//    private void generateValues() {
+//        for (int i = 0; i < maxNumberOfLines; ++i) {
+//            for (int j = 0; j < numberOfPoints; ++j) {
+//                randomNumbersTab[i][j] = (float) Math.random() * 100f;
+//            }
+//        }
+//    }
 
 
     // 그래프를 생성하기 위한 코드
@@ -183,9 +187,19 @@ public class MainFragment extends Fragment {
 
             // 랜덤으로 데이터 생성
             List<PointValue> values = new ArrayList<PointValue>();
-            for (int j = 0; j < numberOfPoints; ++j) {
-                values.add(new PointValue(j, randomNumbersTab[i][j]));
+//            for (int j = 0; j < numberOfPoints; ++j) {
+//                values.add(new PointValue(j, randomNumbersTab[i][j]));
+//            }
+
+//            for (int j = 0; j < numberOfPoints; ++j) {
+//                values.add(new PointValue(j, 0));
+//            }
+
+            // 매시간 평균 커서로부터 그래프 포인트 값 추출
+            while (houlyAverageCursor.moveToNext()) {
+                values.add(new PointValue(Integer.valueOf(houlyAverageCursor.getString(0)), houlyAverageCursor.getInt(1)));
             }
+            houlyAverageCursor.close();
 
             Line line = new Line(values);
             line.setColor(Color.WHITE);
@@ -219,7 +233,8 @@ public class MainFragment extends Fragment {
             List<AxisValue> axisXvalues = new ArrayList<>();
             for (int i = 0; i <= numberOfPoints; i++) {
                 Date currentDate;
-                currentDate = new Date(System.currentTimeMillis() - TimeUnit.HOURS.toMillis(24 - i*3));
+//                currentDate = new Date(System.currentTimeMillis() - TimeUnit.HOURS.toMillis(24 - i*3));
+                currentDate = new Date(TimeUnit.HOURS.toMillis(i*3 - 9));
                 SimpleDateFormat sdf = new SimpleDateFormat("a h");
                 String hour = sdf.format(currentDate);
                 AxisValue axisValue = new AxisValue(i);
@@ -227,6 +242,7 @@ public class MainFragment extends Fragment {
 //                if (i%2 == 1)
                     axisXvalues.add(axisValue);
             }
+
 
             // X Y축 프로퍼티 설정
             axisX.setValues(axisXvalues);
