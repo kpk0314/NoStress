@@ -3,12 +3,14 @@ package com.sourcey.materiallogindemo.Fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -92,7 +94,6 @@ public class MainFragment extends Fragment {
 
 
         nowValue = ((MainActivity) getActivity()).stress;
-
 
         // 엘리먼트 아이디 받아오기
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
@@ -187,6 +188,7 @@ public class MainFragment extends Fragment {
                 values.add(new PointValue(j, randomNumbersTab[i][j]));
             }
 
+
             Line line = new Line(values);
             line.setColor(Color.WHITE);
             line.setShape(shape);
@@ -219,7 +221,8 @@ public class MainFragment extends Fragment {
             List<AxisValue> axisXvalues = new ArrayList<>();
             for (int i = 0; i <= numberOfPoints; i++) {
                 Date currentDate;
-                currentDate = new Date(System.currentTimeMillis() - TimeUnit.HOURS.toMillis(24 - i*3));
+//                currentDate = new Date(System.currentTimeMillis() - TimeUnit.HOURS.toMillis(24 - i*3));
+                currentDate = new Date(TimeUnit.HOURS.toMillis(i*3 - 9));
                 SimpleDateFormat sdf = new SimpleDateFormat("a h");
                 String hour = sdf.format(currentDate);
                 AxisValue axisValue = new AxisValue(i);
@@ -227,6 +230,7 @@ public class MainFragment extends Fragment {
 //                if (i%2 == 1)
                     axisXvalues.add(axisValue);
             }
+
 
             // X Y축 프로퍼티 설정
             axisX.setValues(axisXvalues);
