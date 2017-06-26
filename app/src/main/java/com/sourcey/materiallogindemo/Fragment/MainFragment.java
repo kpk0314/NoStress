@@ -58,7 +58,7 @@ public class MainFragment extends Fragment {
 
     String nowValue; // 현재 스트레스 지수
     private SwipeRefreshLayout mSwipeRefresh; // 당겨서 새로고침 위한 변수
-    Cursor houlyAverage;
+    Cursor houlyAverageCursor;
 
     // 그래프 프로퍼티 변수
     private LineChartView chart;
@@ -95,7 +95,7 @@ public class MainFragment extends Fragment {
 
 
         nowValue = ((MainActivity) getActivity()).stress;
-        houlyAverage = ((MainActivity) getActivity()).houlyAverage;
+        houlyAverageCursor = ((MainActivity) getActivity()).houlyAverageCursor;
 
 
         // 엘리먼트 아이디 받아오기
@@ -195,10 +195,11 @@ public class MainFragment extends Fragment {
 //                values.add(new PointValue(j, 0));
 //            }
 
-            while (houlyAverage.moveToNext()) {
-                values.add(new PointValue(Integer.valueOf(houlyAverage.getString(0)), houlyAverage.getInt(1)));
+            // 매시간 평균 커서로부터 그래프 포인트 값 추출
+            while (houlyAverageCursor.moveToNext()) {
+                values.add(new PointValue(Integer.valueOf(houlyAverageCursor.getString(0)), houlyAverageCursor.getInt(1)));
             }
-            houlyAverage.close();
+            houlyAverageCursor.close();
 
             Line line = new Line(values);
             line.setColor(Color.WHITE);

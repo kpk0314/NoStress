@@ -104,7 +104,8 @@ public class MainActivity extends AppCompatActivity {
 
     public String testYesterday = null; // 어제 이 시간 값으로 사용하기 위한 테스트 데이터
     public String stress = "0";
-    public Cursor houlyAverage = null;
+    public Cursor houlyAverageCursor;
+    public Cursor currentStressCursor;
 
     SQLiteDatabase db;
 
@@ -186,6 +187,8 @@ public class MainActivity extends AppCompatActivity {
 
         stress = String.valueOf((int) (Math.random() * 100) + 1);
 
+
+
         // 스트레스 지수에 따라 배경화면 색상 변하기
         int intNow = Integer.parseInt(stress);
         if (intNow > 80) container.setBackgroundResource(R.drawable.color5);
@@ -195,6 +198,23 @@ public class MainActivity extends AppCompatActivity {
         else container.setBackgroundResource(R.drawable.color1);*/
 
         db = helper.getReadableDatabase();
+
+        // 가장 최근의 스트레스 값 db에서 가져와서 stress 변수에 할당
+        currentStressCursor = db.rawQuery("SELECT field2 FROM rand " +
+              "WHERE field1 >= (SELECT MAX(field1) FROM rand);", null);
+        while (currentStressCursor.moveToNext()) {
+            stress = String.valueOf(currentStressCursor.getInt(0));
+        }
+
+
+        // 스트레스 지수에 따라 배경화면 색상 변하기
+        int intNow = Integer.parseInt(stress);
+        if (intNow > 80) container.setBackgroundResource(R.drawable.color5);
+        else if (intNow > 60) container.setBackgroundResource(R.drawable.color4);
+        else if (intNow > 40) container.setBackgroundResource(R.drawable.color3);
+        else if (intNow > 20) container.setBackgroundResource(R.drawable.color2);
+        else container.setBackgroundResource(R.drawable.color1);
+
         //데이터데이스의 데이터를 그대로 메모리상에 올려놓은 객체자 Cursor이다.
 //        Cursor rs = db.rawQuery("SELECT field1, field2 FROM rand;", null);
 //        while (rs.moveToNext()) {
@@ -210,19 +230,10 @@ public class MainActivity extends AppCompatActivity {
 //        rs.close();
 //        stress = String.valueOf(heartRate);
 
-        houlyAverage = db.rawQuery("SELECT STRFTIME('%H', field1)/3, AVG(field2) FROM rand " +
+
+        houlyAverageCursor = db.rawQuery("SELECT STRFTIME('%H', field1)/3, AVG(field2) FROM rand " +
                         "WHERE DATE(field1) IS DATE('now') GROUP BY STRFTIME('%H', field1)/3;", null);
 
-
-
-
-        // 스트레스 지수에 따라 배경화면 색상 변하기
-        int intNow = Integer.parseInt(stress);
-        if (intNow > 80) container.setBackgroundResource(R.drawable.color5);
-        else if (intNow > 60) container.setBackgroundResource(R.drawable.color4);
-        else if (intNow > 40) container.setBackgroundResource(R.drawable.color3);
-        else if (intNow > 20) container.setBackgroundResource(R.drawable.color2);
-        else container.setBackgroundResource(R.drawable.color1);
 
         // bottom navigation view에 property 설정
         bottomNavigationView = (BottomNavigationViewEx) findViewById(R.id.bottom_navigation);
