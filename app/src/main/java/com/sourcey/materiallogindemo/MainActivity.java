@@ -8,6 +8,8 @@ import android.content.Context;
 import android.content.Intent;
 
 import android.content.res.ColorStateList;
+import android.database.sqlite.SQLiteException;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.TransitionDrawable;
@@ -35,6 +37,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.mikephil.charting.utils.FileUtils;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.microsoft.band.BandClient;
 import com.microsoft.band.BandClientManager;
@@ -56,7 +59,17 @@ import com.sourcey.materiallogindemo.Fragment.MainFragment;
 import com.sourcey.materiallogindemo.Fragment.SettingFragment;
 
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.ref.WeakReference;
+import java.nio.channels.FileChannel;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -72,8 +85,8 @@ public class MainActivity extends AppCompatActivity {
     // url to create new product
     private static String url_create_product = "http://test.huy.kr/api/v1/user/signup.json";
     JSONParser jsonParser = new JSONParser();
-    int error_code ;
-    public String access_tocken ;
+    int error_code;
+    public String access_tocken;
 
     boolean doubleBackToExitPressedOnce = false; // 뒤로가기 버튼을 한번 눌렀는지 체크하기 위한 변수
 
@@ -90,7 +103,8 @@ public class MainActivity extends AppCompatActivity {
     MenuItem prevMenuItem;
 
     public String testYesterday = null; // 어제 이 시간 값으로 사용하기 위한 테스트 데이터
-    public String stress = null;
+    public String stress = "0";
+    public Cursor houlyAverage = null;
 
     SQLiteDatabase db;
 
@@ -101,6 +115,8 @@ public class MainActivity extends AppCompatActivity {
 
     private Boolean HRPrinted = false;
     private Boolean RRPrinted = false;
+
+    public static String DB_FILEPATH = "/data/data/{package_name}/databases/rand.db";
 
     private Calendar c = Calendar.getInstance();
 
@@ -124,6 +140,13 @@ public class MainActivity extends AppCompatActivity {
 
         container = (RelativeLayout) findViewById(R.id.activity_main);
         final View naviLine = (View) findViewById(R.id.navi_line);
+
+
+
+/**
+ * Copies the database file at the specified location over the current
+ * internal application database.
+ * */
 
 
         //실제 스마트폰 단말기 내의 data/data/database경로에 파일이 만들어지게된다.
@@ -171,7 +194,27 @@ public class MainActivity extends AppCompatActivity {
         else if (intNow > 20) container.setBackgroundResource(R.drawable.color2);
         else container.setBackgroundResource(R.drawable.color1);*/
 
-        stress = String.valueOf(heartRate);
+        db = helper.getReadableDatabase();
+        //데이터데이스의 데이터를 그대로 메모리상에 올려놓은 객체자 Cursor이다.
+//        Cursor rs = db.rawQuery("SELECT field1, field2 FROM rand;", null);
+//        while (rs.moveToNext()) {
+//            stress = String.valueOf(rs.getInt(1));
+//        }
+//        rs.close();
+
+//        Cursor rs = db.rawQuery("SELECT DATE(field1), AVG(field2) FROM rand WHERE DATE(field1) IS NOT NULL GROUP BY DATE(field1);", null);
+//        while (rs.moveToNext()) {
+//            Log.v("test", rs.getString(0) + " " + String.valueOf(rs.getInt(1)));
+//            stress = String.valueOf(rs.getInt(1));
+//        }
+//        rs.close();
+//        stress = String.valueOf(heartRate);
+
+        houlyAverage = db.rawQuery("SELECT STRFTIME('%H', field1)/3, AVG(field2) FROM rand " +
+                        "WHERE DATE(field1) IS DATE('now') GROUP BY STRFTIME('%H', field1)/3;", null);
+
+
+
 
         // 스트레스 지수에 따라 배경화면 색상 변하기
         int intNow = Integer.parseInt(stress);
@@ -247,8 +290,6 @@ public class MainActivity extends AppCompatActivity {
         new Measurement().execute();
         new HeartRateConsentTask().execute(reference);
         //=======================================================================================//
-
-
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -261,7 +302,6 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFragment(settingFragment);
         viewPager.setAdapter(adapter);
     }
-
 
 
     // fragment에서 Mainactivity의 갱신된 스트레스 정보를 받아오기 위한 함수
@@ -282,7 +322,7 @@ public class MainActivity extends AppCompatActivity {
         // BoardFragment의 container가 존재할 때는 그냥 백 버튼 실행
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment_byID = fm.findFragmentById(R.id.container);
-        if(fragment_byID != null){
+        if (fragment_byID != null) {
             super.onBackPressed();
             return;
         }
@@ -303,7 +343,7 @@ public class MainActivity extends AppCompatActivity {
         }, 2000);
     }
 
-    private Fragment getCurrentFragment(){
+    private Fragment getCurrentFragment() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         String fragmentTag = fragmentManager.getBackStackEntryAt(fragmentManager.getBackStackEntryCount() - 1).getName();
         Fragment currentFragment = fragmentManager.findFragmentByTag(fragmentTag);
@@ -325,21 +365,24 @@ public class MainActivity extends AppCompatActivity {
         public void onBandHeartRateChanged(final BandHeartRateEvent event) {
             if (event != null) {
                 c = Calendar.getInstance();
-                if(c.get(Calendar.SECOND) % 5 == 0) {
+                if (c.get(Calendar.SECOND) % 5 == 0) {
                     HRPrinted = true;
                     date = String.format("%d/%d/%d %02d:%02d:%02d",
                             c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH),
                             c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), c.get(Calendar.SECOND)
                     );
                     heartRate = event.getHeartRate();
-                }}}};
+                }
+            }
+        }
+    };
     //----------심박-------------------------------------------------------------------------------//
 
     //----------알알 인터-벌-------------------------------------------------------------------------//
-    private BandRRIntervalEventListener mRRIntervalEventListener = new BandRRIntervalEventListener(){
+    private BandRRIntervalEventListener mRRIntervalEventListener = new BandRRIntervalEventListener() {
         @Override
-        public void onBandRRIntervalChanged(final BandRRIntervalEvent event){
-            if (event != null && HRPrinted == true){
+        public void onBandRRIntervalChanged(final BandRRIntervalEvent event) {
+            if (event != null && HRPrinted == true) {
                 HRPrinted = false;
                 RRPrinted = true;
                 rrInterval = event.getInterval();
@@ -352,7 +395,7 @@ public class MainActivity extends AppCompatActivity {
     private BandAccelerometerEventListener mAccelerometerEventListener = new BandAccelerometerEventListener() {
         @Override
         public void onBandAccelerometerChanged(final BandAccelerometerEvent event) {
-            if (event != null && RRPrinted == true){
+            if (event != null && RRPrinted == true) {
                 RRPrinted = false;
                 acc_x = event.getAccelerationX();
                 acc_y = event.getAccelerationY();
@@ -367,10 +410,10 @@ public class MainActivity extends AppCompatActivity {
 
 
                 A = Integer.toString(heartRate);
-                B = Double.toString(Math.round(rrInterval * 100000)/100000.0) ;
-                C = Double.toString(Math.round(acc_x * 100000)/100000.0) ;
-                D = Double.toString(Math.round(acc_y * 100000)/100000.0);
-                E = Double.toString(Math.round(acc_z * 100000)/100000.0) ;
+                B = Double.toString(Math.round(rrInterval * 100000) / 100000.0);
+                C = Double.toString(Math.round(acc_x * 100000) / 100000.0);
+                D = Double.toString(Math.round(acc_y * 100000) / 100000.0);
+                E = Double.toString(Math.round(acc_z * 100000) / 100000.0);
 
                 //실제 스마트폰 단말기 내의 data/data/database경로에 파일이 만들어지게된다.
                 db = helper.getWritableDatabase();
@@ -407,18 +450,18 @@ public class MainActivity extends AppCompatActivity {
 
     private class Measurement extends AsyncTask<Void, Void, Void> {
         @Override
-        protected Void doInBackground(Void... params){
-            try{
+        protected Void doInBackground(Void... params) {
+            try {
                 if (getConnectedBandClient()) {
                     //가속도
                     client.getSensorManager().registerAccelerometerEventListener(mAccelerometerEventListener, SampleRate.MS128);
                     //심박
                     if (client.getSensorManager().getCurrentHeartRateConsent() == UserConsent.GRANTED) {
                         client.getSensorManager().registerHeartRateEventListener(mHeartRateEventListener);
-                    }
-                    else{
+                    } else {
                         appendToUI("You have not given this application consent to access heart rate data yet."
-                                + " Please press the Heart Rate Consent button.\n");}
+                                + " Please press the Heart Rate Consent button.\n");
+                    }
                     //알-알
                     int hardwareVersion = Integer.parseInt(client.getHardwareVersion().await());
                     if (hardwareVersion >= 20) {
@@ -426,42 +469,16 @@ public class MainActivity extends AppCompatActivity {
                             client.getSensorManager().registerRRIntervalEventListener(mRRIntervalEventListener);
                         } else {
                             appendToUI("You have not given this application consent to access heart rate data yet."
-                                    + " Please press the Heart Rate Consent button.\n");}
+                                    + " Please press the Heart Rate Consent button.\n");
+                        }
                     } else {
-                        appendToUI("The RR Interval sensor is not supported with your Band version. Microsoft Band 2 is required.\n");}}
-                else{
-                    appendToUI("Band isn't connected. Please make sure bluetooth is on and the band is in range.\n");}}
-            catch(BandException e){
-                String exceptionMessage="";
-                switch (e.getErrorType()){
-                    case UNSUPPORTED_SDK_VERSION_ERROR:
-                        exceptionMessage = "Microsoft Health BandService doesn't support your SDK Version. Please update to latest SDK.\n";
-                        break;
-                    case SERVICE_ERROR:
-                        exceptionMessage = "Microsoft Health BandService is not available. Please make sure Microsoft Health is installed and that you have the correct permissions.\n";
-                        break;
-                    default:
-                        exceptionMessage = "Unknown error occured: " + e.getMessage() + "\n";
-                        break;}
-                appendToUI(exceptionMessage);
-            }
-            catch (Exception e){
-                appendToUI(e.getMessage());}
-            return null;}}
-
-    private class HeartRateConsentTask extends AsyncTask<WeakReference<Activity>, Void, Void> {
-        @Override
-        protected Void doInBackground(WeakReference<Activity>... params) {
-            try {
-                if (getConnectedBandClient()) {
-                    if (params[0].get() != null) {
-                        client.getSensorManager().requestHeartRateConsent(params[0].get(), new HeartRateConsentListener() {
-                            @Override
-                            public void userAccepted(boolean consentGiven) {}});}}
-                else{
-                    appendToUI("Band isn't connected. Please make sure bluetooth is on and the band is in range.\n");}}
-            catch (BandException e){
-                String exceptionMessage="";
+                        appendToUI("The RR Interval sensor is not supported with your Band version. Microsoft Band 2 is required.\n");
+                    }
+                } else {
+                    appendToUI("Band isn't connected. Please make sure bluetooth is on and the band is in range.\n");
+                }
+            } catch (BandException e) {
+                String exceptionMessage = "";
                 switch (e.getErrorType()) {
                     case UNSUPPORTED_SDK_VERSION_ERROR:
                         exceptionMessage = "Microsoft Health BandService doesn't support your SDK Version. Please update to latest SDK.\n";
@@ -471,18 +488,61 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     default:
                         exceptionMessage = "Unknown error occured: " + e.getMessage() + "\n";
-                        break;}
-                appendToUI(exceptionMessage);}
-            catch (Exception e){
-                appendToUI(e.getMessage());}
-            return null;}}
+                        break;
+                }
+                appendToUI(exceptionMessage);
+            } catch (Exception e) {
+                appendToUI(e.getMessage());
+            }
+            return null;
+        }
+    }
+
+    private class HeartRateConsentTask extends AsyncTask<WeakReference<Activity>, Void, Void> {
+        @Override
+        protected Void doInBackground(WeakReference<Activity>... params) {
+            try {
+                if (getConnectedBandClient()) {
+                    if (params[0].get() != null) {
+                        client.getSensorManager().requestHeartRateConsent(params[0].get(), new HeartRateConsentListener() {
+                            @Override
+                            public void userAccepted(boolean consentGiven) {
+                            }
+                        });
+                    }
+                } else {
+                    appendToUI("Band isn't connected. Please make sure bluetooth is on and the band is in range.\n");
+                }
+            } catch (BandException e) {
+                String exceptionMessage = "";
+                switch (e.getErrorType()) {
+                    case UNSUPPORTED_SDK_VERSION_ERROR:
+                        exceptionMessage = "Microsoft Health BandService doesn't support your SDK Version. Please update to latest SDK.\n";
+                        break;
+                    case SERVICE_ERROR:
+                        exceptionMessage = "Microsoft Health BandService is not available. Please make sure Microsoft Health is installed and that you have the correct permissions.\n";
+                        break;
+                    default:
+                        exceptionMessage = "Unknown error occured: " + e.getMessage() + "\n";
+                        break;
+                }
+                appendToUI(exceptionMessage);
+            } catch (Exception e) {
+                appendToUI(e.getMessage());
+            }
+            return null;
+        }
+    }
 
     //원래 샘플 프로젝트 파일에서 연결 확인할 때 쓰던 것인데 이제는 안 씀
     private void appendToUI(final String string) {
         this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                System.out.println(string);}});}
+                System.out.println(string);
+            }
+        });
+    }
     //원래 샘플 프로젝트 파일에서 연결 확인할 때 쓰던 것인데 이제는 안 씀
 
     private boolean getConnectedBandClient() throws InterruptedException, BandException {
@@ -492,12 +552,18 @@ public class MainActivity extends AppCompatActivity {
             //pair된 밴드가 없으면 false 반환하고 메시지 출력
             if (devices.length == 0) {
                 appendToUI("Band isn't paired with your phone.\n");
-                return false;}
+                return false;
+            }
             client = BandClientManager.getInstance().create(getBaseContext(), devices[0]);
         } else if (ConnectionState.CONNECTED == client.getConnectionState()) {
-            return true;}
+            return true;
+        }
 
         appendToUI("Band is connecting...\n");
-        return ConnectionState.CONNECTED == client.connect().await();}
+        return ConnectionState.CONNECTED == client.connect().await();
+    }
     ////////////////////////////////////////////////////////////////////////////////////////////////
+
 }
+
+
