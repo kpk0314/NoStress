@@ -59,6 +59,10 @@ import com.sourcey.materiallogindemo.Fragment.MainFragment;
 import com.sourcey.materiallogindemo.Fragment.SettingFragment;
 
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -67,6 +71,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.StringReader;
 import java.lang.ref.WeakReference;
 import java.nio.channels.FileChannel;
 import java.sql.SQLException;
@@ -74,6 +79,16 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import org.json.XML;
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
+import org.xml.sax.Parser;
+import org.xml.sax.SAXException;
+
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import butterknife.ButterKnife;
 
@@ -103,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
 
     public String testYesterday = null; // 어제 이 시간 값으로 사용하기 위한 테스트 데이터
     public String stress;
+    public Document month_doc;
 
     SQLiteDatabase db;
 
@@ -224,18 +240,74 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getDataFromDB() {
+        // 최근 24시
 //        d_cursor = testDB.rawQuery(
 //                "SELECT STRFTIME('%H', d) / 3 * 3 AS hour, AVG(s)\n" +
 //                        "FROM rand \n" +
 //                        "WHERE DATETIME(d) BETWEEN DATETIME('now','-25 hour', 'localtime') AND DATETIME('now', 'localtime')\n" +
 //                        "GROUP BY DATE(d), hour"
 //                , null);
+        // 오늘 0시부터 24시
         d_cursor = testDB.rawQuery(
                 "SELECT STRFTIME('%H', d) / 3 AS hour, AVG(s)\n" +
                         "FROM rand \n" +
                         "WHERE DATE(d) IS DATE('now', 'localtime')\n" +
-                        "GROUP BY hour"
-                , null);
+                        "GROUP BY hour", null);
+
+        // 일주일 날짜, 평균, 최대, 최소, 요일
+        w_cursor = testDB.rawQuery(
+                "SELECT DATE(d), AVG(s), MAX(s), MIN(s),\n" +
+                        "  case cast (strftime('%w', d) as integer)\n" +
+                        "  when 0 then '일요일'\n" +
+                        "  when 1 then '월요일'\n" +
+                        "  when 2 then '화요일'\n" +
+                        "  when 3 then '수요일'\n" +
+                        "  when 4 then '목요일'\n" +
+                        "  when 5 then '금요일'\n" +
+                        "  else '토요일' end as dayofweek FROM rand\n" +
+                        "WHERE DATE(d) BETWEEN DATE('now', '-7 day', 'localtime') AND DATE('now', '-1 day', 'localtime')\n" +
+                        "GROUP BY DATE(d)", null);
+
+        // 일주일 데이터를 Jason Array에 저장
+        JSONArray array = new JSONArray();
+        if (w_cursor != null && w_cursor.getCount() > 0) {
+            int id = 0;
+            while (w_cursor.moveToNext()) {
+                JSONObject object = new JSONObject();
+                try {
+                    object.put("id", ++id);
+                    object.put("day_of_week", w_cursor.getString(4));
+                    object.put("date", w_cursor.getString(0));
+                    object.put("average", w_cursor.getInt(1));
+                    object.put("maximum", w_cursor.getInt(2));
+                    object.put("minimum", w_cursor.getInt(3));
+                    array.put(object);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        // Jason Array를 String으로 저장
+        String xml = "<Data>";
+        try {
+            xml += XML.toString(array, "listdata");
+        } catch(JSONException je){
+        }
+        xml += "</Data>";
+
+        // String을 Document로 저장
+        try {
+            month_doc = stringToDom(xml);
+        } catch(SAXException e) {
+        } catch(ParserConfigurationException e) {
+        } catch(IOException e) {
+        }
+
+
+
+
+        // System.out.println(xml);
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -510,6 +582,14 @@ public class MainActivity extends AppCompatActivity {
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
+    public static Document stringToDom(String xmlSource)
+            throws SAXException, ParserConfigurationException, IOException {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        return builder.parse(new InputSource(new StringReader(xmlSource)));
+    }
+
 }
+
 
 

@@ -92,7 +92,8 @@ public class ChartFragment extends Fragment {
         try {
             DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-            Document week_doc = docBuilder.parse(getActivity().getAssets().open("weekdata.xml"));
+//            Document week_doc = docBuilder.parse(getActivity().getAssets().open("weekdata.xml"));
+            Document week_doc = ((MainActivity)getActivity()).month_doc;
             Document month_doc = docBuilder.parse(getActivity().getAssets().open("monthdata.xml"));
 
             dataCollection = new ArrayList<HashMap<String, String>>();
