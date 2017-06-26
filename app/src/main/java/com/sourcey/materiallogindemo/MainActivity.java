@@ -79,6 +79,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
 import org.json.XML;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
@@ -281,7 +282,7 @@ public class MainActivity extends AppCompatActivity {
                         "  when 5 then '금요일'\n" +
                         "  else '토요일' end as dayofweek FROM rand\n" +
                         "WHERE DATE(d) BETWEEN DATE('now', '-30 day', 'localtime') AND DATE('now', '-1 day', 'localtime')\n" +
-                        "GROUP BY DATE(d)",null
+                        "GROUP BY DATE(d)", null
         );
 
         // 일주일 데이터를 Jason Array에 저장
@@ -309,7 +310,7 @@ public class MainActivity extends AppCompatActivity {
         String week_xml = "<Data>";
         try {
             week_xml += XML.toString(array, "listdata");
-        } catch(JSONException je){
+        } catch (JSONException je) {
         }
         week_xml += "</Data>";
 
@@ -338,7 +339,7 @@ public class MainActivity extends AppCompatActivity {
         String month_xml = "<Data>";
         try {
             month_xml += XML.toString(array, "listdata");
-        } catch(JSONException je){
+        } catch (JSONException je) {
         }
         month_xml += "</Data>";
 
@@ -346,12 +347,10 @@ public class MainActivity extends AppCompatActivity {
         try {
             week_doc = stringToDom(week_xml);
             month_doc = stringToDom(month_xml);
-        } catch(SAXException e) {
-        } catch(ParserConfigurationException e) {
-        } catch(IOException e) {
+        } catch (SAXException e) {
+        } catch (ParserConfigurationException e) {
+        } catch (IOException e) {
         }
-
-
 
 
         // System.out.println(xml);
@@ -372,6 +371,7 @@ public class MainActivity extends AppCompatActivity {
     // fragment에서 Mainactivity의 갱신된 스트레스 정보를 받아오기 위한 함수
     public void refreshUI() {
         stress = String.valueOf(heartRate);
+        getDataFromDB();
         // 스트레스 지수에 따라 배경화면 색상 변하기
         int intNow = Integer.parseInt(stress);
         if (intNow > 80) container.setBackgroundResource(R.drawable.color5);
@@ -629,6 +629,7 @@ public class MainActivity extends AppCompatActivity {
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
+    // String 변수를 Document 타입 변수로 변환하기 위한 함수
     public static Document stringToDom(String xmlSource)
             throws SAXException, ParserConfigurationException, IOException {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();

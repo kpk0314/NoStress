@@ -91,7 +91,7 @@ public class MainFragment extends Fragment {
 
 
         nowValue = ((MainActivity) getActivity()).stress;
-        d_cursor = ((MainActivity) getActivity()).d_cursor;
+
 
         // 엘리먼트 아이디 받아오기
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
@@ -177,10 +177,12 @@ public class MainFragment extends Fragment {
         for (int i = 0; i < numberOfLines; ++i) {
             List<PointValue> values = new ArrayList<PointValue>();
 
+            d_cursor = ((MainActivity) getActivity()).d_cursor;
             // db로부터 오늘 3시간 간격 데이터 받아오기
             while (d_cursor.moveToNext()) {
                 values.add(new PointValue(d_cursor.getInt(0), d_cursor.getInt(1)));
             }
+            d_cursor.close();
 
             // 그래프 프로퍼티 설정
             Line line = new Line(values);
