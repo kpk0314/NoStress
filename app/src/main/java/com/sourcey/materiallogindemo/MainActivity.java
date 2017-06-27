@@ -1,7 +1,6 @@
 package com.sourcey.materiallogindemo;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
@@ -109,16 +108,16 @@ public class MainActivity extends AppCompatActivity {
     String A, B, C, D, E;
 
 
-    Intent intent=getIntent();
-    String a=intent.getStringExtra("HRAverageValue");
-    String b=intent.getStringExtra("HRVarianceValue");
-    String cd=intent.getStringExtra("RRAverageValue");
-    String d=intent.getStringExtra("RRVarianceValue");
-
-    int HRAverage=Integer.valueOf(a);
-    double HRVariance=Double.valueOf(b);
-    int RRAverage=Integer.valueOf(cd);
-    double RRVariance=Double.valueOf(d);
+//    Intent intent=getIntent();
+//    String a=intent.getStringExtra("HRAverageValue");
+//    String b=intent.getStringExtra("HRVarianceValue");
+//    String cd=intent.getStringExtra("RRAverageValue");
+//    String d=intent.getStringExtra("RRVarianceValue");
+//
+//    int HRAverage=Integer.valueOf(a);
+//    double HRVariance=Double.valueOf(b);
+//    int RRAverage=Integer.valueOf(cd);
+//    double RRVariance=Double.valueOf(d);
 
     // SQLight DB  생성
     MyOpenHelper1 helper;
@@ -505,15 +504,15 @@ public class MainActivity extends AppCompatActivity {
 
 //                db.execSQL("insert into datareceived(d, hr, rrInterval, acc_x, acc_y, acc_z) values ('" +
 //                        date + "', " + A + ", " + B + ", " + C + ", " + D + ", " + E + ");");
-
-                double stdHRmean=(heartRate-HRVariance)/HRAverage;
-                double stdRRmean=(rrInterval-RRVariance)/RRAverage;
-
-                //double stressindex=-0.0802313290796385*stdHRmean+0.281020720365838*stdHRvar-0.5540296813564*stdRRmean+0.222774503382897*stdRRvar-0.234010114494386;
-                double stressindex=-0.0802313290796385*stdHRmean+0.281020720365838*1-0.5540296813564*stdRRmean+0.222774503382897*1-0.234010114494386;
-                String s=Double.toString(stressindex);
-                db.execSQL("insert into STRESS(d,s)values('"+date+"',"+s+");");
-                //sum=sum+heartRate;
+//
+//                double stdHRmean=(heartRate-HRVariance)/HRAverage;
+//                double stdRRmean=(rrInterval-RRVariance)/RRAverage;
+//
+//                //double stressindex=-0.0802313290796385*stdHRmean+0.281020720365838*stdHRvar-0.5540296813564*stdRRmean+0.222774503382897*stdRRvar-0.234010114494386;
+//                double stressindex=-0.0802313290796385*stdHRmean+0.281020720365838*1-0.5540296813564*stdRRmean+0.222774503382897*1-0.234010114494386;
+//                String s=Double.toString(stressindex);
+//                db.execSQL("insert into STRESS(d,s)values('"+date+"',"+s+");");
+//                //sum=sum+heartRate;
 
             }
         }

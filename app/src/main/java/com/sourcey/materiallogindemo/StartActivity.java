@@ -178,10 +178,10 @@ db.execSQL("insert into STD (hrA, hrV, rrA, rrV) values ("+HRA+","+HRV+","+RRA+"
 
         public void onStartSuccess() {
         Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra("HRVarianceValue",HRV);
-intent.putExtra("HRAverageValue",HRA);
-intent.putExtra("RRVarianceValue",RRV);
-intent.putExtra("RRAverageValue",RRA);
+//            intent.putExtra("HRVarianceValue",HRV);
+//intent.putExtra("HRAverageValue",HRA);
+//intent.putExtra("RRVarianceValue",RRV);
+//intent.putExtra("RRAverageValue",RRA);
 
             startActivity(intent);
         finish();
