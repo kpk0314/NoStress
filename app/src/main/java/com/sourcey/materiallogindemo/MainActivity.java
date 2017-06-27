@@ -263,12 +263,6 @@ public class MainActivity extends AppCompatActivity {
                         "WHERE DATE(d) IS DATE('now', 'localtime')\n" +
                         "GROUP BY hour", null);
 
-        // 오늘 0시부터 24시
-        d_cursor = testDB.rawQuery(
-                "SELECT STRFTIME('%H', d) / 3 AS hour, AVG(s)\n" +
-                        "FROM rand \n" +
-                        "WHERE DATE(d) IS DATE('now', 'localtime')\n" +
-                        "GROUP BY hour", null);
 
         // 일주일 날짜, 평균, 최대, 최소, 요일
         w_cursor = testDB.rawQuery(
