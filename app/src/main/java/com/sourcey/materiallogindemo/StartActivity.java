@@ -63,6 +63,11 @@ public class StartActivity extends AppCompatActivity {
     public double RRVarianceValue;
     public int RRAverageValue;
 
+    String HRA ;
+    String HRV ;
+    String RRV ;
+    String RRA ;
+
 
     // SQLight DB  생성
     MyOpenHelper helper;
@@ -157,10 +162,10 @@ HRAverageValue = c.getInt(0);
 RRVarianceValue = b.getDouble(0);
 RRAverageValue = a.getInt(0);
 
-String HRA = Integer.toString(HRAverageValue);
-String HRV = Double.toString(HRVarianceValue);
-String RRV = Double.toString(RRVarianceValue);
-String RRA = Integer.toString(RRAverageValue);
+ HRA = Integer.toString(HRAverageValue);
+ HRV = Double.toString(HRVarianceValue);
+ RRV = Double.toString(RRVarianceValue);
+ RRA = Integer.toString(RRAverageValue);
 //구한 표준 평균과 분산을 데이터 베이스에 저장하기
 db.execSQL("insert into STD (hrA, hrV, rrA, rrV) values ("+HRA+","+HRV+","+RRA+","+RRV+");");
 
@@ -173,7 +178,12 @@ db.execSQL("insert into STD (hrA, hrV, rrA, rrV) values ("+HRA+","+HRV+","+RRA+"
 
         public void onStartSuccess() {
         Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+            intent.putExtra("HRVarianceValue",HRV);
+intent.putExtra("HRAverageValue",HRA);
+intent.putExtra("RRVarianceValue",RRV);
+intent.putExtra("RRAverageValue",RRA);
+
+            startActivity(intent);
         finish();
     }
 

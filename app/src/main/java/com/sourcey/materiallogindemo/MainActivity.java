@@ -1,18 +1,9 @@
 package com.sourcey.materiallogindemo;
 
-import android.animation.ArgbEvaluator;
-import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-
-import android.content.res.ColorStateList;
-import android.database.sqlite.SQLiteException;
-import android.database.sqlite.SQLiteOpenHelper;
-import android.graphics.Color;
-import android.graphics.drawable.AnimationDrawable;
-import android.graphics.drawable.TransitionDrawable;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,22 +13,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Layout;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.Cursor;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.github.mikephil.charting.utils.FileUtils;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.microsoft.band.BandClient;
 import com.microsoft.band.BandClientManager;
@@ -53,47 +36,32 @@ import com.microsoft.band.sensors.BandRRIntervalEvent;
 import com.microsoft.band.sensors.BandRRIntervalEventListener;
 import com.microsoft.band.sensors.HeartRateConsentListener;
 import com.microsoft.band.sensors.SampleRate;
-import com.sourcey.materiallogindemo.BoardFragment;
 import com.sourcey.materiallogindemo.Fragment.ChartFragment;
 import com.sourcey.materiallogindemo.Fragment.MainFragment;
 import com.sourcey.materiallogindemo.Fragment.SettingFragment;
 
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.StringReader;
-import java.lang.ref.WeakReference;
-import java.nio.channels.FileChannel;
-import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-
 import org.json.XML;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
-import org.xml.sax.Parser;
 import org.xml.sax.SAXException;
 
+import java.io.IOException;
+import java.io.StringReader;
+import java.lang.ref.WeakReference;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import butterknife.ButterKnife;
-
-import static android.os.SystemClock.sleep;
+import static com.sourcey.materiallogindemo.InitialActivity.timer;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -140,8 +108,20 @@ public class MainActivity extends AppCompatActivity {
     String date;
     String A, B, C, D, E;
 
+
+    Intent intent=getIntent();
+    String a=intent.getStringExtra("HRAverageValue");
+    String b=intent.getStringExtra("HRVarianceValue");
+    String cd=intent.getStringExtra("RRAverageValue");
+    String d=intent.getStringExtra("RRVarianceValue");
+
+    int HRAverage=Integer.valueOf(a);
+    double HRVariance=Double.valueOf(b);
+    int RRAverage=Integer.valueOf(cd);
+    double RRVariance=Double.valueOf(d);
+
     // SQLight DB  생성
-    MyOpenHelper helper;
+    MyOpenHelper1 helper;
 
     // 임시 데이터를 추출하기 위한 헬퍼와 커서
     TestHelper testHelper;
@@ -153,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        helper = new MyOpenHelper(this);
+        helper = new MyOpenHelper1(this);
         testHelper = new TestHelper(this); // 테스트 헬퍼
 
         container = (RelativeLayout) findViewById(R.id.activity_main);
@@ -234,11 +214,9 @@ public class MainActivity extends AppCompatActivity {
         setupViewPager(viewPager);
         viewPager.setCurrentItem(1); // 초기화면 설정
         final WeakReference<Activity> reference = new WeakReference<Activity>(this);
-
-        //-----------------측정 실행은 이 Mesaurement().execute()로 시작된다---------------------------//
-        new Measurement().execute();
         new HeartRateConsentTask().execute(reference);
-        //=======================================================================================//
+        SwitchPage(10);
+
     }
 
     private void getDataFromDB() {
@@ -423,6 +401,39 @@ public class MainActivity extends AppCompatActivity {
         return currentFragment;
     }
 
+    public void SwitchPage(int seconds){
+        if(timer!=null){
+            timer.cancel();
+        }
+        timer=new Timer();//AtthislineanewThreadwillbecreated
+        timer.schedule(new MainActivity.MeasureTime(),
+                0,seconds*1000);
+
+    }
+
+    class MeasureTime extends TimerTask {
+        @Override
+                public void run(){
+
+
+//-----------------측정실행은이Mesaurement().execute()로시작된다---------------------------//
+            System.out.println("--------------------시작---------------------------------------");
+            new Measurement().execute();
+
+            System.out.println("--------------------멈춰!---------------------------------------");
+
+
+//db.execSQL("insertintoHRSUM(sum)values('"+sum+"');");
+//System.out.println("sum"+sum);
+//System.out.println("저장완료");
+//=======================================================================================//
+
+        }
+    }
+
+
+
+
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     /*
@@ -438,12 +449,9 @@ public class MainActivity extends AppCompatActivity {
         public void onBandHeartRateChanged(final BandHeartRateEvent event) {
             if (event != null) {
                 c = Calendar.getInstance();
-                if (c.get(Calendar.SECOND) % 5 == 0) {
+                if (c.get(Calendar.SECOND) % 1 == 0) {
                     HRPrinted = true;
-                    date = String.format("%d/%d/%d %02d:%02d:%02d",
-                            c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH),
-                            c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), c.get(Calendar.SECOND)
-                    );
+
                     heartRate = event.getHeartRate();
                 }
             }
@@ -495,8 +503,18 @@ public class MainActivity extends AppCompatActivity {
                 DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
                 date = df.format(Calendar.getInstance().getTime());
 
-                db.execSQL("insert into datareceived(d, hr, rrInterval, acc_x, acc_y, acc_z) values ('" +
-                        date + "', " + A + ", " + B + ", " + C + ", " + D + ", " + E + ");");
+//                db.execSQL("insert into datareceived(d, hr, rrInterval, acc_x, acc_y, acc_z) values ('" +
+//                        date + "', " + A + ", " + B + ", " + C + ", " + D + ", " + E + ");");
+
+                double stdHRmean=(heartRate-HRVariance)/HRAverage;
+                double stdRRmean=(rrInterval-RRVariance)/RRAverage;
+
+                //double stressindex=-0.0802313290796385*stdHRmean+0.281020720365838*stdHRvar-0.5540296813564*stdRRmean+0.222774503382897*stdRRvar-0.234010114494386;
+                double stressindex=-0.0802313290796385*stdHRmean+0.281020720365838*1-0.5540296813564*stdRRmean+0.222774503382897*1-0.234010114494386;
+                String s=Double.toString(stressindex);
+                db.execSQL("insert into STRESS(d,s)values('"+date+"',"+s+");");
+                //sum=sum+heartRate;
+
             }
         }
     };
