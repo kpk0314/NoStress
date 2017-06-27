@@ -3,6 +3,7 @@ package com.sourcey.materiallogindemo;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -56,6 +57,12 @@ public class StartActivity extends AppCompatActivity {
     double rrInterval;
     String date;
     String A, B, C, D, E;
+
+    public double HRVarianceValue;
+    public int HRAverageValue;
+    public double RRVarianceValue;
+    public int RRAverageValue;
+
 
     // SQLight DB  생성
     MyOpenHelper helper;
@@ -132,29 +139,30 @@ public class StartActivity extends AppCompatActivity {
             @Override
             public void onFinish(){
 //countDownTimer.cancel();
-//StringHRAverage="SELECTAVG(hr)FROMData1";
-//StringHRVariance="SELECT(SUM(hr*hr)-SUM(hr)*SUM(hr)/COUNT(*))/(COUNT(*)-1)FROMData1";
-//Cursorc=db.rawQuery(HRAverage,null);
-//Cursors=db.rawQuery(HRVariance,null);
-//StringRRAverage="SELECTAVG(rrInterval)FROMData1";
-//StringRRVariance="SELECT(SUM(rrInterval*rrInterval)-SUM(rrInterval)*SUM(rrInterval)/COUNT(*))/(COUNT(*)-1)FROMData1";
-//Cursora=db.rawQuery(RRAverage,null);
-//Cursorb=db.rawQuery(RRVariance,null);
-//a.moveToFirst();
-//b.moveToFirst();
-//c.moveToFirst();
-//s.moveToFirst();
-//HRVarianceValue=s.getDouble(0);
-//HRAverageValue=c.getInt(0);
-//RRVarianceValue=b.getDouble(0);
-//RRAverageValue=a.getInt(0);
-//
-//StringHRA=Integer.toString(HRAverageValue);
-//StringHRV=Double.toString(HRVarianceValue);
-//StringRRV=Double.toString(RRVarianceValue);
-//StringRRA=Integer.toString(RRAverageValue);
-//
-//db.execSQL("insertintoSTD(hrA,hrV,rrA,rrV)values("+HRA+","+HRV+","+RRA+","+RRV+");");
+                //표준 평균과 분산 구하기
+String HRAverage="SELECT AVG(hr) FROM datareceived";
+String HRVariance="SELECT(SUM(hr*hr) - SUM(hr) * SUM(hr) / COUNT(*)) / (COUNT(*)-1) FROM datareceived";
+Cursor c=db.rawQuery(HRAverage,null);
+Cursor s=db.rawQuery(HRVariance,null);
+String RRAverage="SELECT AVG(rrInterval) FROM datareceived";
+String RRVariance="SELECT (SUM(rrInterval * rrInterval) - SUM(rrInterval)* SUM(rrInterval) / COUNT(*)) / (COUNT(*)-1) FROM datareceived";
+Cursor a=db.rawQuery(RRAverage,null);
+Cursor b=db.rawQuery(RRVariance,null);
+a.moveToFirst();
+b.moveToFirst();
+c.moveToFirst();
+s.moveToFirst();
+HRVarianceValue = s.getDouble(0);
+HRAverageValue = c.getInt(0);
+RRVarianceValue = b.getDouble(0);
+RRAverageValue = a.getInt(0);
+
+String HRA = Integer.toString(HRAverageValue);
+String HRV = Double.toString(HRVarianceValue);
+String RRV = Double.toString(RRVarianceValue);
+String RRA = Integer.toString(RRAverageValue);
+//구한 표준 평균과 분산을 데이터 베이스에 저장하기
+db.execSQL("insert into STD (hrA, hrV, rrA, rrV) values ("+HRA+","+HRV+","+RRA+","+RRV+");");
 
                 onStartSuccess();
             }
