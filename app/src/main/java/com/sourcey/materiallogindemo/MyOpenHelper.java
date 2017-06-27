@@ -4,15 +4,13 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
-
 public class MyOpenHelper extends SQLiteOpenHelper {
 
     Context context;
 
     public MyOpenHelper(Context context) {
         //2번째 인자는 만들어지는 sqlite파일 이름이고 4번째 인자는 개발자가 만든 sqlite버전이다.
-        super(context, "new.sqlite", null, 1);
+        super(context, "news.sqlite", null, 1);
         this.context = context;
     }
 
