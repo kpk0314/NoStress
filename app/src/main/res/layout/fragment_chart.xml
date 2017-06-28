@@ -11,45 +11,57 @@
         android:layout_marginTop="30dp"
         android:orientation="horizontal">
 
-        <RadioGroup
-            android:id="@+id/toggle"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="240dp"
-            android:layout_weight="1"
-            android:background="@drawable/pink_out_line"
-            android:checkedButton="@+id/offer"
-            android:orientation="horizontal">
+        <TextView
+            android:id="@+id/date_label"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:gravity="center_vertical"
+            android:paddingLeft="26dp"
+            android:text="HISTORY"
+            android:textColor="#040404"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-            <RadioButton
-                android:id="@+id/week_btn"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="1dp"
-                android:layout_marginLeft="1dp"
-                android:layout_marginTop="1dp"
-                android:layout_weight="1"
-                android:background="@drawable/toggle_widget_background"
-                android:button="@null"
-                android:gravity="center"
-                android:text="1주간"
-                android:textStyle="bold" />
+        <!-- 월간 / 주간 버튼 없앰 -->
+        <!--<RadioGroup-->
+            <!--android:id="@+id/toggle"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="35dp"-->
+            <!--android:layout_marginLeft="20dp"-->
+            <!--android:layout_marginRight="240dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@drawable/pink_out_line"-->
+            <!--android:checkedButton="@+id/offer"-->
+            <!--android:orientation="horizontal">-->
 
-            <RadioButton
-                android:id="@+id/month_btn"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="1dp"
-                android:layout_marginRight="1dp"
-                android:layout_marginTop="1dp"
-                android:layout_weight="1"
-                android:background="@drawable/toggle_widget_background"
-                android:button="@null"
-                android:gravity="center"
-                android:text="1달간"
-                android:textStyle="bold" />
-        </RadioGroup>
+            <!--<RadioButton-->
+                <!--android:id="@+id/week_btn"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_marginBottom="1dp"-->
+                <!--android:layout_marginLeft="1dp"-->
+                <!--android:layout_marginTop="1dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:background="@drawable/toggle_widget_background"-->
+                <!--android:button="@null"-->
+                <!--android:gravity="center"-->
+                <!--android:text="1주간"-->
+                <!--android:textStyle="bold" />-->
+
+            <!--<RadioButton-->
+                <!--android:id="@+id/month_btn"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_marginBottom="1dp"-->
+                <!--android:layout_marginRight="1dp"-->
+                <!--android:layout_marginTop="1dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:background="@drawable/toggle_widget_background"-->
+                <!--android:button="@null"-->
+                <!--android:gravity="center"-->
+                <!--android:text="1달간"-->
+                <!--android:textStyle="bold" />-->
+        <!--</RadioGroup>-->
     </LinearLayout>
 
     <LinearLayout

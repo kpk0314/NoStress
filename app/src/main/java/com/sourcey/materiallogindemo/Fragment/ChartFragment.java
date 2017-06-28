@@ -71,21 +71,23 @@ public class ChartFragment extends Fragment {
 
         // xml -> java 바인드
         rootView = inflater.inflate(R.layout.fragment_chart, container, false);
-        week_btn = (RadioButton) rootView.findViewById(R.id.week_btn);
-        month_btn = (RadioButton) rootView.findViewById(R.id.month_btn);
 
-        // 라디오 버튼 초기값 설정
-        if (selected) {
-            week_btn.setTextColor(Color.BLACK);
-            month_btn.setTextColor(Color.WHITE);
-        } else {
-            week_btn.setTextColor(Color.WHITE);
-            month_btn.setTextColor(Color.BLACK);
-        }
-        week_btn.setChecked(true);
-        month_btn.setChecked(false);
-        week_btn.setOnClickListener(optionOnClickListener);
-        month_btn.setOnClickListener(optionOnClickListener);
+        // 월간 / 주간 버튼 없애기
+//        week_btn = (RadioButton) rootView.findViewById(R.id.week_btn);
+//        month_btn = (RadioButton) rootView.findViewById(R.id.month_btn);
+
+//        // 라디오 버튼 초기값 설정
+//        if (selected) {
+//            week_btn.setTextColor(Color.BLACK);
+//            month_btn.setTextColor(Color.WHITE);
+//        } else {
+//            week_btn.setTextColor(Color.WHITE);
+//            month_btn.setTextColor(Color.BLACK);
+//        }
+//        week_btn.setChecked(true);
+//        month_btn.setChecked(false);
+//        week_btn.setOnClickListener(optionOnClickListener);
+//        month_btn.setOnClickListener(optionOnClickListener);
 
         refreshListView(); // 라디오 버튼 설정에 따라 리스트뷰 갱신
 
@@ -107,6 +109,7 @@ public class ChartFragment extends Fragment {
             week_doc.getDocumentElement().normalize();
             month_doc.getDocumentElement().normalize();
 
+            selected = false;
             NodeList dataList;
             if (selected) {
                 dataList = week_doc.getElementsByTagName("listdata");

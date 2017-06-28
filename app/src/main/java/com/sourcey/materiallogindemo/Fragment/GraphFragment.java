@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -57,42 +58,12 @@ public class GraphFragment extends Fragment {
         date_label.setText(date);
         day_of_week_label.setText(day_of_week);
 
-//
-//        try {
-//            //handle for the UI elements
-//            imgWeatherIcon = (ImageButton) rootView.findViewById(R.id.imageButtonAlpha);
-//            //Text fields
-//            tvcity = (TextView) rootView.findViewById(R.id.textViewCity);
-//            tvtemp = (TextView) rootView.findViewById(R.id.textViewTemperature);
-//            tvwindspeed = (TextView) rootView.findViewById(R.id.textViewWindSpeed);
-//            tvCondition = (TextView) rootView.findViewById(R.id.textViewCondition);
-//
-//            // Get position to display
-//            Intent i = getActivity().getIntent();
-//
-//            this.position = i.getStringExtra("position");
-//            this.city = i.getStringExtra("city");
-//            this.weather = i.getStringExtra("weather");
-//            this.temperature = i.getStringExtra("temperature");
-//            this.windSpeed = i.getStringExtra("windspeed");
-//            this.iconfile = i.getStringExtra("icon");
-//
-//            String uri = "drawable/" + "d" + iconfile;
-//            int imageBtnResource = getResources().getIdentifier(uri, null, getActivity().getPackageName());
-//            Drawable dimgbutton = getResources().getDrawable(imageBtnResource);
-//
-//
-//            //text elements
-//            tvcity.setText(city);
-//            tvtemp.setText(temperature);
-//            tvwindspeed.setText(windSpeed);
-//            tvCondition.setText(weather);
-//
-//            //thumb_image.setImageDrawable(image);
-//            imgWeatherIcon.setImageDrawable(dimgbutton);
-//        } catch (Exception ex) {
-//            Log.e("Error", "Loading exception");
-//        }
+        // 뒤에 있는 프레그먼트로 터치가 전달되지 않도록 막는 함수
+        rootView.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
 
         return rootView;
     }
