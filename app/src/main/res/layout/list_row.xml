@@ -26,7 +26,7 @@
                 android:layout_weight="1"
                 android:text="2017.6.5"
                 android:layout_marginBottom="2dp"
-                android:textColor="#040404"
+                android:textColor="#aaaaaa"
                 android:textSize="10sp" />
 
             <TextView
@@ -34,7 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="월요일"
-                android:textColor="#040404"
+                android:textColor="#aaaaaa"
                 android:textSize="24sp" />
 
         </LinearLayout>
@@ -54,17 +54,17 @@
                 android:gravity="center"
                 android:text="평균"
                 android:layout_marginBottom="5dp"
-                android:textColor="#040404"
+                android:textColor="#838383"
                 android:textSize="10sp" />
 
             <TextView
                 android:id="@+id/average"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:background="@drawable/circle_text"
+                android:background="@drawable/circle_avg"
                 android:gravity="center"
                 android:text="69"
-                android:textColor="#040404"
+                android:textColor="#f89d24"
                 android:textSize="20sp" />
 
         </LinearLayout>
@@ -84,17 +84,17 @@
                 android:gravity="center"
                 android:text="최대"
                 android:layout_marginBottom="5dp"
-                android:textColor="#040404"
+                android:textColor="#838383"
                 android:textSize="10sp" />
 
             <TextView
                 android:id="@+id/maximum"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:background="@drawable/circle_text"
+                android:background="@drawable/circle_max"
                 android:gravity="center"
                 android:text="89"
-                android:textColor="#040404"
+                android:textColor="#e66419"
                 android:textSize="20sp" />
 
         </LinearLayout>
@@ -114,17 +114,17 @@
                 android:gravity="center"
                 android:text="최소"
                 android:layout_marginBottom="5dp"
-                android:textColor="#040404"
+                android:textColor="#838383"
                 android:textSize="10sp" />
 
             <TextView
                 android:id="@+id/minimum"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:background="@drawable/circle_text"
+                android:background="@drawable/circle_min"
                 android:gravity="center"
                 android:text="89"
-                android:textColor="#040404"
+                android:textColor="#7aab67"
                 android:textSize="20sp" />
 
         </LinearLayout>
