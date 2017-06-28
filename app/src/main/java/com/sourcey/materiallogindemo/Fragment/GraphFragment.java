@@ -82,7 +82,7 @@ public class GraphFragment extends Fragment {
         // SettingFragment로 부터 title 변수 받아 Title로 적용
         date = getArguments().getString("date");
         day_of_week = getArguments().getString("day_of_week");
-        date_label.setText(date);
+        date_label.setText(date.replace("-","."));
         day_of_week_label.setText(day_of_week);
 
         generateData();

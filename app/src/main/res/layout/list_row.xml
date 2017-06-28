@@ -26,7 +26,7 @@
                 android:layout_weight="1"
                 android:text="2017.6.5"
                 android:layout_marginBottom="2dp"
-                android:textColor="#aaaaaa"
+                android:textColor="#838383"
                 android:textSize="10sp" />
 
             <TextView
@@ -34,7 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="월요일"
-                android:textColor="#aaaaaa"
+                android:textColor="#838383"
                 android:textSize="24sp" />
 
         </LinearLayout>

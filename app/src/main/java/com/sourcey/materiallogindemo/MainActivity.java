@@ -368,10 +368,21 @@ public class MainActivity extends AppCompatActivity {
 
     // GraphFragment에서 요구하는 날짜의 24시간 데이터를 MainActivity의 DB로부터 받아오기 위한 함수
     public Cursor sendDataToGraphFragment(String date) {
+//        g_cursor = testDB.rawQuery(
+//                "SELECT STRFTIME('%H', d) / 3 AS hour, AVG(s)\n" +
+//                        "FROM rand\n" +
+//                        "WHERE DATE(d) IS DATE('"+ date +"', 'localtime')\n" +
+//                        "GROUP BY hour"
+//                , null);
         g_cursor = testDB.rawQuery(
                 "SELECT STRFTIME('%H', d) / 3 AS hour, AVG(s)\n" +
                         "FROM rand\n" +
                         "WHERE DATE(d) IS DATE('"+ date +"', 'localtime')\n" +
+                        "GROUP BY hour\n" +
+                        "UNION\n" +
+                        "SELECT '8' AS hour, AVG(s)\n" +
+                        "FROM rand\n" +
+                        "WHERE DATE(d) IS DATE('"+ date +"', '+1 day', 'localtime') AND STRFTIME('%H', d) / 3 IS 0\n" +
                         "GROUP BY hour"
                 , null);
         return g_cursor;

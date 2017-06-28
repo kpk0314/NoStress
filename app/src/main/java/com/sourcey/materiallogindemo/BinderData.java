@@ -84,7 +84,7 @@ public class BinderData extends BaseAdapter {
 
         // Setting all values in listview
         holder.day_of_week.setText(dataCollection.get(position).get(KEY_DAY_OF_WEEK));
-        holder.date.setText(dataCollection.get(position).get(KEY_DATE));
+        holder.date.setText(dataCollection.get(position).get(KEY_DATE).replace("-","."));
         holder.average.setText(dataCollection.get(position).get(KEY_AVERAGE));
         holder.maximum.setText(dataCollection.get(position).get(KEY_MAXIMUM));
         holder.minimum.setText(dataCollection.get(position).get(KEY_MINIMUM));
