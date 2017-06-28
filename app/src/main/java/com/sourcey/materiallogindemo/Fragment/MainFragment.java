@@ -62,7 +62,6 @@ public class MainFragment extends Fragment {
     private int numberOfLines = 1;
     private int maxNumberOfLines = 4;
     private int numberOfPoints = 9;
-    float[][] randomNumbersTab = new float[maxNumberOfLines][numberOfPoints];
     private boolean hasAxes = true;
     private boolean hasAxesNames = false;
     private boolean hasLines = true;
@@ -188,6 +187,7 @@ public class MainFragment extends Fragment {
             line.setHasLabelsOnlyForSelected(hasLabelForSelected);
             line.setHasLines(hasLines);
             line.setHasPoints(hasPoints);
+            line.setPointRadius(4);
             if (pointsHaveDifferentColor) {
                 line.setPointColor(ChartUtils.COLORS[(i + 1) % ChartUtils.COLORS.length]);
             }

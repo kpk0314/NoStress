@@ -40,6 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="47.5dp"
+        android:gravity="center_horizontal"
         android:orientation="vertical">
 
         <View
@@ -47,15 +48,15 @@
             android:layout_height="1dp"
             android:background="@color/navi_color" />
 
-        <TextView
-            android:id="@+id/content_label"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:paddingLeft="26dp"
-            android:paddingTop="10dp"
-            android:text=""
-            android:textColor="@color/black"
-            android:textSize="16sp" />
+        <lecho.lib.hellocharts.view.LineChartView
+            android:id="@+id/chart"
+            android:layout_width="320dp"
+            android:layout_height="160dp"
+            android:layout_below="@+id/circle_layout"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="25dp"
+             />
 
     </LinearLayout>
 </LinearLayout>
