@@ -1,18 +1,24 @@
 package com.sourcey.materiallogindemo.Fragment;
 
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import com.sourcey.materiallogindemo.BinderData;
+import com.sourcey.materiallogindemo.BoardFragment;
 import com.sourcey.materiallogindemo.MainActivity;
 import com.sourcey.materiallogindemo.R;
 
@@ -172,6 +178,47 @@ public class ChartFragment extends Fragment {
             Log.i("BEFORE", "<<------------- Before SetAdapter-------------->>");
             listView.setAdapter(bindingData);
             Log.i("AFTER", "<<------------- After SetAdapter-------------->>");
+
+            // Click event for single list row
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                public void onItemClick(AdapterView<?> parent, View view,
+                                        int position, long id) {
+
+                    Bundle bundle = new Bundle();
+                    bundle.putString("date", dataCollection.get(position).get(KEY_DATE));
+                    bundle.putString("day_of_week", dataCollection.get(position).get(KEY_DAY_OF_WEEK));
+                    GraphFragment fragment = new GraphFragment();
+                    fragment.setArguments(bundle);
+                    FragmentManager fragmentManager = getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.container, fragment);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+
+//                    Intent i = new Intent();
+//                    i.setClass(getActivity(), GraphFragment.class);
+
+//                    // parameters
+//                    i.putExtra("position", String.valueOf(position + 1));
+//
+//					/* selected item parameters
+//					 * 1.	City name
+//					 * 2.	Weather
+//					 * 3.	Wind speed
+//					 * 4.	Temperature
+//					 * 5.	Weather icon
+//					 */
+//                    i.putExtra("day_of_week", dataCollection.get(position).get(KEY_DAY_OF_WEEK));
+//                    i.putExtra("date", dataCollection.get(position).get(KEY_DATE));
+//                    i.putExtra("average", dataCollection.get(position).get(KEY_AVERAGE));
+//                    i.putExtra("maximum", dataCollection.get(position).get(KEY_MAXIMUM));
+//                    i.putExtra("minimum", dataCollection.get(position).get(KEY_MINIMUM));
+
+                    // start the sample activity
+//                    startActivity(i);
+                }
+            });
         } catch (Exception ex) {
             Log.e("Error", "Loading exception");
         }
