@@ -110,11 +110,11 @@ public class MainActivity extends AppCompatActivity {
 
     int HRAverage;
     double HRVariance;
-    int RRAverage;
+    double RRAverage;
     double RRVariance;
 
     // SQLight DB  생성
-    MyOpenHelper1 helper;
+    MyOpenHelper helper;
 
     // 임시 데이터를 추출하기 위한 헬퍼와 커서
     TestHelper testHelper;
@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        helper = new MyOpenHelper1(this);
+        helper = new MyOpenHelper(this);
         testHelper = new TestHelper(this); // 테스트 헬퍼
 
         container = (RelativeLayout) findViewById(R.id.activity_main);
@@ -137,6 +137,9 @@ public class MainActivity extends AppCompatActivity {
 
         testDB = testHelper.getReadableDatabase(); // 테스트 디비
         getDataFromDB();
+//실제 스마트폰 단말기 내의 data/data/database경로에 파일이 만들어지게된다.
+        db = helper.getWritableDatabase();
+
 
         //디비에서 표준 HR, RR 평균 분산 가져오기
 
@@ -155,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
         HRVariance = s.getDouble(0);
         HRAverage = c.getInt(0);
         RRVariance = b.getDouble(0);
-        RRAverage = a.getInt(0);
+        RRAverage = a.getDouble(0);
 
 
         // 스트레스 지수에 따라 배경화면 색상 변하기
@@ -541,8 +544,11 @@ public class MainActivity extends AppCompatActivity {
 //                db.execSQL("insert into datareceived(d, hr, rrInterval, acc_x, acc_y, acc_z) values ('" +
 //                        date + "', " + A + ", " + B + ", " + C + ", " + D + ", " + E + ");");
 //
-//                double stdHRmean=(heartRate-HRVariance)/HRAverage;
-//                double stdRRmean=(rrInterval-RRVariance)/RRAverage;
+                double stdHR=(heartRate-HRVariance)/HRAverage;
+                double stdRR=(rrInterval-RRVariance)/RRAverage;
+
+                db.execSQL("insert into STDdata(d, stdHR, stdRR) values ('" +
+                        date + "', " + stdHR + ", " + stdRR + ");");
 //
 //                //double stressindex=-0.0802313290796385*stdHRmean+0.281020720365838*stdHRvar-0.5540296813564*stdRRmean+0.222774503382897*stdRRvar-0.234010114494386;
 //                double stressindex=-0.0802313290796385*stdHRmean+0.281020720365838*1-0.5540296813564*stdRRmean+0.222774503382897*1-0.234010114494386;
