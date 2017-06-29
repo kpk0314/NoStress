@@ -108,8 +108,8 @@ public class MainActivity extends AppCompatActivity {
     String A, B, C, D, E;
 
 
-    int HRAverage, stdHRmean ;
-    double HRVariance, stdRRmean, stdRRvar, stdHRvar;
+    int HRAverage ;
+    double HRVariance, stdRRmean, stdRRvar, stdHRvar, stdHRmean;
     double RRAverage;
     double RRVariance;
 
@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        helper = new MyOpenHelper(this);
+
         testHelper = new TestHelper(this); // 테스트 헬퍼
 
         container = (RelativeLayout) findViewById(R.id.activity_main);
@@ -135,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
         stress = String.valueOf(heartRate);
 
 
+        helper = new MyOpenHelper(this);
         testDB = testHelper.getReadableDatabase(); // 테스트 디비
         getDataFromDB();
 //실제 스마트폰 단말기 내의 data/data/database경로에 파일이 만들어지게된다.
@@ -462,32 +463,24 @@ public class MainActivity extends AppCompatActivity {
     class Getstress extends TimerTask{
         @Override
         public void run(){
-            String stdHRA="SELECT AVG(stdHR)" +
-                    "FROM  STDdata" +
-                    "WHERE REPLACE(d, '/', '-') BETWEEN DATETIME('now', '-10 second', 'localtime') AND DATETIME('now', 'localtime') ";
-            String stdHRV="SELECT(SUM(stdHR*stdHR) - SUM(stdHR) * SUM(stdHR) / COUNT(*)) / (COUNT(*)-1)" +
-                    "FROM  STDdata" +
-                    "WHERE REPLACE(d, '/', '-') BETWEEN DATETIME('now', '-10 second', 'localtime') AND DATETIME('now', 'localtime') ";
-            Cursor c=db.rawQuery(stdHRA,null);
-            Cursor s=db.rawQuery(stdHRV,null);
-            String stdRRA="SELECT AVG(stdRR)" +
-                    "FROM  STDdata" +
-                    "WHERE REPLACE(d, '/', '-') BETWEEN DATETIME('now', '-10 second', 'localtime') AND DATETIME('now', 'localtime') ";
-            String stdRRV="SELECT (SUM(stdRR * stdRR) - SUM(stdRR)* SUM(stdRR) / COUNT(*)) / (COUNT(*)-1)" +
-                    "FROM  STDdata" +
-                    "WHERE REPLACE(d, '/', '-') BETWEEN DATETIME('now', '-10 second', 'localtime') AND DATETIME('now', 'localtime') ";
-            Cursor a=db.rawQuery(stdRRA,null);
-            Cursor b=db.rawQuery(stdRRV,null);
-            a.moveToFirst();
-            b.moveToFirst();
-            c.moveToFirst();
-            s.moveToFirst();
-            stdHRvar = s.getDouble(0);
-            stdHRmean = c.getInt(0);
-            stdRRvar = b.getDouble(0);
-            stdRRmean = a.getDouble(0);
+            String stdHRA="SELECT AVG(stdHR) FROM  STDdata WHERE REPLACE(d, '/', '-') BETWEEN DATETIME('now', '-10 second', 'localtime') AND DATETIME('now', 'localtime') ";
+            String stdHRV="SELECT(SUM(stdHR*stdHR) - SUM(stdHR) * SUM(stdHR) / COUNT(*)) / (COUNT(*)-1) FROM  STDdata WHERE REPLACE(d, '/', '-') BETWEEN DATETIME('now', '-10 second', 'localtime') AND DATETIME('now', 'localtime') ";
+            Cursor cc=db.rawQuery(stdHRA,null);
+            Cursor ss=db.rawQuery(stdHRV,null);
+            String stdRRA="SELECT AVG(stdRR) FROM  STDdata WHERE REPLACE(d, '/', '-') BETWEEN DATETIME('now', '-10 second', 'localtime') AND DATETIME('now', 'localtime') ";
+            String stdRRV="SELECT (SUM(stdRR * stdRR) - SUM(stdRR)* SUM(stdRR) / COUNT(*)) / (COUNT(*)-1) FROM  STDdata WHERE REPLACE(d, '/', '-') BETWEEN DATETIME('now', '-10 second', 'localtime') AND DATETIME('now', 'localtime') ";
+            Cursor aa=db.rawQuery(stdRRA,null);
+            Cursor bb=db.rawQuery(stdRRV,null);
+            aa.moveToFirst();
+            bb.moveToFirst();
+            cc.moveToFirst();
+            ss.moveToFirst();
+            stdHRvar = ss.getDouble(0);
+            stdHRmean = cc.getDouble(0);
+            stdRRvar = bb.getDouble(0);
+            stdRRmean = aa.getDouble(0);
 
-            double stressindex=-0.0802313290796385*stdHRmean+0.281020720365838*stdHRvar-0.5540296813564*stdRRmean+0.222774503382897*stdRRvar-0.234010114494386;
+            double stressindex=-0.0802313290796385*stdHRmean+0.0281020720365838*stdHRvar-0.05540296813564*stdRRmean+0.0222774503382897*stdRRvar-0.0234010114494386+50;
             //    double stressindex=-0.0802313290796385*stdHRmean+0.281020720365838*1-0.5540296813564*stdRRmean+0.222774503382897*1-0.234010114494386;
             String stress=Double.toString(stressindex);
             db.execSQL("insert into STRESS(d,s)values('"+date+"','"+stress+"');");
