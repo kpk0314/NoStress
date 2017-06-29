@@ -1,18 +1,24 @@
 package com.sourcey.materiallogindemo.Fragment;
 
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import com.sourcey.materiallogindemo.BinderData;
+import com.sourcey.materiallogindemo.BoardFragment;
 import com.sourcey.materiallogindemo.MainActivity;
 import com.sourcey.materiallogindemo.R;
 
@@ -65,21 +71,23 @@ public class ChartFragment extends Fragment {
 
         // xml -> java 바인드
         rootView = inflater.inflate(R.layout.fragment_chart, container, false);
-        week_btn = (RadioButton) rootView.findViewById(R.id.week_btn);
-        month_btn = (RadioButton) rootView.findViewById(R.id.month_btn);
 
-        // 라디오 버튼 초기값 설정
-        if (selected) {
-            week_btn.setTextColor(Color.BLACK);
-            month_btn.setTextColor(Color.WHITE);
-        } else {
-            week_btn.setTextColor(Color.WHITE);
-            month_btn.setTextColor(Color.BLACK);
-        }
-        week_btn.setChecked(true);
-        month_btn.setChecked(false);
-        week_btn.setOnClickListener(optionOnClickListener);
-        month_btn.setOnClickListener(optionOnClickListener);
+        // 월간 / 주간 버튼 없애기
+//        week_btn = (RadioButton) rootView.findViewById(R.id.week_btn);
+//        month_btn = (RadioButton) rootView.findViewById(R.id.month_btn);
+
+//        // 라디오 버튼 초기값 설정
+//        if (selected) {
+//            week_btn.setTextColor(Color.BLACK);
+//            month_btn.setTextColor(Color.WHITE);
+//        } else {
+//            week_btn.setTextColor(Color.WHITE);
+//            month_btn.setTextColor(Color.BLACK);
+//        }
+//        week_btn.setChecked(true);
+//        month_btn.setChecked(false);
+//        week_btn.setOnClickListener(optionOnClickListener);
+//        month_btn.setOnClickListener(optionOnClickListener);
 
         refreshListView(); // 라디오 버튼 설정에 따라 리스트뷰 갱신
 
@@ -101,6 +109,7 @@ public class ChartFragment extends Fragment {
             week_doc.getDocumentElement().normalize();
             month_doc.getDocumentElement().normalize();
 
+            selected = false;
             NodeList dataList;
             if (selected) {
                 dataList = week_doc.getElementsByTagName("listdata");
@@ -172,6 +181,47 @@ public class ChartFragment extends Fragment {
             Log.i("BEFORE", "<<------------- Before SetAdapter-------------->>");
             listView.setAdapter(bindingData);
             Log.i("AFTER", "<<------------- After SetAdapter-------------->>");
+
+            // Click event for single list row
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                public void onItemClick(AdapterView<?> parent, View view,
+                                        int position, long id) {
+
+                    Bundle bundle = new Bundle();
+                    bundle.putString("date", dataCollection.get(position).get(KEY_DATE));
+                    bundle.putString("day_of_week", dataCollection.get(position).get(KEY_DAY_OF_WEEK));
+                    GraphFragment fragment = new GraphFragment();
+                    fragment.setArguments(bundle);
+                    FragmentManager fragmentManager = getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.container, fragment);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+
+//                    Intent i = new Intent();
+//                    i.setClass(getActivity(), GraphFragment.class);
+
+//                    // parameters
+//                    i.putExtra("position", String.valueOf(position + 1));
+//
+//					/* selected item parameters
+//					 * 1.	City name
+//					 * 2.	Weather
+//					 * 3.	Wind speed
+//					 * 4.	Temperature
+//					 * 5.	Weather icon
+//					 */
+//                    i.putExtra("day_of_week", dataCollection.get(position).get(KEY_DAY_OF_WEEK));
+//                    i.putExtra("date", dataCollection.get(position).get(KEY_DATE));
+//                    i.putExtra("average", dataCollection.get(position).get(KEY_AVERAGE));
+//                    i.putExtra("maximum", dataCollection.get(position).get(KEY_MAXIMUM));
+//                    i.putExtra("minimum", dataCollection.get(position).get(KEY_MINIMUM));
+
+                    // start the sample activity
+//                    startActivity(i);
+                }
+            });
         } catch (Exception ex) {
             Log.e("Error", "Loading exception");
         }

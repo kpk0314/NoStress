@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
 
     // 임시 데이터를 추출하기 위한 헬퍼와 커서
     TestHelper testHelper;
-    public Cursor y_cursor, d_cursor, w_cursor, m_cursor;
+    public Cursor y_cursor, d_cursor, w_cursor, m_cursor, g_cursor;
     SQLiteDatabase testDB;
 
     @Override
@@ -378,6 +378,28 @@ public class MainActivity extends AppCompatActivity {
         else if (intNow > 40) container.setBackgroundResource(R.drawable.color3);
         else if (intNow > 20) container.setBackgroundResource(R.drawable.color2);
         else container.setBackgroundResource(R.drawable.color1);
+    }
+
+    // GraphFragment에서 요구하는 날짜의 24시간 데이터를 MainActivity의 DB로부터 받아오기 위한 함수
+    public Cursor sendDataToGraphFragment(String date) {
+//        g_cursor = testDB.rawQuery(
+//                "SELECT STRFTIME('%H', d) / 3 AS hour, AVG(s)\n" +
+//                        "FROM rand\n" +
+//                        "WHERE DATE(d) IS DATE('"+ date +"', 'localtime')\n" +
+//                        "GROUP BY hour"
+//                , null);
+        g_cursor = testDB.rawQuery(
+                "SELECT STRFTIME('%H', d) / 3 AS hour, AVG(s)\n" +
+                        "FROM rand\n" +
+                        "WHERE DATE(d) IS DATE('"+ date +"', 'localtime')\n" +
+                        "GROUP BY hour\n" +
+                        "UNION\n" +
+                        "SELECT '8' AS hour, AVG(s)\n" +
+                        "FROM rand\n" +
+                        "WHERE DATE(d) IS DATE('"+ date +"', '+1 day', 'localtime') AND STRFTIME('%H', d) / 3 IS 0\n" +
+                        "GROUP BY hour"
+                , null);
+        return g_cursor;
     }
 
     // 뒤로가기를 두번 클릭 시 앱 종료

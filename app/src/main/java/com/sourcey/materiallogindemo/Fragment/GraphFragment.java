@@ -1,39 +1,31 @@
 package com.sourcey.materiallogindemo.Fragment;
 
-
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
 import com.sourcey.materiallogindemo.MainActivity;
 import com.sourcey.materiallogindemo.R;
-import com.sourcey.materiallogindemo.StartActivity;
+import com.sourcey.materiallogindemo.TestHelper;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import butterknife.Bind;
 import lecho.lib.hellocharts.model.Axis;
 import lecho.lib.hellocharts.model.AxisValue;
 import lecho.lib.hellocharts.model.Line;
@@ -42,19 +34,17 @@ import lecho.lib.hellocharts.model.PointValue;
 import lecho.lib.hellocharts.model.ValueShape;
 import lecho.lib.hellocharts.model.Viewport;
 import lecho.lib.hellocharts.util.ChartUtils;
-import lecho.lib.hellocharts.view.Chart;
 import lecho.lib.hellocharts.view.LineChartView;
 
-
 /**
- * A simple {@link Fragment} subclass.
+ * Created by Isaac Kim on 2017-06-28.
  */
 
+public class GraphFragment extends Fragment {
 
-public class MainFragment extends Fragment {
-
-    String nowValue; // 현재 스트레스 지수
-    private SwipeRefreshLayout mSwipeRefresh; // 당겨서 새로고침 위한 변수
+    View rootView;
+    String date;
+    String day_of_week;
 
     // 그래프 프로퍼티 변수
     private LineChartView chart;
@@ -74,13 +64,8 @@ public class MainFragment extends Fragment {
     private boolean pointsHaveDifferentColor;
     private boolean hasGradientToTransparent = false;
 
-    String currentTime;
-    Cursor y_cursor, d_cursor;
-
-
-    public MainFragment() {
+    public GraphFragment() {
         // Required empty public constructor
-
     }
 
     @Override
@@ -88,79 +73,28 @@ public class MainFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-
-        nowValue = ((MainActivity) getActivity()).stress;
-
-
-        // 엘리먼트 아이디 받아오기
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-        TextView _textUpdate = (TextView) rootView.findViewById(R.id.textUpdate);
-        TextView _levelValue = (TextView) rootView.findViewById(R.id.levelValue);
-        TextView _todayValue = (TextView) rootView.findViewById(R.id.todayValue);
-        TextView _yesterdayValue = (TextView) rootView.findViewById(R.id.yesterdayValue);
+        // xml -> java 바인드
+        rootView = inflater.inflate(R.layout.fragment_graph, container, false);
+        TextView date_label = (TextView) rootView.findViewById(R.id.date_label);
+        TextView day_of_week_label = (TextView) rootView.findViewById(R.id.day_of_week_label);
         chart = (LineChartView) rootView.findViewById(R.id.chart);
 
-        // 현재 시간 업데이트
-        currentTime = DateFormat.getDateTimeInstance().format(new Date());
+        // SettingFragment로 부터 title 변수 받아 Title로 적용
+        date = getArguments().getString("date");
+        day_of_week = getArguments().getString("day_of_week");
+        date_label.setText(date.replace("-","."));
+        day_of_week_label.setText(day_of_week);
 
-
-        _textUpdate.setText("마지막 업데이트. " + currentTime);
-
-        // 스트레스 레벨, 글씨 색상 업데이트
-        int intNow = Integer.parseInt(nowValue);
-        if (intNow > 80) {
-            _levelValue.setText("5");
-            _levelValue.setTextColor(getResources().getColor(R.color.level5));
-        } else if (intNow > 60) {
-            _levelValue.setText("4");
-            _levelValue.setTextColor(getResources().getColor(R.color.level4));
-        } else if (intNow > 40) {
-            _levelValue.setText("3");
-            _levelValue.setTextColor(getResources().getColor(R.color.level3));
-        } else if (intNow > 20) {
-            _levelValue.setText("2");
-            _levelValue.setTextColor(getResources().getColor(R.color.level2));
-        } else {
-            _levelValue.setText("1");
-            _levelValue.setTextColor(getResources().getColor(R.color.level1));
-        }
-
-        // 현재 스트레스 지수 업데이트
-        _todayValue.setText(nowValue);
-
-        // 어제이시간 업데이트, 없을 경우 "-"
-        y_cursor = ((MainActivity) getActivity()).y_cursor;
-        if(y_cursor.moveToNext()){
-            _yesterdayValue.setText(String.valueOf(y_cursor.getInt(0)));
-        } else {
-            _yesterdayValue.setText("-");
-        }
-        y_cursor.close();
-
-
-        // 그래프 생성 함수
         generateData();
 
-        // 화면 아래로 당겨서 업데이트
-        mSwipeRefresh = (SwipeRefreshLayout) rootView.findViewById(R.id.swiperefresh);
-        // resource id로 색상을 변경하려면 setColorSchemeResources() 사용
-        mSwipeRefresh.setColorSchemeResources(R.color.colorPrimary, R.color.colorAccent);
-        // Color 객체는 setColorSchemeColors(...)를 사용
-        mSwipeRefresh.setColorSchemeColors(Color.BLUE, Color.YELLOW, Color.BLUE, Color.YELLOW);
-        mSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                // animation을 멈추려면, fasle로 설정
-                mSwipeRefresh.setRefreshing(true);
-                ((MainActivity) getActivity()).refreshUI();
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.detach(MainFragment.this).attach(MainFragment.this).commit();
+        // 뒤에 있는 프레그먼트로 터치가 전달되지 않도록 막는 함수
+        rootView.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
             }
         });
 
-
         return rootView;
-        //return inflater.inflate(R.layout.fragment_main, container, false);
     }
 
     // 그래프를 생성하기 위한 코드
@@ -170,16 +104,17 @@ public class MainFragment extends Fragment {
         for (int i = 0; i < numberOfLines; ++i) {
             List<PointValue> values = new ArrayList<PointValue>();
 
-            d_cursor = ((MainActivity) getActivity()).d_cursor;
+            Cursor g_cursor = ((MainActivity) getActivity()).sendDataToGraphFragment(date);
+
             // db로부터 오늘 3시간 간격 데이터 받아오기
-            while (d_cursor.moveToNext()) {
-                values.add(new PointValue(d_cursor.getInt(0), d_cursor.getInt(1)));
+            while (g_cursor.moveToNext()) {
+                values.add(new PointValue(g_cursor.getInt(0), g_cursor.getInt(1)));
             }
-            d_cursor.close();
+            g_cursor.close();
 
             // 그래프 프로퍼티 설정
             Line line = new Line(values);
-            line.setColor(Color.WHITE);
+            line.setColor(Color.parseColor("#252525"));
             line.setShape(shape);
             line.setCubic(isCubic);
             line.setFilled(isFilled);
@@ -236,8 +171,10 @@ public class MainFragment extends Fragment {
             axisX.setHasSeparationLine(true);
             axisX.setHasLines(true);
             axisY.setTextSize(8);
-            axisX.setTextColor(Color.parseColor("#ccffffff"));
-            axisY.setTextColor(Color.parseColor("#ccffffff"));
+            axisX.setTextColor(Color.parseColor("#888888"));
+            axisY.setTextColor(Color.parseColor("#888888"));
+            axisX.setLineColor(Color.parseColor("#d0d0d0"));
+            axisY.setLineColor(Color.parseColor("#d0d0d0"));
 
             // 그래프 가로길이 확장을 위한 가짜 axis Z
             Axis axisZ = new Axis();
@@ -272,3 +209,4 @@ public class MainFragment extends Fragment {
 
 
 }
+
