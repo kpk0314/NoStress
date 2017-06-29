@@ -10,7 +10,7 @@ public class MyOpenHelper extends SQLiteOpenHelper {
 
     public MyOpenHelper(Context context) {
         //2번째 인자는 만들어지는 sqlite파일 이름이고 4번째 인자는 개발자가 만든 sqlite버전이다.
-        super(context, "bnewss.sqlite", null, 1);
+        super(context, "bnewsss.sqlite", null, 1);
         this.context = context;
     }
 
@@ -18,6 +18,7 @@ public class MyOpenHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE datareceived( d text, hr integer, rrInterval float, acc_x real, acc_y real, acc_z real);");
         db.execSQL("CREATE TABLE STDdata(d text, stdHR float, stdRR float);");
+        db.execSQL("CREATE TABLE STRESS(d TEXT, s float);");
        // db.execSQL("CREATE TABLE STRESS(d TEXT, s INTEGER);");
 
     }
@@ -27,6 +28,7 @@ public class MyOpenHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("CREATE TABLE datareceived( d text, hr integer, rrInterval float, acc_x real, acc_y real, acc_z real);");
         db.execSQL("CREATE TABLE STDdata(d text, stdHR float, stdRR float);");
+        db.execSQL("CREATE TABLE STRESS(d TEXT, s float);");
         //db.execSQL("CREATE TABLE STRESS(d TEXT, s INTEGER);");
 
     }

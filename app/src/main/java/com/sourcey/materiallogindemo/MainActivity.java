@@ -108,8 +108,8 @@ public class MainActivity extends AppCompatActivity {
     String A, B, C, D, E;
 
 
-    int HRAverage;
-    double HRVariance;
+    int HRAverage, stdHRmean ;
+    double HRVariance, stdRRmean, stdRRvar, stdHRvar;
     double RRAverage;
     double RRVariance;
 
@@ -232,6 +232,7 @@ public class MainActivity extends AppCompatActivity {
         final WeakReference<Activity> reference = new WeakReference<Activity>(this);
         new HeartRateConsentTask().execute(reference);
         SwitchPage(10);
+        SwitchPage1(10);
 
     }
 
@@ -446,7 +447,51 @@ public class MainActivity extends AppCompatActivity {
         timer=new Timer();//AtthislineanewThreadwillbecreated
         timer.schedule(new MainActivity.MeasureTime(),
                 0,seconds*1000);
+        timer.schedule(new MainActivity.Getstress(),10000,seconds*1000);
 
+    }
+
+    public void SwitchPage1(int seconds){
+        if(timer!=null){
+            timer.cancel();
+        }
+        timer=new Timer();//AtthislineanewThreadwillbecreated
+        timer.schedule(new MainActivity.Getstress(),10000,seconds*1000);
+
+    }
+    class Getstress extends TimerTask{
+        @Override
+        public void run(){
+            String stdHRA="SELECT AVG(stdHR)" +
+                    "FROM  STDdata" +
+                    "WHERE REPLACE(d, '/', '-') BETWEEN DATETIME('now', '-10 second', 'localtime') AND DATETIME('now', 'localtime') ";
+            String stdHRV="SELECT(SUM(stdHR*stdHR) - SUM(stdHR) * SUM(stdHR) / COUNT(*)) / (COUNT(*)-1)" +
+                    "FROM  STDdata" +
+                    "WHERE REPLACE(d, '/', '-') BETWEEN DATETIME('now', '-10 second', 'localtime') AND DATETIME('now', 'localtime') ";
+            Cursor c=db.rawQuery(stdHRA,null);
+            Cursor s=db.rawQuery(stdHRV,null);
+            String stdRRA="SELECT AVG(stdRR)" +
+                    "FROM  STDdata" +
+                    "WHERE REPLACE(d, '/', '-') BETWEEN DATETIME('now', '-10 second', 'localtime') AND DATETIME('now', 'localtime') ";
+            String stdRRV="SELECT (SUM(stdRR * stdRR) - SUM(stdRR)* SUM(stdRR) / COUNT(*)) / (COUNT(*)-1)" +
+                    "FROM  STDdata" +
+                    "WHERE REPLACE(d, '/', '-') BETWEEN DATETIME('now', '-10 second', 'localtime') AND DATETIME('now', 'localtime') ";
+            Cursor a=db.rawQuery(stdRRA,null);
+            Cursor b=db.rawQuery(stdRRV,null);
+            a.moveToFirst();
+            b.moveToFirst();
+            c.moveToFirst();
+            s.moveToFirst();
+            stdHRvar = s.getDouble(0);
+            stdHRmean = c.getInt(0);
+            stdRRvar = b.getDouble(0);
+            stdRRmean = a.getDouble(0);
+
+            double stressindex=-0.0802313290796385*stdHRmean+0.281020720365838*stdHRvar-0.5540296813564*stdRRmean+0.222774503382897*stdRRvar-0.234010114494386;
+            //    double stressindex=-0.0802313290796385*stdHRmean+0.281020720365838*1-0.5540296813564*stdRRmean+0.222774503382897*1-0.234010114494386;
+            String stress=Double.toString(stressindex);
+            db.execSQL("insert into STRESS(d,s)values('"+date+"','"+stress+"');");
+        }
     }
 
     class MeasureTime extends TimerTask {
@@ -466,6 +511,7 @@ public class MainActivity extends AppCompatActivity {
 //System.out.println("저장완료");
 //=======================================================================================//
 
+                //sum=sum+heartRate;
         }
     }
 
@@ -550,11 +596,7 @@ public class MainActivity extends AppCompatActivity {
                 db.execSQL("insert into STDdata(d, stdHR, stdRR) values ('" +
                         date + "', " + stdHR + ", " + stdRR + ");");
 //
-//                //double stressindex=-0.0802313290796385*stdHRmean+0.281020720365838*stdHRvar-0.5540296813564*stdRRmean+0.222774503382897*stdRRvar-0.234010114494386;
-//                double stressindex=-0.0802313290796385*stdHRmean+0.281020720365838*1-0.5540296813564*stdRRmean+0.222774503382897*1-0.234010114494386;
-//                String s=Double.toString(stressindex);
-//                db.execSQL("insert into STRESS(d,s)values('"+date+"',"+s+");");
-//                //sum=sum+heartRate;
+
 
             }
         }
