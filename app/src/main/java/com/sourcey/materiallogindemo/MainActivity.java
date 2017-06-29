@@ -108,16 +108,10 @@ public class MainActivity extends AppCompatActivity {
     String A, B, C, D, E;
 
 
-//    Intent intent=getIntent();
-//    String a=intent.getStringExtra("HRAverageValue");
-//    String b=intent.getStringExtra("HRVarianceValue");
-//    String cd=intent.getStringExtra("RRAverageValue");
-//    String d=intent.getStringExtra("RRVarianceValue");
-//
-//    int HRAverage=Integer.valueOf(a);
-//    double HRVariance=Double.valueOf(b);
-//    int RRAverage=Integer.valueOf(cd);
-//    double RRVariance=Double.valueOf(d);
+    int HRAverage;
+    double HRVariance;
+    int RRAverage;
+    double RRVariance;
 
     // SQLight DB  생성
     MyOpenHelper1 helper;
@@ -143,6 +137,26 @@ public class MainActivity extends AppCompatActivity {
 
         testDB = testHelper.getReadableDatabase(); // 테스트 디비
         getDataFromDB();
+
+        //디비에서 표준 HR, RR 평균 분산 가져오기
+
+        String HRAverage1="SELECT AVG(hr) FROM datareceived";
+        String HRVariance1="SELECT(SUM(hr*hr) - SUM(hr) * SUM(hr) / COUNT(*)) / (COUNT(*)-1) FROM datareceived";
+        Cursor c=db.rawQuery(HRAverage1,null);
+        Cursor s=db.rawQuery(HRVariance1,null);
+        String RRAverage1="SELECT AVG(rrInterval) FROM datareceived";
+        String RRVariance1="SELECT (SUM(rrInterval * rrInterval) - SUM(rrInterval)* SUM(rrInterval) / COUNT(*)) / (COUNT(*)-1) FROM datareceived";
+        Cursor a=db.rawQuery(RRAverage1,null);
+        Cursor b=db.rawQuery(RRVariance1,null);
+        a.moveToFirst();
+        b.moveToFirst();
+        c.moveToFirst();
+        s.moveToFirst();
+        HRVariance = s.getDouble(0);
+        HRAverage = c.getInt(0);
+        RRVariance = b.getDouble(0);
+        RRAverage = a.getInt(0);
+
 
         // 스트레스 지수에 따라 배경화면 색상 변하기
         int intNow = Integer.parseInt(stress);

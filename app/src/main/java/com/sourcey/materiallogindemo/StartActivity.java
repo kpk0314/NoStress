@@ -3,7 +3,6 @@ package com.sourcey.materiallogindemo;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -145,29 +144,29 @@ public class StartActivity extends AppCompatActivity {
             public void onFinish(){
 //countDownTimer.cancel();
                 //표준 평균과 분산 구하기
-String HRAverage="SELECT AVG(hr) FROM datareceived";
-String HRVariance="SELECT(SUM(hr*hr) - SUM(hr) * SUM(hr) / COUNT(*)) / (COUNT(*)-1) FROM datareceived";
-Cursor c=db.rawQuery(HRAverage,null);
-Cursor s=db.rawQuery(HRVariance,null);
-String RRAverage="SELECT AVG(rrInterval) FROM datareceived";
-String RRVariance="SELECT (SUM(rrInterval * rrInterval) - SUM(rrInterval)* SUM(rrInterval) / COUNT(*)) / (COUNT(*)-1) FROM datareceived";
-Cursor a=db.rawQuery(RRAverage,null);
-Cursor b=db.rawQuery(RRVariance,null);
-a.moveToFirst();
-b.moveToFirst();
-c.moveToFirst();
-s.moveToFirst();
-HRVarianceValue = s.getDouble(0);
-HRAverageValue = c.getInt(0);
-RRVarianceValue = b.getDouble(0);
-RRAverageValue = a.getInt(0);
-
- HRA = Integer.toString(HRAverageValue);
- HRV = Double.toString(HRVarianceValue);
- RRV = Double.toString(RRVarianceValue);
- RRA = Integer.toString(RRAverageValue);
-//구한 표준 평균과 분산을 데이터 베이스에 저장하기
-db.execSQL("insert into STD (hrA, hrV, rrA, rrV) values ("+HRA+","+HRV+","+RRA+","+RRV+");");
+//String HRAverage="SELECT AVG(hr) FROM datareceived";
+//String HRVariance="SELECT(SUM(hr*hr) - SUM(hr) * SUM(hr) / COUNT(*)) / (COUNT(*)-1) FROM datareceived";
+//Cursor c=db.rawQuery(HRAverage,null);
+//Cursor s=db.rawQuery(HRVariance,null);
+//String RRAverage="SELECT AVG(rrInterval) FROM datareceived";
+//String RRVariance="SELECT (SUM(rrInterval * rrInterval) - SUM(rrInterval)* SUM(rrInterval) / COUNT(*)) / (COUNT(*)-1) FROM datareceived";
+//Cursor a=db.rawQuery(RRAverage,null);
+//Cursor b=db.rawQuery(RRVariance,null);
+//a.moveToFirst();
+//b.moveToFirst();
+//c.moveToFirst();
+//s.moveToFirst();
+//HRVarianceValue = s.getDouble(0);
+//HRAverageValue = c.getInt(0);
+//RRVarianceValue = b.getDouble(0);
+//RRAverageValue = a.getInt(0);
+//
+// HRA = Integer.toString(HRAverageValue);
+// HRV = Double.toString(HRVarianceValue);
+// RRV = Double.toString(RRVarianceValue);
+// RRA = Integer.toString(RRAverageValue);
+////구한 표준 평균과 분산을 데이터 베이스에 저장하기
+//db.execSQL("insert into STD (hrA, hrV, rrA, rrV) values ("+HRA+","+HRV+","+RRA+","+RRV+");");
 
                 onStartSuccess();
             }
