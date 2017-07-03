@@ -61,10 +61,10 @@
                 android:id="@+id/average"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:background="@drawable/circle_avg"
+                android:background="@drawable/circle_text"
                 android:gravity="center"
                 android:text="69"
-                android:textColor="#f89d24"
+                android:textColor="#000000"
                 android:textSize="20sp" />
 
         </LinearLayout>
@@ -91,10 +91,10 @@
                 android:id="@+id/maximum"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:background="@drawable/circle_max"
+                android:background="@drawable/circle_text"
                 android:gravity="center"
                 android:text="89"
-                android:textColor="#e66419"
+                android:textColor="#000000"
                 android:textSize="20sp" />
 
         </LinearLayout>
@@ -121,10 +121,10 @@
                 android:id="@+id/minimum"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:background="@drawable/circle_min"
+                android:background="@drawable/circle_text"
                 android:gravity="center"
                 android:text="89"
-                android:textColor="#7aab67"
+                android:textColor="#000000"
                 android:textSize="20sp" />
 
         </LinearLayout>

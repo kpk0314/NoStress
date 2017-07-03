@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -130,7 +131,7 @@ public class MainFragment extends Fragment {
 
         // 어제이시간 업데이트, 없을 경우 "-"
         y_cursor = ((MainActivity) getActivity()).y_cursor;
-        if(y_cursor.moveToNext()){
+        if (y_cursor.moveToNext()) {
             _yesterdayValue.setText(String.valueOf(y_cursor.getInt(0)));
         } else {
             _yesterdayValue.setText("-");
@@ -146,18 +147,24 @@ public class MainFragment extends Fragment {
         // resource id로 색상을 변경하려면 setColorSchemeResources() 사용
         mSwipeRefresh.setColorSchemeResources(R.color.colorPrimary, R.color.colorAccent);
         // Color 객체는 setColorSchemeColors(...)를 사용
-        mSwipeRefresh.setColorSchemeColors(Color.BLUE, Color.YELLOW, Color.BLUE, Color.YELLOW);
+
+        mSwipeRefresh.setColorSchemeColors(getResources().getColor(R.color.level4), getResources().getColor(R.color.level3), getResources().getColor(R.color.level2));
         mSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 // animation을 멈추려면, fasle로 설정
                 mSwipeRefresh.setRefreshing(true);
-                ((MainActivity) getActivity()).refreshUI();
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.detach(MainFragment.this).attach(MainFragment.this).commit();
+                //3초후에 해당 adapoter를 갱신하고 동글뱅이를 닫아준다
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        ((MainActivity) getActivity()).refreshUI();
+                        FragmentTransaction ft = getFragmentManager().beginTransaction();
+                        ft.detach(MainFragment.this).attach(MainFragment.this).commit();
+                    }
+                }, 3000);
             }
         });
-
 
         return rootView;
         //return inflater.inflate(R.layout.fragment_main, container, false);

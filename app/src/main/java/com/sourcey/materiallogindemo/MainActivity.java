@@ -104,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
     int heartRate = 0;
     float acc_x, acc_y, acc_z;
     double rrInterval;
+    double stressindex = 0;
     String date;
     String A, B, C, D, E;
 
@@ -162,13 +163,7 @@ public class MainActivity extends AppCompatActivity {
         RRAverage = a.getDouble(0);
 
 
-        // 스트레스 지수에 따라 배경화면 색상 변하기
-        int intNow = Integer.parseInt(stress);
-        if (intNow > 80) container.setBackgroundResource(R.drawable.color5);
-        else if (intNow > 60) container.setBackgroundResource(R.drawable.color4);
-        else if (intNow > 40) container.setBackgroundResource(R.drawable.color3);
-        else if (intNow > 20) container.setBackgroundResource(R.drawable.color2);
-        else container.setBackgroundResource(R.drawable.color1);
+        refreshUI();
 
         // bottom navigation view에 property 설정
         bottomNavigationView = (BottomNavigationViewEx) findViewById(R.id.bottom_navigation);
@@ -374,7 +369,7 @@ public class MainActivity extends AppCompatActivity {
 
     // fragment에서 Mainactivity의 갱신된 스트레스 정보를 받아오기 위한 함수
     public void refreshUI() {
-        stress = String.valueOf(heartRate);
+        stress = String.valueOf((int)stressindex);
         getDataFromDB();
         // 스트레스 지수에 따라 배경화면 색상 변하기
         int intNow = Integer.parseInt(stress);
@@ -480,10 +475,11 @@ public class MainActivity extends AppCompatActivity {
             stdRRvar = bb.getDouble(0);
             stdRRmean = aa.getDouble(0);
 
-            double stressindex=-0.0802313290796385*stdHRmean+0.0281020720365838*stdHRvar-0.05540296813564*stdRRmean+0.0222774503382897*stdRRvar-0.0234010114494386+50;
+            stressindex=-0.0802313290796385*stdHRmean+0.0281020720365838*stdHRvar-0.05540296813564*stdRRmean+0.0222774503382897*stdRRvar-0.0234010114494386+50;
             //    double stressindex=-0.0802313290796385*stdHRmean+0.281020720365838*1-0.5540296813564*stdRRmean+0.222774503382897*1-0.234010114494386;
-            String stress=Double.toString(stressindex);
-            db.execSQL("insert into STRESS(d,s)values('"+date+"','"+stress+"');");
+            String stressIdx=Double.toString(stressindex);
+            db.execSQL("insert into STRESS(d,s)values('"+date+"','"+stressIdx+"');");
+
         }
     }
 
