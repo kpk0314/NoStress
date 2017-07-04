@@ -475,8 +475,9 @@ public class MainActivity extends AppCompatActivity {
             stdRRvar = bb.getDouble(0);
             stdRRmean = aa.getDouble(0);
 
-            stressindex=-0.0802313290796385*stdHRmean+0.0281020720365838*stdHRvar-0.05540296813564*stdRRmean+0.0222774503382897*stdRRvar-0.0234010114494386+50;
+            stressindex=-0.0802313290796385*stdHRmean+0.0281020720365838*stdHRvar-0.05540296813564*stdRRmean+0.0222774503382897*stdRRvar-0.0234010114494386;
             //    double stressindex=-0.0802313290796385*stdHRmean+0.281020720365838*1-0.5540296813564*stdRRmean+0.222774503382897*1-0.234010114494386;
+            stressindex = stressindex * 50 + 50;
             String stressIdx=Double.toString(stressindex);
             db.execSQL("insert into STRESS(d,s)values('"+date+"','"+stressIdx+"');");
 
