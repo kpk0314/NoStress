@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -76,7 +77,9 @@ public class SettingFragment extends Fragment {
                 String title = ((TextView) view).getText().toString();
 
                 if (title.matches("버전 정보")) {
-                    Toast.makeText(rootView.getContext(), "버전 정보: test version", Toast.LENGTH_LONG).show();
+                    Toast.makeText(rootView.getContext(), "Stless version 1.0", Toast.LENGTH_LONG).show();
+                } else if (title.matches("개발사 문의")){
+                    contact();
                 } else if (title.matches("로그아웃")) {
                     logout();
                 } else {
@@ -114,6 +117,31 @@ public class SettingFragment extends Fragment {
                 startActivity(intent);
                 getActivity().finish();
                 Toast.makeText(getActivity(), "성공적으로 로그아웃 되었습니다.", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        /* When negative (No/cancel) button is clicked*/
+        alertDialog.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        alertDialog.show();
+    }
+
+    // 개발사 문의 다이얼로그 띄우기
+    public void contact() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
+
+        alertDialog.setTitle("개발사 문의"); // Sets title for your alertbox
+
+        alertDialog.setMessage("054-260-1273"); // Message to be displayed on alertbox
+
+        /* When positive (yes/ok) is clicked */
+        alertDialog.setPositiveButton("전화걸기", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:054-260-1273"));
+                startActivity(intent);
             }
         });
 

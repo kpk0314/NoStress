@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:background="@color/main_background"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/container">
+    android:background="@color/main_background"
+    android:orientation="vertical">
 
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/layout1"
         android:layout_width="fill_parent"
         android:layout_height="45dp"
@@ -18,11 +18,11 @@
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:gravity="center_vertical"
-            android:text="설정"
             android:paddingLeft="26dp"
-            android:textStyle="bold"
+            android:text="설정"
             android:textColor="#040404"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
@@ -33,43 +33,44 @@
         android:layout_marginBottom="47.5dp"
         android:orientation="vertical">
 
-        <View android:background="@color/navi_color"
-            android:layout_width = "match_parent"
+        <View
+            android:layout_width="match_parent"
             android:layout_height="1dp"
-            />
+            android:background="@color/navi_color" />
 
         <ListView
-            android:layout_marginLeft="10dp"
             android:id="@+id/usrinfo_list"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
             android:divider="@color/navi_color"
-            android:dividerHeight="1dp"
-            android:layout_height="wrap_content"></ListView>
+            android:dividerHeight="1dp"></ListView>
 
         <View
             android:id="@+id/end_line"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:visibility="invisible"
-            android:background="@color/navi_color" />
+            android:background="@color/navi_color"
+            android:visibility="invisible" />
 
-        <TextView
-            android:id="@+id/content_label"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:text=""
-            android:textColor="@color/black"
-            android:paddingTop="10dp"
-            android:paddingLeft="26dp"
-            android:textSize="16sp" />
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
 
-
-
-
+            <TextView
+                android:id="@+id/content_label"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:paddingLeft="26dp"
+                android:paddingRight="26dp"
+                android:paddingTop="10dp"
+                android:text=""
+                android:textColor="#666666"
+                android:textSize="14sp" />
+        </ScrollView>
 
 
     </LinearLayout>
-
 
 
 </LinearLayout>
