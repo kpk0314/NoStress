@@ -10,7 +10,7 @@ public class MyOpenHelper extends SQLiteOpenHelper {
 
     public MyOpenHelper(Context context) {
         //2번째 인자는 만들어지는 sqlite파일 이름이고 4번째 인자는 개발자가 만든 sqlite버전이다.
-        super(context, "dnewss.sqlite", null, 2);
+        super(context, "fnew.sqlite", null, 2);
         this.context = context;
     }
 
