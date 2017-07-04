@@ -9,7 +9,7 @@ public class TestHelper extends SQLiteAssetHelper {
     Context context;
 
     public TestHelper(Context context) {
-        super(context, "test3.db", null, 1);
+        super(context, "test6.db", null, 1);
         this.context = context;
 
     }

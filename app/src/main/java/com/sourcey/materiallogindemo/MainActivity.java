@@ -645,7 +645,7 @@ public class MainActivity extends AppCompatActivity {
                 String exceptionMessage = "";
                 switch (e.getErrorType()) {
                     case UNSUPPORTED_SDK_VERSION_ERROR:
-                        exceptionMessage = "Microsoft Health BandService doesn't support your SDK Version. Please update to latest SDK.\n";
+                        exceptionMessage = "Microsoft Health BandService doesn't support your SDK Version. Please updat to latest SDK.\n";
                         break;
                     case SERVICE_ERROR:
                         exceptionMessage = "Microsoft Health BandService is not available. Please make sure Microsoft Health is installed and that you have the correct permissions.\n";
