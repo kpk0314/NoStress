@@ -65,7 +65,7 @@ import static com.sourcey.materiallogindemo.InitialActivity.timer;
 
 public class MainActivity extends AppCompatActivity {
     // url to create new product
-    private static String url_create_product = "http://test.huy.kr/api/v1/user/signup.json";
+    private static String url_create_product = "http://203.252.111.149/api/v1/user/signup.json";
     JSONParser jsonParser = new JSONParser();
     int error_code;
     public String access_tocken;
@@ -477,7 +477,7 @@ public class MainActivity extends AppCompatActivity {
 
             stressindex=-0.0802313290796385*stdHRmean+0.0281020720365838*stdHRvar-0.05540296813564*stdRRmean+0.0222774503382897*stdRRvar-0.0234010114494386;
             //    double stressindex=-0.0802313290796385*stdHRmean+0.281020720365838*1-0.5540296813564*stdRRmean+0.222774503382897*1-0.234010114494386;
-            stressindex = stressindex * 500 + 50;
+            stressindex = -(stressindex * 500 + 50);
             String stressIdx=Double.toString(stressindex);
             db.execSQL("insert into STRESS(d,s)values('"+date+"','"+stressIdx+"');");
 

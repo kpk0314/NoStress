@@ -54,7 +54,7 @@ public class PrivacyActivity extends AppCompatActivity implements NumberPicker.O
     private ProgressDialog progressDialog;
 
     // url to create new product
-    private static String url_create_product = "http://test.huy.kr/api/v1/user/signup.json";
+    private static String url_create_product = "http://203.252.111.149/api/v1/user/signup.json";
 
 
 

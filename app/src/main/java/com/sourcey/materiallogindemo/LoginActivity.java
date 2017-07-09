@@ -36,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     int error_code ;
 
     // url to create new product
-    private static String url_create_product = "http://test.huy.kr/api/v1/user/signin.json";
+    private static String url_create_product = "http://203.252.111.149/api/v1/user/signin.json";
     JSONParser jsonParser = new JSONParser();
 
     @Bind(R.id.input_email) EditText _emailText;
